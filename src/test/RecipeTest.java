@@ -12,6 +12,7 @@ import domain.Food;
 import domain.FoodQuantity;
 import domain.Recipe;
 import domain.enumerations.FoodGroup;
+import domain.enumerations.Profile;
 import domain.enumerations.Unit;
 
 public class RecipeTest {
@@ -21,27 +22,30 @@ public class RecipeTest {
 	@Before
 	public void setUp() {
 		Food food1 = new Food(1, "Tomatoe", 102, FoodGroup.FRUITS);
-		Food food2 = new Food(2, "Chicken", 567, FoodGroup.MEATS);
-		Food food3 = new Food(3, "Rice", 56, FoodGroup.CEREALS);
+		Food food2 = new Food(2, "Chicken", 100, FoodGroup.MEATS);
+		Food food3 = new Food(3, "Rice", 6, FoodGroup.CEREALS);
 		Food food4 = new Food(4, "Basil", 15, FoodGroup.VEGETABLES);
+		Food food5 = new Food(5, "Fish", 340, FoodGroup.MEATS);
 		List<FoodQuantity> listFoodQuantity = new ArrayList<>();
 		listFoodQuantity.add(new FoodQuantity(3,Unit.UNIT,food1));
 		listFoodQuantity.add(new FoodQuantity(1,Unit.UNIT,food2));
 		listFoodQuantity.add(new FoodQuantity(200,Unit.GRAM,food3));
-		listFoodQuantity.add(new FoodQuantity(0,Unit.CN,food4));
+		listFoodQuantity.add(new FoodQuantity(1,Unit.CN,food4));
+		listFoodQuantity.add(new FoodQuantity(1, Unit.UNIT, food5));
 		
 		recipe = new Recipe(1, "Chicken salad", listFoodQuantity);
 	}
 	
 	@Test
 	public void testNumberOfCalories() {
-		assertEquals(740, recipe.getCalories());
+		assertEquals(1961, recipe.getCalories());
 	}
 	
 	@Test
 	public void testHasIngredient() {
 		assertEquals(true, recipe.hasIngredient("Tomatoe"));
 		assertEquals(true, recipe.hasIngredient("Chicken"));
+		assertEquals(true, recipe.hasIngredient("Fish"));
 		assertEquals(false, recipe.hasIngredient("Apple"));
 		assertEquals(false, recipe.hasIngredient("tomatoe"));
 	}
@@ -58,6 +62,24 @@ public class RecipeTest {
 	
 	@Test
 	public void testNumberOfIngredients() {
-		assertEquals(4, recipe.getNumberOfIngredients());
+		assertEquals(5, recipe.getNumberOfIngredients());
+	}
+	
+	@Test
+	public void testNumberOfMeatCalories() {
+		assertEquals(567, recipe.getMeatCalories());
+	}
+	
+	@Test
+	public void testMinMeatCalories() {
+		assertEquals(true, recipe.hasMinMeatCalories());
+	}
+	
+	@Test
+	public void testSuitableFor() {
+		assertEquals(false, recipe.suitableFor(Profile.CELIAC));
+		assertEquals(false, recipe.suitableFor(Profile.VEGETARIAN));
+		assertEquals(false, recipe.suitableFor(Profile.VEGAN));
+		assertEquals(true, recipe.suitableFor(Profile.CARNIVOROUS));
 	}
 }

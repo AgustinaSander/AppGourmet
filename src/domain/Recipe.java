@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.enumerations.FoodGroup;
+import domain.enumerations.Profile;
 
 public class Recipe {
 	private int id;
@@ -25,10 +26,7 @@ public class Recipe {
 	}
 	
 	public int getCalories() {
-		int calories = this.getIngredients().stream()
-					   .mapToInt(f -> f.getCalories())
-					   .sum();
-		return calories;
+		return foodQuantity.stream().mapToInt(f -> (int)f.getQuantity()*f.getFood().getCalories()).sum();
 	}
 	
 	public int getNumberOfIngredients() {
@@ -43,6 +41,28 @@ public class Recipe {
 	public boolean hasFoodGroup(FoodGroup group) {
 		return this.getIngredients().stream()
 				.anyMatch(f -> f.getFoodGroup().equals(group));
+	}
+	
+	public int getMeatCalories() {
+		int meatCalories = this.getIngredients().stream()
+				.filter(f -> f.getFoodGroup() == FoodGroup.MEATS)
+				.mapToInt(f -> f.getCalories())
+				.sum();
+		return meatCalories;
+	}
+	
+	public boolean hasMinMeatCalories() {
+		return this.getMeatCalories() >= 200 ? true : false;
+	}
+	
+	public boolean suitableFor(Profile profile) {
+		List<FoodGroup> restrictedFoodGroups = profile.getRestrictedFoodGroups();
+		boolean isSuitable = restrictedFoodGroups.stream().noneMatch(fg -> this.hasFoodGroup(fg));
+		if(profile == Profile.CARNIVOROUS && isSuitable) {
+			isSuitable = hasMinMeatCalories();
+		}
+		
+		return isSuitable;
 	}
 	
 	public int getId() {
