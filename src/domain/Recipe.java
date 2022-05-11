@@ -25,10 +25,7 @@ public class Recipe {
 	}
 	
 	public int getCalories() {
-		int calories = this.getIngredients().stream()
-					   .mapToInt(f -> f.getCalories())
-					   .sum();
-		return calories;
+		return foodQuantity.stream().mapToInt(f -> (int)f.getQuantity()*f.getFood().getCalories()).sum();
 	}
 	
 	public int getNumberOfIngredients() {
