@@ -30,14 +30,14 @@ public class RecipeTest {
 		listFoodQuantity.add(new FoodQuantity(1,Unit.UNIT,food2));
 		listFoodQuantity.add(new FoodQuantity(200,Unit.GRAM,food3));
 		listFoodQuantity.add(new FoodQuantity(1,Unit.CN,food4));
-		listFoodQuantity.add(new FoodQuantity(1, Unit.UNIT, food5));
+		listFoodQuantity.add(new FoodQuantity(0.5, Unit.UNIT, food5));
 		
 		recipe = new Recipe(1, "Chicken salad", listFoodQuantity);
 	}
 	
 	@Test
 	public void testNumberOfCalories() {
-		assertEquals(1961, recipe.getCalories());
+		assertEquals(1791, recipe.getCalories());
 	}
 	
 	@Test
