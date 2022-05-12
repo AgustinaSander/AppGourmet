@@ -36,8 +36,8 @@ public enum Profile {
 
 	public List<FoodGroup> getRestrictedFoodGroups() {
 		List<FoodGroup> restrictedFoods = new ArrayList<>();
-		if(this.getFg1() == null) restrictedFoods.add(this.fg1);
-		if(this.getFg2() == null) restrictedFoods.add(this.fg2);
+		if(this.getFg1() != null) restrictedFoods.add(this.fg1);
+		if(this.getFg2() != null) restrictedFoods.add(this.fg2);
 		return restrictedFoods;
 	}
 }

@@ -26,7 +26,7 @@ public class Recipe {
 	}
 	
 	public int getCalories() {
-		return foodQuantity.stream().mapToInt(f -> (int)f.getQuantity()*f.getFood().getCalories()).sum();
+		return foodQuantity.stream().mapToInt(f -> (int)(f.getQuantity()*f.getFood().getCalories())).sum();
 	}
 	
 	public int getNumberOfIngredients() {
@@ -43,12 +43,14 @@ public class Recipe {
 				.anyMatch(f -> f.getFoodGroup().equals(group));
 	}
 	
+	public List<FoodQuantity> getMeatIngredients(){
+		return foodQuantity.stream().filter(f -> f.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
+	}
+	
 	public int getMeatCalories() {
-		int meatCalories = this.getIngredients().stream()
-				.filter(f -> f.getFoodGroup() == FoodGroup.MEATS)
-				.mapToInt(f -> f.getCalories())
-				.sum();
-		return meatCalories;
+		List<FoodQuantity> meatIngredients = getMeatIngredients();
+		
+		return meatIngredients.stream().mapToInt(m -> (int)( m.getQuantity()*m.getFood().getCalories())).sum();
 	}
 	
 	public boolean hasMinMeatCalories() {
