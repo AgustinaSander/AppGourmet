@@ -43,27 +43,27 @@ public class RecipeTest {
 	
 	// ------- HAS INGREDIENT -------
 	@Test
-	public void testHasIngredient1() {
+	public void testHasIngredientTomatoe() {
 		assertEquals(true, recipe.hasIngredient("Tomatoe"));
 	}
 	
 	@Test
-	public void testHasIngredient2() {
+	public void testHasIngredientChicken() {
 		assertEquals(true, recipe.hasIngredient("Chicken"));
 	}
 
 	@Test
-	public void testHasIngredient3() {
+	public void testHasIngredientFish() {
 		assertEquals(true, recipe.hasIngredient("Fish"));
 	}
 	
 	@Test
-	public void testHasIngredient4() {
+	public void testHasIngredientApple() {
 		assertEquals(false, recipe.hasIngredient("Apple"));
 	}
 	
 	@Test
-	public void testHasIngredient5() {
+	public void testHasIngredienttomatoe() {
 		assertEquals(false, recipe.hasIngredient("tomatoe"));
 	}
 	
