@@ -26,12 +26,15 @@ public class RecipeBook {
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public List<Recipe> getListRecipes() {
 		return listRecipes;
 	}
+	
 	public void setListRecipes(List<Recipe> listRecipes) {
 		this.listRecipes = listRecipes;
 	}

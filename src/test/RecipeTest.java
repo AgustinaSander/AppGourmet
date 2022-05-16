@@ -23,22 +23,20 @@ public class RecipeTest {
 		Food food1 = new Food(1, "Tomatoe", 102, FoodGroup.FRUITS);
 		Food food2 = new Food(2, "Chicken", 100, FoodGroup.MEATS);
 		Food food3 = new Food(3, "Rice", 6, FoodGroup.CEREALS);
-		Food food4 = new Food(4, "Basil", 15, FoodGroup.VEGETABLES);
+		Food food4 = new Food(4, "Basil", 0, FoodGroup.VEGETABLES);
 		Food food5 = new Food(5, "Fish", 340, FoodGroup.MEATS);
-		List<FoodQuantity> listFoodQuantity = new ArrayList<>();
-		listFoodQuantity.add(new FoodQuantity(3,Unit.UNIT,food1));
-		listFoodQuantity.add(new FoodQuantity(1,Unit.UNIT,food2));
-		listFoodQuantity.add(new FoodQuantity(200,Unit.GRAM,food3));
-		listFoodQuantity.add(new FoodQuantity(1,Unit.CN,food4));
-		listFoodQuantity.add(new FoodQuantity(0.5, Unit.UNIT, food5));
-		
-		recipe = new Recipe(1, "Chicken salad", listFoodQuantity);
+		recipe = new Recipe(1, "Chicken Salad");
+		recipe.addIngredient(3,Unit.UNIT,food1);
+		recipe.addIngredient(1,Unit.UNIT,food2);
+		recipe.addIngredient(200,Unit.GRAM,food3);
+		recipe.addIngredient(1,Unit.CN,food4);
+		recipe.addIngredient(0.5, Unit.UNIT, food5);
 	}
 	
 	// ------ NUMBER OF CALORIES ------
 	@Test
 	public void testNumberOfCalories() {
-		assertEquals(1791, recipe.getCalories());
+		assertEquals(1776, recipe.getCalories());
 	}
 	
 	// ------- HAS INGREDIENT -------

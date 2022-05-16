@@ -33,6 +33,12 @@ public class FoodQuantity {
 	public void setFood(Food food) {
 		this.food = food;
 	}
+
+	@Override
+	public String toString() {
+		return "FoodQuantity [quantity=" + quantity + ", unit=" + unit + ", food=" + food + "]";
+	}
+	
 	
 	
 }

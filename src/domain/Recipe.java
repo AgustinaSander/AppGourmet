@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.enumerations.FoodGroup;
+import domain.enumerations.Unit;
 
 public class Recipe {
 	private int id;
 	private String title;
-	private List<FoodQuantity> foodQuantity;
+	private List<FoodQuantity> foodQuantity = new ArrayList<>();
 	
 	public Recipe() {}
 	
+	public Recipe(int id, String title) {
+		this.id = id;
+		this.title = title;
+	}
+
 	public Recipe(int id, String title, List<FoodQuantity> foodQuantity) {
 		this.id = id;
 		this.title = title;
@@ -42,6 +48,19 @@ public class Recipe {
 				.anyMatch(food -> food.getFoodGroup().equals(group));
 	}
 	
+	public void addIngredient(double quantity, Unit unit, Food food) {
+		if(unit.name() == Unit.CN.name()) {
+			food.setCalories(0);
+			quantity = 0;
+		}
+		
+		getFoodQuantity().add(new FoodQuantity(quantity , unit, food));
+	}
+	
+	public boolean removeIngredient (FoodQuantity food) {
+		return getFoodQuantity().remove(food);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -49,15 +68,18 @@ public class Recipe {
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public List<FoodQuantity> getFoodQuantity() {
 		return foodQuantity;
 	}
-	public void setFoodQuantity(List<FoodQuantity> foodQuantity) {
-		this.foodQuantity = foodQuantity;
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", title=" + title + ", foodQuantity=" + foodQuantity + "]";
 	}
-	
 	
 }
