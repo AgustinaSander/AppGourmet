@@ -11,7 +11,6 @@ public class Food {
 	public Food() {}
 	
 	public Food(int id, String name, int calories, FoodGroup foodGroup) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.calories = calories;
@@ -21,9 +20,7 @@ public class Food {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getName() {
 		return name;
 	}

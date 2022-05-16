@@ -18,7 +18,7 @@ public class RecipeBookTest {
 	@Before
 	public void setUp() {
 		List<Recipe> listRecipes = new ArrayList<>();
-		for(int i=1; i<5; i++) {
+		for(int i=1; i<=4; i++) {
 			listRecipes.add(new Recipe(i,"Recipe "+i, null));
 		}
 		book = new RecipeBook(1, "One week meals", listRecipes);

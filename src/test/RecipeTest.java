@@ -35,29 +35,71 @@ public class RecipeTest {
 		recipe = new Recipe(1, "Chicken salad", listFoodQuantity);
 	}
 	
+	// ------ NUMBER OF CALORIES ------
 	@Test
 	public void testNumberOfCalories() {
 		assertEquals(1791, recipe.getCalories());
 	}
 	
+	// ------- HAS INGREDIENT -------
 	@Test
-	public void testHasIngredient() {
+	public void testHasIngredient1() {
 		assertEquals(true, recipe.hasIngredient("Tomatoe"));
+	}
+	
+	@Test
+	public void testHasIngredient2() {
 		assertEquals(true, recipe.hasIngredient("Chicken"));
-		assertEquals(true, recipe.hasIngredient("Fish"));
-		assertEquals(false, recipe.hasIngredient("Apple"));
-		assertEquals(false, recipe.hasIngredient("tomatoe"));
 	}
 
 	@Test
-	public void testHasFoodGroup() {
+	public void testHasIngredient3() {
+		assertEquals(true, recipe.hasIngredient("Fish"));
+	}
+	
+	@Test
+	public void testHasIngredient4() {
+		assertEquals(false, recipe.hasIngredient("Apple"));
+	}
+	
+	@Test
+	public void testHasIngredient5() {
+		assertEquals(false, recipe.hasIngredient("tomatoe"));
+	}
+	
+	// ------ HAS FOOD GROUP -----
+	
+	@Test
+	public void testHasFoodGroupCereals() {
 		assertEquals(true, recipe.hasFoodGroup(FoodGroup.CEREALS));
+	}
+	
+	@Test
+	public void testHasFoodGroupFruits() {
 		assertEquals(true, recipe.hasFoodGroup(FoodGroup.FRUITS));
+	}
+	
+	@Test
+	public void testHasFoodGroupMeats() {
 		assertEquals(true, recipe.hasFoodGroup(FoodGroup.MEATS));
+	}
+	
+	@Test
+	public void testHasFoodGroupVegetables() {
 		assertEquals(true, recipe.hasFoodGroup(FoodGroup.VEGETABLES));
+	}
+	
+	@Test
+	public void testHasFoodGroupMilkProducts() {
 		assertEquals(false, recipe.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
+	}
+	
+	@Test
+	public void testHasFoodGroupLegumes() {
 		assertEquals(false, recipe.hasFoodGroup(FoodGroup.LEGUMES));
 	}
+	
+	// ------ NUMBER OF INGREDIENTS ------
 	
 	@Test
 	public void testNumberOfIngredients() {
