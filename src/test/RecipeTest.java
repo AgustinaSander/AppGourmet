@@ -2,14 +2,10 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import domain.Food;
-import domain.FoodQuantity;
 import domain.Recipe;
 import domain.enumerations.FoodGroup;
 import domain.enumerations.Unit;
@@ -25,12 +21,15 @@ public class RecipeTest {
 		Food food3 = new Food(3, "Rice", 6, FoodGroup.CEREALS);
 		Food food4 = new Food(4, "Basil", 0, FoodGroup.VEGETABLES);
 		Food food5 = new Food(5, "Fish", 340, FoodGroup.MEATS);
+		Food food6 = new Food(6, "Salt", 2000, FoodGroup.OTHER);
 		recipe = new Recipe(1, "Chicken Salad");
 		recipe.addIngredient(3,Unit.UNIT,food1);
 		recipe.addIngredient(1,Unit.UNIT,food2);
 		recipe.addIngredient(200,Unit.GRAM,food3);
 		recipe.addIngredient(1,Unit.CN,food4);
 		recipe.addIngredient(0.5, Unit.UNIT, food5);
+		//Although salt has 2000 calories and 6 CN unit, the method addIngredient() sets the calories in 0 and quantity in 1.
+		recipe.addIngredient(6, Unit.CN, food6);
 	}
 	
 	// ------ NUMBER OF CALORIES ------
@@ -88,6 +87,11 @@ public class RecipeTest {
 	}
 	
 	@Test
+	public void testHasFoodGroupOther() {
+		assertEquals(true, recipe.hasFoodGroup(FoodGroup.OTHER));
+	}
+	
+	@Test
 	public void testHasFoodGroupMilkProducts() {
 		assertEquals(false, recipe.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
 	}
@@ -101,7 +105,7 @@ public class RecipeTest {
 	
 	@Test
 	public void testNumberOfIngredients() {
-		assertEquals(5, recipe.getNumberOfIngredients());
+		assertEquals(6, recipe.getNumberOfIngredients());
 	}
 	
 }

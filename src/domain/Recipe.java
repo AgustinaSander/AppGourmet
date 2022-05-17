@@ -48,13 +48,14 @@ public class Recipe {
 				.anyMatch(food -> food.getFoodGroup().equals(group));
 	}
 	
-	public void addIngredient(double quantity, Unit unit, Food food) {
+	public List<FoodQuantity> addIngredient(double quantity, Unit unit, Food food) {
 		if(unit.name() == Unit.CN.name()) {
 			food.setCalories(0);
 			quantity = 0;
 		}
 		
 		getFoodQuantity().add(new FoodQuantity(quantity , unit, food));
+		return getFoodQuantity();
 	}
 	
 	public boolean removeIngredient (FoodQuantity food) {
@@ -81,5 +82,6 @@ public class Recipe {
 	public String toString() {
 		return "Recipe [id=" + id + ", title=" + title + ", foodQuantity=" + foodQuantity + "]";
 	}
+
 	
 }

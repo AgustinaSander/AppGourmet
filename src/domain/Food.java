@@ -39,6 +39,11 @@ public class Food {
 	public void setFoodGroup(FoodGroup foodGroup) {
 		this.foodGroup = foodGroup;
 	}
+
+	@Override
+	public String toString() {
+		return "Food [id=" + id + ", name=" + name + ", calories=" + calories + ", foodGroup=" + foodGroup + "]";
+	}
 	
 	
 }

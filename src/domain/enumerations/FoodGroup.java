@@ -6,5 +6,6 @@ public enum FoodGroup {
 	LEGUMES,
 	VEGETABLES,
 	FRUITS,
-	CEREALS
+	CEREALS,
+	OTHER
 }
