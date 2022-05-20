@@ -12,8 +12,6 @@ public class Recipe {
 	private String title;
 	private List<FoodQuantity> foodQuantity = new ArrayList<>();
 	
-	public Recipe() {}
-	
 	public Recipe(int id, String title) {
 		this.id = id;
 		this.title = title;
@@ -60,13 +58,13 @@ public class Recipe {
 	}
 	
 	public List<FoodQuantity> getMeatIngredients(){
-		return foodQuantity.stream().filter(f -> f.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
+		return foodQuantity.stream().filter(food -> food.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
 	}
 	
 	public int getMeatCalories() {
 		List<FoodQuantity> meatIngredients = getMeatIngredients();
 		
-		return meatIngredients.stream().mapToInt(m -> (int)( m.getQuantity()*m.getFood().getCalories())).sum();
+		return meatIngredients.stream().mapToInt(meat -> (int)( meat.getQuantity()*meat.getFood().getCalories())).sum();
 	}
 	
 	public boolean hasMinMeatCalories() {
@@ -75,7 +73,9 @@ public class Recipe {
 	
 	public boolean suitableFor(Profile profile) {
 		List<FoodGroup> restrictedFoodGroups = profile.getRestrictedFoodGroups();
-		boolean isSuitable = restrictedFoodGroups.stream().noneMatch(fg -> this.hasFoodGroup(fg));
+		
+		boolean isSuitable = restrictedFoodGroups.stream().noneMatch(foodGroup -> this.hasFoodGroup(foodGroup));
+		
 		if(profile == Profile.CARNIVOROUS && isSuitable) {
 			isSuitable = hasMinMeatCalories();
 		}

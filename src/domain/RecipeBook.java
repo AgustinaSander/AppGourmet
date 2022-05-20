@@ -7,8 +7,6 @@ public class RecipeBook {
 	private String title;
 	private List<Recipe> listRecipes;
 	
-	public RecipeBook() {}
-	
 	public RecipeBook(int id, String title, List<Recipe> listRecipes) {
 		this.id = id;
 		this.title = title;
