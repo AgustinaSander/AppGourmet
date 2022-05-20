@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import domain.enumerations.FoodGroup;
 import domain.enumerations.Unit;
@@ -50,18 +51,12 @@ public class Recipe {
 				.anyMatch(food -> food.getFoodGroup().equals(group));
 	}
 	
-	public List<FoodQuantity> addIngredient(double quantity, Unit unit, Food food) {
-		if(unit.name() == Unit.CN.name()) {
-			food.setCalories(0);
-			quantity = 0;
-		}
-		
-		getFoodQuantity().add(new FoodQuantity(quantity , unit, food));
-		return getFoodQuantity();
+	public void addIngredient(double quantity, Food food) {
+		this.foodQuantity.add(new FoodQuantity(quantity, food));
 	}
 	
 	public boolean removeIngredient (FoodQuantity food) {
-		return getFoodQuantity().remove(food);
+		return this.foodQuantity.remove(food);
 	}
 	
 	public int getId() {
@@ -78,6 +73,10 @@ public class Recipe {
 	
 	public List<FoodQuantity> getFoodQuantity() {
 		return foodQuantity;
+	}
+
+	public void setFoodQuantity(List<FoodQuantity> foodQuantity) {
+		this.foodQuantity = foodQuantity;
 	}
 
 	@Override
