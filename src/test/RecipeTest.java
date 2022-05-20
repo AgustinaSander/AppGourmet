@@ -2,25 +2,22 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import domain.Food;
-import domain.FoodQuantity;
 import domain.Recipe;
 import domain.enumerations.FoodGroup;
-import domain.enumerations.Profile;
 import domain.enumerations.Unit;
 
 public class RecipeTest {
 
-	public List<Recipe> recipes = new ArrayList<>();
+	//public List<Recipe> recipes = new ArrayList<>();
+	public Recipe recipe;
 	
 	@Before
 	public void setUp() {
+/*
 		
 		//--- Recipe 1: chicken and fish ---
 		
@@ -111,65 +108,63 @@ public class RecipeTest {
 		recipes.add(new Recipe(3, "Apple cake", listFoodQuantity3));
 		recipes.add(new Recipe(4, "Pasta with tomatoe sauce", listFoodQuantity4));
 		recipes.add(new Recipe(5, "Ham&Cheese omelette", listFoodQuantity5));
+*/
 		
+		Food food1 = new Food(1, "Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT);
+		Food food2 = new Food(2, "Chicken", 100, FoodGroup.MEATS, Unit.UNIT);
+		Food food3 = new Food(3, "Rice", 6, FoodGroup.CEREALS, Unit.GRAM);
+		Food food4 = new Food(4, "Basil", 0, FoodGroup.VEGETABLES, Unit.CN);
+		Food food5 = new Food(5, "Fish", 340, FoodGroup.MEATS,  Unit.UNIT);
+		Food food6 = new Food(6, "Salt", 2000, FoodGroup.OTHER, Unit.CN);
+				
+		recipe = new Recipe(1, "Chicken Salad");
+		recipe.addIngredient(3, food1);
+		recipe.addIngredient(1, food2);
+		recipe.addIngredient(200, food3);
+		recipe.addIngredient(1, food4);
+		recipe.addIngredient(0.5, food5);
+		recipe.addIngredient(6, food6);
+
 	}
 	
+	// ------ NUMBER OF CALORIES ------
 	@Test
 	public void testNumberOfCalories() {
-		//--- Recipe 1: chicken and fish ---
-		assertEquals(2106, recipes.get(0).getCalories());
-		
-		//--- Recipe 2: apple cake for celiacs ---
-		assertEquals(2457, recipes.get(1).getCalories());
-		
-		//--- Recipe 3: apple cake ---
-		assertEquals(2267, recipes.get(2).getCalories());
-		
-		//--- Recipe 4: pasta with tomatoe sauce ---
-		assertEquals(963, recipes.get(3).getCalories());
-		
-		//--- Recipe 5: ham&cheese omelette ---
-		assertEquals(772, recipes.get(4).getCalories());
+		assertEquals(1776, recipe.getCalories());
+	}
+	
+	// ------- HAS INGREDIENT -------
+	@Test
+	public void testHasIngredientTomatoe() {
+		assertTrue(recipe.hasIngredient("Tomatoe"));
 	}
 	
 	@Test
-	public void testHasIngredient() {
-		//--- Recipe 1: chicken and fish ---
-		Recipe recipe1 = recipes.get(0);
-		assertEquals(true, recipe1.hasIngredient("Tomatoe"));
-		assertEquals(true, recipe1.hasIngredient("Chicken"));
-		assertEquals(true, recipe1.hasIngredient("Fish"));
-		assertEquals(false, recipe1.hasIngredient("Apple"));
-		assertEquals(false, recipe1.hasIngredient("tomatoe"));
+	public void testHasIngredientApple() {
+		assertFalse(recipe.hasIngredient("Apple"));
 	}
-
+	
+	// ------ HAS FOOD GROUP -----
+	
 	@Test
-	public void testHasFoodGroup() {
-		//--- Recipe 1: chicken and fish ---
-		Recipe recipe1 = recipes.get(0);
-		assertEquals(true, recipe1.hasFoodGroup(FoodGroup.CEREALS));
-		assertEquals(true, recipe1.hasFoodGroup(FoodGroup.FRUITS));
-		assertEquals(true, recipe1.hasFoodGroup(FoodGroup.MEATS));
-		assertEquals(true, recipe1.hasFoodGroup(FoodGroup.VEGETABLES));
-		assertEquals(false, recipe1.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
-		assertEquals(false, recipe1.hasFoodGroup(FoodGroup.LEGUMES));
-		assertEquals(false, recipe1.hasFoodGroup(FoodGroup.OTHER));
+
+	public void testHasFoodGroupCereals() {
+		assertTrue(recipe.hasFoodGroup(FoodGroup.CEREALS));
 	}
+	
+	@Test
+	public void testHasFoodGroupMilkProducts() {
+		assertFalse(recipe.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
+	}
+	
+	// ------ NUMBER OF INGREDIENTS ------
 	
 	@Test
 	public void testNumberOfIngredients() {
-		//--- Recipe 1: chicken and fish ---
-		assertEquals(5, recipes.get(0).getNumberOfIngredients());
-		//--- Recipe 2: apple cake for celiacs ---
-		assertEquals(6, recipes.get(1).getNumberOfIngredients());
-		//--- Recipe 3: apple cake ---
-		assertEquals(6, recipes.get(2).getNumberOfIngredients());
-		//--- Recipe 4: pasta with tomatoe sauce ---
-		assertEquals(5, recipes.get(3).getNumberOfIngredients());
-		//--- Recipe 5: ham&cheese omelette ---
-		assertEquals(4, recipes.get(4).getNumberOfIngredients());
+		assertEquals(6, recipe.getNumberOfIngredients());
 	}
 	
+	/*
 	@Test
 	public void testNumberOfMeatCalories() {
 		//--- Recipe 1: chicken and fish ---
@@ -231,4 +226,6 @@ public class RecipeTest {
 		assertEquals(false, recipe5.suitableFor(Profile.VEGAN));
 		assertEquals(true, recipe5.suitableFor(Profile.CARNIVOROUS));
 	}
+	
+	*/
 }

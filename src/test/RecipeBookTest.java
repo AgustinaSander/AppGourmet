@@ -14,11 +14,12 @@ import domain.RecipeBook;
 public class RecipeBookTest {
 
 	RecipeBook book;
+	int sizeListRecipes = 4;
 	
 	@Before
 	public void setUp() {
 		List<Recipe> listRecipes = new ArrayList<>();
-		for(int i=1; i<5; i++) {
+		for(int i=1; i<= sizeListRecipes; i++) {
 			listRecipes.add(new Recipe(i,"Recipe "+i, null));
 		}
 		book = new RecipeBook(1, "One week meals", listRecipes);
@@ -26,7 +27,7 @@ public class RecipeBookTest {
 	
 	@Test
 	public void testNumberOfRecipes() {
-		assertEquals(4, book.getNumberOfRecipes());
+		assertEquals(sizeListRecipes, book.getNumberOfRecipes());
 	}
 
 }

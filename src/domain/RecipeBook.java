@@ -10,7 +10,6 @@ public class RecipeBook {
 	public RecipeBook() {}
 	
 	public RecipeBook(int id, String title, List<Recipe> listRecipes) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.listRecipes = listRecipes;
@@ -23,18 +22,19 @@ public class RecipeBook {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public List<Recipe> getListRecipes() {
 		return listRecipes;
 	}
+	
 	public void setListRecipes(List<Recipe> listRecipes) {
 		this.listRecipes = listRecipes;
 	}
