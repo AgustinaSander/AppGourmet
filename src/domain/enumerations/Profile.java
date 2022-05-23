@@ -9,35 +9,35 @@ public enum Profile {
 	VEGETARIAN(FoodGroup.MEATS),
 	CARNIVOROUS();
 	
-	private final FoodGroup fg1, fg2;
+	private final FoodGroup foodRestriction1, foodRestriction2;
 	
 	Profile(){
-		this.fg1 = null;
-		this.fg2 = null;
+		this.foodRestriction1 = null;
+		this.foodRestriction2 = null;
 	}
 	
-	Profile(FoodGroup fg){
-		this.fg1 = fg;
-		this.fg2 = null;
+	Profile(FoodGroup foodRestriction){
+		this.foodRestriction1 = foodRestriction;
+		this.foodRestriction2 = null;
 	}
 	
-	Profile(FoodGroup fg1, FoodGroup fg2){
-		this.fg1 = fg1;
-		this.fg2 = fg2;
+	Profile(FoodGroup foodRestriction1, FoodGroup foodRestriction2){
+		this.foodRestriction1 = foodRestriction1;
+		this.foodRestriction2 = foodRestriction2;
 	}
 
-	public FoodGroup getFg1() {
-		return fg1;
+	public FoodGroup getFoodRestriction1() {
+		return foodRestriction1;
 	}
 
-	public FoodGroup getFg2() {
-		return fg2;
+	public FoodGroup getFoodRestriction2() {
+		return foodRestriction2;
 	}
 
 	public List<FoodGroup> getRestrictedFoodGroups() {
 		List<FoodGroup> restrictedFoods = new ArrayList<>();
-		if(this.getFg1() != null) restrictedFoods.add(this.fg1);
-		if(this.getFg2() != null) restrictedFoods.add(this.fg2);
+		if(this.getFoodRestriction1() != null) restrictedFoods.add(this.foodRestriction1);
+		if(this.getFoodRestriction2() != null) restrictedFoods.add(this.foodRestriction2);
 		return restrictedFoods;
 	}
 }

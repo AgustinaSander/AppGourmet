@@ -68,7 +68,7 @@ public class Recipe {
 	}
 	
 	public boolean hasMinMeatCalories() {
-		return this.getMeatCalories() >= 200 ? true : false;
+		return this.getMeatCalories() >= 200;
 	}
 	
 	public boolean suitableFor(Profile profile) {

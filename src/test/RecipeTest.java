@@ -2,9 +2,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +13,10 @@ import domain.enumerations.Unit;
 
 public class RecipeTest {
 
-	List<Recipe> recipes = new ArrayList<>();
+	Recipe recipeChickenSalad = new Recipe(1, "Chicken Salad");
+	Recipe recipeAppleCakeCeliacs = new Recipe(2, "Apple cake for celiacs");
+	Recipe recipeAppleCake = new Recipe(3, "Apple cake");
+	Recipe recipePasta = new Recipe(4, "Pasta with tomatoe sauce");
 	
 	@Before
 	public void setUp() {
@@ -31,13 +31,12 @@ public class RecipeTest {
 				new Food(6, "Salt", 2000, FoodGroup.OTHER, Unit.CN)
 		};
 							
-		Recipe recipe1 = new Recipe(1, "Chicken Salad");
-		recipe1.addIngredient(3, foodRecipe1[0]);
-		recipe1.addIngredient(1, foodRecipe1[1]);
-		recipe1.addIngredient(200, foodRecipe1[2]);
-		recipe1.addIngredient(1, foodRecipe1[3]);
-		recipe1.addIngredient(0.5, foodRecipe1[4]);
-		recipe1.addIngredient(6, foodRecipe1[5]);
+		recipeChickenSalad.addIngredient(3, foodRecipe1[0]);
+		recipeChickenSalad.addIngredient(1, foodRecipe1[1]);
+		recipeChickenSalad.addIngredient(200, foodRecipe1[2]);
+		recipeChickenSalad.addIngredient(1, foodRecipe1[3]);
+		recipeChickenSalad.addIngredient(0.5, foodRecipe1[4]);
+		recipeChickenSalad.addIngredient(6, foodRecipe1[5]);
 		
 		//--- Recipe 2: apple cake for celiacs ---
 		
@@ -50,13 +49,12 @@ public class RecipeTest {
 				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
 		};
 		
-		Recipe recipe2 = new Recipe(2, "Apple cake for celiacs");
-		recipe2.addIngredient(125,foodRecipe2[0]);
-		recipe2.addIngredient(115,foodRecipe2[1]);
-		recipe2.addIngredient(225,foodRecipe2[2]);
-		recipe2.addIngredient(3,foodRecipe2[3]);
-		recipe2.addIngredient(3,foodRecipe2[4]);
-		recipe2.addIngredient(1,foodRecipe2[5]);
+		recipeAppleCakeCeliacs.addIngredient(125,foodRecipe2[0]);
+		recipeAppleCakeCeliacs.addIngredient(115,foodRecipe2[1]);
+		recipeAppleCakeCeliacs.addIngredient(225,foodRecipe2[2]);
+		recipeAppleCakeCeliacs.addIngredient(3,foodRecipe2[3]);
+		recipeAppleCakeCeliacs.addIngredient(3,foodRecipe2[4]);
+		recipeAppleCakeCeliacs.addIngredient(1,foodRecipe2[5]);
 	
 		
 		//--- Recipe 3: apple cake ---
@@ -70,13 +68,12 @@ public class RecipeTest {
 				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
 		};
 		
-		Recipe recipe3 = new Recipe(3, "Apple cake");
-		recipe3.addIngredient(125,foodRecipe3[0]);
-		recipe3.addIngredient(120,foodRecipe3[1]);
-		recipe3.addIngredient(225,foodRecipe3[2]);
-		recipe3.addIngredient(3,foodRecipe3[3]);
-		recipe3.addIngredient(3, foodRecipe3[4]);
-		recipe3.addIngredient(1, foodRecipe3[5]);
+		recipeAppleCake.addIngredient(125,foodRecipe3[0]);
+		recipeAppleCake.addIngredient(120,foodRecipe3[1]);
+		recipeAppleCake.addIngredient(225,foodRecipe3[2]);
+		recipeAppleCake.addIngredient(3,foodRecipe3[3]);
+		recipeAppleCake.addIngredient(3, foodRecipe3[4]);
+		recipeAppleCake.addIngredient(1, foodRecipe3[5]);
 		
 		//--- Recipe 4: pasta with tomatoe sauce ---
 		
@@ -88,52 +85,29 @@ public class RecipeTest {
 				new Food(5,"Salt",14,FoodGroup.OTHER, Unit.CN)
 		};
 		
-		Recipe recipe4 = new Recipe(4, "Pasta with tomatoe sauce");
-		recipe4.addIngredient(350,foodRecipe4[0]);
-		recipe4.addIngredient(2,foodRecipe4[1]);
-		recipe4.addIngredient(0.5,foodRecipe4[2]);
-		recipe4.addIngredient(1,foodRecipe4[3]);
-		recipe4.addIngredient(1, foodRecipe4[4]);	
-
-		//--- Recipe 5: ham&cheese omelette ---
-		
-		Food[] foodRecipe5 = {
-				new Food(1, "Egg", 24, FoodGroup.MILK_PRODUCTS,Unit.UNIT),
-				new Food(2,"Ham", 10, FoodGroup.MEATS,Unit.GRAM),
-				new Food(3,"Cheese", 4, FoodGroup.MILK_PRODUCTS,Unit.GRAM),
-				new Food(4,"Condiment", 24, FoodGroup.VEGETABLES,Unit.CN)
-		};
-		
-		Recipe recipe5 = new Recipe(5, "Ham&Cheese omelette");
-		recipe5.addIngredient(2,foodRecipe5[0]);
-		recipe5.addIngredient(50,foodRecipe5[1]);
-		recipe5.addIngredient(50,foodRecipe5[2]);
-		recipe5.addIngredient(1,foodRecipe5[3]);
-		
-		
-		recipes.add(recipe1);
-		recipes.add(recipe2);
-		recipes.add(recipe3);
-		recipes.add(recipe4);
-		recipes.add(recipe5);
+		recipePasta.addIngredient(350,foodRecipe4[0]);
+		recipePasta.addIngredient(2,foodRecipe4[1]);
+		recipePasta.addIngredient(0.5,foodRecipe4[2]);
+		recipePasta.addIngredient(1,foodRecipe4[3]);
+		recipePasta.addIngredient(1, foodRecipe4[4]);	
 
 	}
 	
 	// ------ NUMBER OF CALORIES ------
 	@Test
 	public void testNumberOfCaloriesRecipe1() {
-		assertEquals(1776, recipes.get(0).getCalories());
+		assertEquals(1776, recipeChickenSalad.getCalories());
 	}
 	
 	// ------- HAS INGREDIENT -------
 	@Test
 	public void testHasIngredientTomatoeRecipe1() {
-		assertTrue(recipes.get(0).hasIngredient("Tomatoe"));
+		assertTrue(recipeChickenSalad.hasIngredient("Tomatoe"));
 	}
 	
 	@Test
 	public void testHasIngredientAppleRecipe1() {
-		assertFalse(recipes.get(0).hasIngredient("Apple"));
+		assertFalse(recipeChickenSalad.hasIngredient("Apple"));
 	}
 	
 	// ------ HAS FOOD GROUP -----
@@ -141,84 +115,79 @@ public class RecipeTest {
 	@Test
 
 	public void testHasFoodGroupCerealsRecipe1() {
-		assertTrue(recipes.get(0).hasFoodGroup(FoodGroup.CEREALS));
+		assertTrue(recipeChickenSalad.hasFoodGroup(FoodGroup.CEREALS));
 	}
 	
 	@Test
 	public void testHasFoodGroupMilkProductsRecipe1() {
-		assertFalse(recipes.get(0).hasFoodGroup(FoodGroup.MILK_PRODUCTS));
+		assertFalse(recipeChickenSalad.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
 	}
 	
 	// ------ NUMBER OF INGREDIENTS ------
 	
 	@Test
 	public void testNumberOfIngredientsRecipe1() {
-		assertEquals(6, recipes.get(0).getNumberOfIngredients());
+		assertEquals(6, recipeChickenSalad.getNumberOfIngredients());
 	}
 	
 	// ------ NUMBER OF MEAT CALORIES ------
 	
 	@Test
 	public void testNumberOfMeatCaloriesRecipe1() {
-		assertEquals(270, recipes.get(0).getMeatCalories());
-	}
-	
-	@Test
-	public void testNumberOfMeatCaloriesRecipe2() {
-		assertEquals(0, recipes.get(1).getMeatCalories());
+		assertEquals(270, recipeChickenSalad.getMeatCalories());
 	}
 	
 	// ------ MINIMIUM MEAT CALORIES ------
 	
 	@Test
 	public void testMinMeatCaloriesRecipe1() {
-		assertTrue(recipes.get(0).hasMinMeatCalories());
+		assertTrue(recipeChickenSalad.hasMinMeatCalories());
 	}
 	@Test
 	public void testMinMeatCaloriesRecipe2() {
-		assertFalse(recipes.get(1).hasMinMeatCalories());
+		assertFalse(recipeAppleCakeCeliacs.hasMinMeatCalories());
 	}
 	
 	// ------ RECIPE SUITABLE FOR ------
 	
 	@Test
 	public void testSuitableForCarnivorous() {
-		assertTrue(recipes.get(0).suitableFor(Profile.CARNIVOROUS));
+		assertTrue(recipeChickenSalad.suitableFor(Profile.CARNIVOROUS));
 	}
 	
 	@Test
 	public void testNotSuitableForCarnivorous() {
-		assertFalse(recipes.get(1).suitableFor(Profile.CARNIVOROUS));
+		assertFalse(recipeAppleCakeCeliacs.suitableFor(Profile.CARNIVOROUS));
 	}
 	
 	@Test
 	public void testSuitableForCeliacs() {
-		assertTrue(recipes.get(1).suitableFor(Profile.CELIAC));
+		assertTrue(recipeAppleCakeCeliacs.suitableFor(Profile.CELIAC));
 	}
 	
 	@Test
 	public void testNotSuitableForCeliacs() {
-		assertFalse(recipes.get(2).suitableFor(Profile.CELIAC));
+		assertFalse(recipeAppleCake.suitableFor(Profile.CELIAC));
 	}
 	
 	@Test
 	public void testSuitableForVegetarians() {
-		assertTrue(recipes.get(1).suitableFor(Profile.VEGETARIAN));
+		assertTrue(recipeAppleCakeCeliacs.suitableFor(Profile.VEGETARIAN));
 	}
 	
 	@Test
 	public void testNotSuitableForVegetarians() {
-		assertFalse(recipes.get(0).suitableFor(Profile.VEGETARIAN));
+		assertFalse(recipeChickenSalad.suitableFor(Profile.VEGETARIAN));
 	}
 	
 	@Test
 	public void testSuitableForVegans() {
-		assertTrue(recipes.get(3).suitableFor(Profile.VEGAN));
+		assertTrue(recipePasta.suitableFor(Profile.VEGAN));
 	}
 	
 	@Test
 	public void testNotSuitableForVegans() {
-		assertFalse(recipes.get(1).suitableFor(Profile.VEGAN));
+		assertFalse(recipeChickenSalad.suitableFor(Profile.VEGAN));
 	}
 	
 }
