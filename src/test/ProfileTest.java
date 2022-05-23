@@ -6,12 +6,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.Food;
+import domain.Profile;
+import domain.ProfileCarnivorous;
+import domain.ProfileCeliac;
+import domain.ProfileVegan;
+import domain.ProfileVegetarian;
 import domain.Recipe;
 import domain.enumerations.FoodGroup;
 import domain.enumerations.Unit;
 
-public class RecipeTest {
+public class ProfileTest {
 
+	Profile vegetarian = new ProfileVegetarian();
+	Profile celiac = new ProfileCeliac();
+	Profile carnivorous = new ProfileCarnivorous();
+	Profile vegan = new ProfileVegan();
+	
 	Recipe recipeChickenSalad = new Recipe(1, "Chicken Salad");
 	Recipe recipeAppleCakeCeliacs = new Recipe(2, "Apple cake for celiacs");
 	Recipe recipeAppleCake = new Recipe(3, "Apple cake");
@@ -92,49 +102,46 @@ public class RecipeTest {
 
 	}
 	
-	// ------ NUMBER OF CALORIES ------
-	@Test
-	public void testNumberOfCaloriesRecipe1() {
-		assertEquals(1776, recipeChickenSalad.getCalories());
-	}
+	// ------ IS ALLOWED TO EAT A RECIPE ------
 	
-	// ------- HAS INGREDIENT -------
 	@Test
-	public void testHasIngredientTomatoeRecipe1() {
-		assertTrue(recipeChickenSalad.hasIngredient("Tomatoe"));
+	public void testCarnivorousAllowedToEat() {
+		assertTrue(carnivorous.isAllowedToEat(recipeChickenSalad));
 	}
 	
 	@Test
-	public void testHasIngredientAppleRecipe1() {
-		assertFalse(recipeChickenSalad.hasIngredient("Apple"));
-	}
-	
-	// ------ HAS FOOD GROUP -----
-	
-	@Test
-
-	public void testHasFoodGroupCerealsRecipe1() {
-		assertTrue(recipeChickenSalad.hasFoodGroup(FoodGroup.CEREALS));
+	public void testCarnivorousNotAllowedToEat() {
+		assertFalse(carnivorous.isAllowedToEat(recipeAppleCakeCeliacs));
 	}
 	
 	@Test
-	public void testHasFoodGroupMilkProductsRecipe1() {
-		assertFalse(recipeChickenSalad.hasFoodGroup(FoodGroup.MILK_PRODUCTS));
+	public void testCeliacAllowedToEat() {
+		assertTrue(celiac.isAllowedToEat(recipeAppleCakeCeliacs));
 	}
-	
-	// ------ NUMBER OF INGREDIENTS ------
 	
 	@Test
-	public void testNumberOfIngredientsRecipe1() {
-		assertEquals(6, recipeChickenSalad.getNumberOfIngredients());
+	public void testCeliacNotAllowedToEat() {
+		assertFalse(celiac.isAllowedToEat(recipeAppleCake));
 	}
-	
-	// ------ NUMBER OF MEAT CALORIES ------
 	
 	@Test
-	public void testNumberOfMeatCaloriesRecipe1() {
-		assertEquals(270, recipeChickenSalad.getMeatCalories());
+	public void testVegetarianAllowedToEat() {
+		assertTrue(vegetarian.isAllowedToEat(recipeAppleCakeCeliacs));
 	}
 	
+	@Test
+	public void testVegetarianNotAllowedToEat() {
+		assertFalse(vegetarian.isAllowedToEat(recipeChickenSalad));
+	}
+	
+	@Test
+	public void testVeganAllowedToEat() {
+		assertTrue(vegan.isAllowedToEat(recipePasta));
+	}
+	
+	@Test
+	public void testVeganNotAllowedToEat() {
+		assertFalse(vegan.isAllowedToEat(recipeChickenSalad));
+	}
 	
 }
