@@ -17,10 +17,10 @@ import domain.enumerations.Unit;
 
 public class ProfileTest {
 
-	Profile vegetarian = new ProfileVegetarian();
-	Profile celiac = new ProfileCeliac();
-	Profile carnivorous = new ProfileCarnivorous();
-	Profile vegan = new ProfileVegan();
+	Profile vegetarian = ProfileVegetarian.getProfile();
+	Profile celiac = ProfileCeliac.getProfile();
+	Profile carnivorous = ProfileCarnivorous.getProfile();
+	Profile vegan = ProfileVegan.getProfile();
 	
 	Recipe recipeChickenSalad = new Recipe(1, "Chicken Salad");
 	Recipe recipeAppleCakeCeliacs = new Recipe(2, "Apple cake for celiacs");

@@ -9,11 +9,12 @@ import domain.enumerations.FoodGroup;
 public class Recipe {
 	private int id;
 	private String title;
-	private List<FoodQuantity> foodQuantity = new ArrayList<>();
+	private List<FoodQuantity> foodQuantity;
 	
 	public Recipe(int id, String title) {
 		this.id = id;
 		this.title = title;
+		this.foodQuantity = new ArrayList<>();
 	}
 
 	public Recipe(int id, String title, List<FoodQuantity> foodQuantity) {
