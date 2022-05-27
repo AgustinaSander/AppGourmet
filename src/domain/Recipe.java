@@ -1,7 +1,9 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import domain.enumerations.FoodGroup;
 
@@ -10,17 +12,20 @@ public class Recipe {
 	private int id;
 	private String title;
 	private List<FoodQuantity> foodQuantity;
+	private Map<Integer, Integer> pointsForRanking;
 	
 	public Recipe(int id, String title) {
 		this.id = id;
 		this.title = title;
 		this.foodQuantity = new ArrayList<>();
+		this.pointsForRanking = new HashMap<>();
 	}
 
 	public Recipe(int id, String title, List<FoodQuantity> foodQuantity) {
 		this.id = id;
 		this.title = title;
 		this.foodQuantity = foodQuantity;
+		this.pointsForRanking = new HashMap<>();
 	}
 	
 	public List<Food> getIngredients(){
@@ -58,9 +63,24 @@ public class Recipe {
 	}
 	
 	public int getMeatCalories() {
-		List<FoodQuantity> meatIngredients = foodQuantity.stream().filter(food -> food.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
+		 List<FoodQuantity> meatIngredients = getFoodQuantity().stream().filter(food -> food.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
 		
 		return meatIngredients.stream().mapToInt(meat -> (int)( meat.getQuantity()*meat.getFood().getCalories())).sum();
+	}
+	
+	public List<Profile> getProfilesAllowedToEat() {
+		List<Profile> profiles = new ArrayList<>();
+		
+		if(ProfileCarnivorous.getProfile().isAllowedToEat(this))
+			profiles.add(ProfileCarnivorous.getProfile());
+		if(ProfileCeliac.getProfile().isAllowedToEat(this))
+			profiles.add(ProfileCeliac.getProfile());
+		if(ProfileVegan.getProfile().isAllowedToEat(this))
+			profiles.add(ProfileVegan.getProfile());
+		if(ProfileVegetarian.getProfile().isAllowedToEat(this))
+			profiles.add(ProfileVegetarian.getProfile());
+		
+		return profiles;
 	}
 	
 	public int getId() {
@@ -83,10 +103,14 @@ public class Recipe {
 		this.foodQuantity = foodQuantity;
 	}
 
-	@Override
-	public String toString() {
-		return "Recipe [id=" + id + ", title=" + title + ", foodQuantity=" + foodQuantity + "]";
+	public Map<Integer, Integer> getPointsForRanking() {
+		return pointsForRanking;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", title=" + title + ", foodQuantity=" + foodQuantity + ", pointsForRanking="
+				+ pointsForRanking + "]";
+	}
+
 }

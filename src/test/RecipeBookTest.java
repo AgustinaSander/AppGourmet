@@ -10,8 +10,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import domain.Food;
+import domain.ProfileCarnivorous;
+import domain.ProfileCeliac;
+import domain.ProfileVegetarian;
 import domain.Recipe;
 import domain.RecipeBook;
+import domain.User;
+import domain.enumerations.FoodGroup;
+import domain.enumerations.Unit;
 
 public class RecipeBookTest {
 
@@ -22,9 +29,22 @@ public class RecipeBookTest {
 	@Before
 	public void setUp() {
 		for(int i=1; i<= sizeListRecipes; i++) {
-			listRecipes.add(new Recipe(i,"Recipe "+i, null));
+			listRecipes.add(new Recipe(i,"Recipe "+i));
 		}
 		book = new RecipeBook(1, "One week meals", listRecipes);
+		
+		User user = new User(1, "usuario1@email.com");
+		user.subscribeRecipeBook(book, ProfileCarnivorous.getProfile());
+		user.subscribeRecipeBook(book, ProfileCeliac.getProfile());
+		user.subscribeRecipeBook(book, ProfileVegetarian.getProfile());
+		user.turnOffNotifications(user.getSubscriptions().get(2));
+		user = new User(2, "usuario2@email.com");
+		user.subscribeRecipeBook(book, ProfileCarnivorous.getProfile());
+		user = new User(3, "usuario3@email.com");
+		user.subscribeRecipeBook(book, ProfileCeliac.getProfile());
+		user = new User(4, "usuario4@email.com");
+		user.subscribeRecipeBook(book, ProfileVegetarian.getProfile());
+		
 	}
 	
 	// ------ NUMBER OF RECIPES ------
@@ -36,7 +56,24 @@ public class RecipeBookTest {
 	// ------ ADD NEW RECIPE ------
 	@Test
 	public void testAddRecipe() {
-		assertTrue(book.addRecipe(new Recipe(sizeListRecipes+1, "New Recipe", null)));
+		Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
+		Food[] foodRecipe = {
+				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
+				new Food(3,"Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
+				new Food(4,"Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food(5,"Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
+				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
+		};
+		
+		recipe.addIngredient(125,foodRecipe[0]);
+		recipe.addIngredient(115,foodRecipe[1]);
+		recipe.addIngredient(225,foodRecipe[2]);
+		recipe.addIngredient(3,foodRecipe[3]);
+		recipe.addIngredient(3,foodRecipe[4]);
+		recipe.addIngredient(1,foodRecipe[5]);
+		
+		assertTrue(book.addRecipe(recipe));
 	}
 	
 	@Test
@@ -57,7 +94,7 @@ public class RecipeBookTest {
 	
 	@Test
 	public void testRemoveNotExistingRecipe() {
-		assertFalse(book.removeRecipe(new Recipe(0, "Recipe never added", null)));
+		assertFalse(book.removeRecipe(new Recipe(0, "Recipe never added")));
 	}
 	
 	@Test

@@ -27,6 +27,7 @@ public class UserTest {
 		List<Subscription> subscriptions = new ArrayList<>();
 		subscriptions.add(new Subscription(user, ProfileCeliac.getProfile(), recipeBookAlreadySubscribedTo));
 		user = new User(1, "usuario@email.com", subscriptions);
+		recipeBookAlreadySubscribedTo.getSubscriptions().addAll(subscriptions);
 	}
 	
 	// ------ SUBSCRIBE TO RECIPE BOOK ------
@@ -100,5 +101,11 @@ public class UserTest {
 	public void testUnsubscribeRecipeBookWhenParametersAreNull() {
 		assertFalse(user.subscribeRecipeBook(null, null));
 	}
+	
+
+	
+	
+	
+	
 	
 }

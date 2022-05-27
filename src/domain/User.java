@@ -51,21 +51,53 @@ public class User {
 					.anyMatch(subscription -> subscription.getRecipeBook() == recipeBook && subscription.getProfile() == profile);
 		
 		
-		return isSuscribed ? false : getSubscriptions().add(new Subscription(this, profile, recipeBook));
+		if(isSuscribed) {
+			return false;
+		}
+		else {
+			Subscription subscription = new Subscription(this, profile, recipeBook);
+			recipeBook.getSubscriptions().add(subscription);
+			getSubscriptions().add(subscription);
+			return true;
+		}
 	}
 	
 	public boolean unsubscribeRecipeBook(RecipeBook recipeBook, Profile profile) {
 		if(recipeBook == null || profile == null || getSubscriptions().isEmpty()) return false;
 		
-		Optional<Subscription> unsuscribe = getSubscriptions().stream()
+		Optional<Subscription> unsubscribe = getSubscriptions().stream()
 									.filter(subscription -> subscription.getRecipeBook() == recipeBook && subscription.getProfile() == profile)
 									.findAny();
 		try {
-			return getSubscriptions().remove(unsuscribe.get());
+			getSubscriptions().remove(unsubscribe.get());
+			recipeBook.getSubscriptions().remove(unsubscribe.get());
+			return true;
 		}
 		catch(NoSuchElementException exception) {
 			return false;
 		}
-		
+	}
+	
+	public void turnOnNotifications(Subscription subscription) {
+		if(hasSubscription(subscription)) {
+			subscription.setNotification(true);
+		}
+	}
+	
+	public void turnOffNotifications(Subscription subscription) {
+		if(hasSubscription(subscription)) {
+			subscription.setNotification(false);
+		}
+	}
+
+	private boolean hasSubscription(Subscription hasSubscription) {
+		Optional<Subscription> exists = getSubscriptions().stream().filter(subscription -> subscription.equals(hasSubscription)).findAny();
+		try {
+			exists.get();
+			return true;
+		}
+		catch(NoSuchElementException exception) {
+			return false;
+		}
 	}
 }
