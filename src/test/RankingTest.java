@@ -46,7 +46,7 @@ public class RankingTest {
 		ranking.showRanking();
 		System.out.println(ranking.getActiveRankingSubscriptions());
 		System.out.println("---");
-		ranking.activeSubscription(sub);
+		ranking.activateSubscription(sub);
 		ranking.showRanking();
 		System.out.println(ranking.getActiveRankingSubscriptions());
 		

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.Food;
-import domain.Profile;
+import domain.IProfile;
 import domain.ProfileCarnivorous;
 import domain.ProfileCeliac;
 import domain.ProfileVegan;
@@ -17,10 +17,10 @@ import domain.enumerations.Unit;
 
 public class ProfileTest {
 
-	Profile vegetarian = ProfileVegetarian.getProfile();
-	Profile celiac = ProfileCeliac.getProfile();
-	Profile carnivorous = ProfileCarnivorous.getProfile();
-	Profile vegan = ProfileVegan.getProfile();
+	IProfile vegetarian = ProfileVegetarian.getProfile();
+	IProfile celiac = ProfileCeliac.getProfile();
+	IProfile carnivorous = ProfileCarnivorous.getProfile();
+	IProfile vegan = ProfileVegan.getProfile();
 	
 	Recipe recipeChickenSalad = new Recipe(1, "Chicken Salad");
 	Recipe recipeAppleCakeCeliacs = new Recipe(2, "Apple cake for celiacs");

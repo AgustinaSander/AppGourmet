@@ -1,6 +1,6 @@
 package domain;
 
-public class ProfileVegetarian implements Profile{
+public class ProfileVegetarian implements IProfile{
 	
 	private ProfileVegetarian() {};
 	

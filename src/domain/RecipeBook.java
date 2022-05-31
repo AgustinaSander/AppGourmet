@@ -5,17 +5,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class RecipeBook implements Notification{
+public class RecipeBook{
 	private int id;
 	private String title;
 	private List<Recipe> listRecipes;
 	private List<Subscription> subscriptions;
+	private List<RankingSubscription> rankingSubscriptions;
 	
 	public RecipeBook(int id, String title) {
 		this.id = id;
 		this.title = title;
 		this.listRecipes = new ArrayList<>();
 		this.subscriptions = new ArrayList<>();
+		this.rankingSubscriptions = new ArrayList<>();
 	}
 
 	public RecipeBook(int id, String title, List<Recipe> listRecipes) {
@@ -23,6 +25,7 @@ public class RecipeBook implements Notification{
 		this.title = title;
 		this.listRecipes = listRecipes;
 		this.subscriptions = new ArrayList<>();
+		this.rankingSubscriptions = new ArrayList<>();
 	}
 	
 	public int getNumberOfRecipes(){
@@ -32,33 +35,29 @@ public class RecipeBook implements Notification{
 	public boolean addRecipe(Recipe newRecipe) {
 	
 		if(newRecipe != null && !getListRecipes().contains(newRecipe)) {
-			listRecipes.add(newRecipe);
-			List<Profile> profilesAllowedToEat = newRecipe.getProfilesAllowedToEat();
-			sendNotificationToUsers(profilesAllowedToEat);
+			listRecipes.add(newRecipe);	
+			
+			NotificationImpl.getNotificationImpl().sendNotifications(newRecipe, this);
+			
+			/*getRankingSubscriptions().stream()
+									.filter(subscription -> subscription.isActive())
+									.forEach(subscription -> subscription.getRanking().addPointsToRecipe(newRecipe));
+			*/
 			return true;
 		}
 		return false;
 	}
 	
-	@Override
-	public void sendNotificationToUsers(List<Profile> profiles) {
-		List<User> users = new ArrayList<>();
+	public List<Subscription> getSubscriptionsWithProfile(List<IProfile> profiles) {
 		List<Subscription> subscriptions = new ArrayList<>();
 		
-		for(Profile profile : profiles) {
+		for(IProfile profile : profiles) {
 			subscriptions.addAll(getSubscriptions().stream()
-										.filter(subscription -> subscription.getProfile() == profile && subscription.isNotification())
+										.filter(subscription -> subscription.getProfile() == profile)
 										.toList());
 		}
 		
-		System.out.println("SUSCRIPCIONES ENCONTRADAS ACTIVADAS");
-		subscriptions.stream().forEach(subscription -> {
-			users.add(subscription.getUser());
-			System.out.println("User: "+subscription.getUser().getEmail() + "- Profile: "+subscription.getProfile());
-		});
-		
-		System.out.println("NOTIFICACIONES");
-		users.stream().distinct().forEach(user -> System.out.println(user));			
+		return subscriptions;		
 	}
 	
 	public boolean removeRecipe(Recipe deleteRecipe) {
@@ -71,6 +70,16 @@ public class RecipeBook implements Notification{
 		}
 		catch(NoSuchElementException exception) {
 			return false;
+		}
+	}
+	
+	public void addRankingSubscription(RankingSubscription subscription) {
+		rankingSubscriptions.add(subscription);
+	}
+	
+	public void removeRankingSubscription(RankingSubscription subscription) {
+		if(getRankingSubscriptions().contains(subscription)) {
+			getRankingSubscriptions().remove(subscription);
 		}
 	}
 	
@@ -96,6 +105,10 @@ public class RecipeBook implements Notification{
 
 	public List<Subscription> getSubscriptions() {
 		return subscriptions;
+	}
+
+	public List<RankingSubscription> getRankingSubscriptions() {
+		return rankingSubscriptions;
 	}
 
 	@Override

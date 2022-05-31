@@ -3,25 +3,25 @@ package domain;
 public class Subscription {
 	private int id;
 	private User user;
-	private Profile profile;
+	private IProfile profile;
 	private RecipeBook recipeBook;
 	private boolean notification;
 	
-	public Subscription(User user, Profile profile, RecipeBook recipeBook) {
+	public Subscription(User user, IProfile profile, RecipeBook recipeBook) {
 		this.user = user;
 		this.profile = profile;
 		this.recipeBook = recipeBook;
 		this.notification = true;
 	}
 	
-	public Subscription(User user, Profile profile, RecipeBook recipeBook, boolean notification) {
+	public Subscription(User user, IProfile profile, RecipeBook recipeBook, boolean notification) {
 		this.user = user;
 		this.profile = profile;
 		this.recipeBook = recipeBook;
 		this.notification = notification;
 	}
 
-	public Subscription(int id, User user, Profile profile, RecipeBook recipeBook, boolean notification) {
+	public Subscription(int id, User user, IProfile profile, RecipeBook recipeBook, boolean notification) {
 		this.id = id;
 		this.user = user;
 		this.profile = profile;
@@ -37,11 +37,11 @@ public class Subscription {
 		return user;
 	}
 	
-	public Profile getProfile() {
+	public IProfile getProfile() {
 		return profile;
 	}
 	
-	public void setProfile(Profile profile) {
+	public void setProfile(IProfile profile) {
 		this.profile = profile;
 	}
 	

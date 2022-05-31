@@ -29,6 +29,7 @@ public class Ranking {
 		if(!subscriptionExists) {	
 			addPointsToAllRecipes (recipeBook);
 			RankingSubscription subscription = new RankingSubscription(this, recipeBook);
+			recipeBook.addRankingSubscription(subscription);
 			rankingSubscriptions.add(subscription);
 			//System.out.println("SUSCRIPCIONES AL RANKING: "+ getRankingSubscriptions());
 		}
@@ -39,7 +40,9 @@ public class Ranking {
 	
 	public void removeRecipeBook(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
-			subtractPointsToAllRecipes(subscription.getRecipeBook());
+			RecipeBook recipeBook = subscription.getRecipeBook();
+			subtractPointsToAllRecipes(recipeBook);
+			recipeBook.removeRankingSubscription(subscription);
 			getRankingSubscriptions().remove(subscription);
 		}
 	}
@@ -52,8 +55,15 @@ public class Ranking {
 			recipe.getPointsForRanking().put(this.id, rankingPoints);
 		});
 	}
+	
+	public void addPointsToRecipe(Recipe recipe) {
+		Map<Integer, Integer> pointsForRanking = recipe.getPointsForRanking();
+		
+		int rankingPoints = pointsForRanking.get(this.id) == null ? this.points : pointsForRanking.get(this.id) + this.points;
+		recipe.getPointsForRanking().put(this.id, rankingPoints);
+	}
 
-	public void subtractPointsToAllRecipes(RecipeBook recipeBook) {
+	/*public void subtractPointsToAllRecipes(RecipeBook recipeBook) {
 		recipeBook.getListRecipes().stream().forEach(recipe -> {
 			int initialPoints = recipe.getPointsForRanking().get(this.id);
 			int actualPoints = initialPoints - points;
@@ -64,7 +74,7 @@ public class Ranking {
 				recipe.getPointsForRanking().put(this.id, actualPoints);
 			}
 		});
-	}
+	}*/
 	
 	public void showRanking() {
 		Map <Recipe, Integer> ranking = getRankingPositions();
@@ -108,7 +118,7 @@ public class Ranking {
 		return sortedRanking;
 	}
 	
-	public void activeSubscription(RankingSubscription subscription) {
+	public void activateSubscription(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
 			subscription.setActive(true);
 			addPointsToAllRecipes(subscription.getRecipeBook());
@@ -118,7 +128,7 @@ public class Ranking {
 	public void deactivateSubscription(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
 			subscription.setActive(false);
-			subtractPointsToAllRecipes(subscription.getRecipeBook());
+			subtractPointsToAllRecipes(subscription.getRecipeBook()); //no deberia restarlo
 		}
 	}
 	

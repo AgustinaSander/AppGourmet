@@ -2,7 +2,7 @@ package domain;
 
 import domain.enumerations.FoodGroup;
 
-public class ProfileVegan implements Profile{
+public class ProfileVegan implements IProfile{
 
 	private ProfileVegan() {};
 	

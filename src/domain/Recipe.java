@@ -68,8 +68,8 @@ public class Recipe {
 		return meatIngredients.stream().mapToInt(meat -> (int)( meat.getQuantity()*meat.getFood().getCalories())).sum();
 	}
 	
-	public List<Profile> getProfilesAllowedToEat() {
-		List<Profile> profiles = new ArrayList<>();
+	public List<IProfile> getProfilesAllowedToEat() {
+		List<IProfile> profiles = new ArrayList<>();
 		
 		if(ProfileCarnivorous.getProfile().isAllowedToEat(this))
 			profiles.add(ProfileCarnivorous.getProfile());

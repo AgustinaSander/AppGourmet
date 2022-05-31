@@ -43,7 +43,7 @@ public class User {
 		return "User [id=" + id + ", email=" + email + "]";
 	}
 
-	public boolean subscribeRecipeBook(RecipeBook recipeBook, Profile profile) {
+	public boolean subscribeRecipeBook(RecipeBook recipeBook, IProfile profile) {
 		if(recipeBook == null || profile == null) return false;
 		
 		boolean isSuscribed = getSubscriptions().isEmpty() ? false : 
@@ -62,7 +62,7 @@ public class User {
 		}
 	}
 	
-	public boolean unsubscribeRecipeBook(RecipeBook recipeBook, Profile profile) {
+	public boolean unsubscribeRecipeBook(RecipeBook recipeBook, IProfile profile) {
 		if(recipeBook == null || profile == null || getSubscriptions().isEmpty()) return false;
 		
 		Optional<Subscription> unsubscribe = getSubscriptions().stream()

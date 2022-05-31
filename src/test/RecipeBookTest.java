@@ -14,6 +14,8 @@ import domain.Food;
 import domain.ProfileCarnivorous;
 import domain.ProfileCeliac;
 import domain.ProfileVegetarian;
+import domain.Ranking;
+import domain.RankingSubscription;
 import domain.Recipe;
 import domain.RecipeBook;
 import domain.User;
@@ -25,6 +27,8 @@ public class RecipeBookTest {
 	RecipeBook book;
 	List<Recipe> listRecipes = new ArrayList<>();
 	int sizeListRecipes = 4;
+	
+	Ranking ranking;
 	
 	@Before
 	public void setUp() {
@@ -44,6 +48,9 @@ public class RecipeBookTest {
 		user.subscribeRecipeBook(book, ProfileCeliac.getProfile());
 		user = new User(4, "usuario4@email.com");
 		user.subscribeRecipeBook(book, ProfileVegetarian.getProfile());
+		
+		ranking = new Ranking(1, "Best meals 2022");
+		ranking.addRecipeBook(book);
 		
 	}
 	
@@ -102,4 +109,35 @@ public class RecipeBookTest {
 		assertFalse(book.removeRecipe(null));
 	}
 	
+	// ------ ADD POINTS TO A NEW RECIPE IN RANKINGS ------
+	
+	@Test
+	public void testAddRecipeWhenSubscriptionIsActiveMustAddPoints() {
+		//ranking.showRanking();
+		//Subscription is active, so if I add a recipe to the recipebook, points must be 10 or more.
+		Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
+		book.addRecipe(recipe);
+		
+		//ranking.showRanking();
+		//System.out.println(recipe.getPointsForRanking());
+	}
+	
+	/* @Test
+	public void testAddRecipeWhenSubscriptionIsDeactiveNotAddPoints() {
+		//ranking.showRanking();
+		//Subscription is deactive, so if I add a recipe to the recipebook, not add to ranking.
+		RankingSubscription rankingSubscription = book.getRankingSubscriptions().stream()
+												.filter(subscription -> subscription.getRanking().equals(ranking))
+												.toList().get(0);
+		ranking.deactivateSubscription(rankingSubscription);
+		
+		Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
+		book.addRecipe(recipe);
+		
+		ranking.showRanking();
+		//System.out.println(recipe.getPointsForRanking());
+		ranking.activateSubscription(rankingSubscription);
+		ranking.showRanking();
+	}
+	*/
 }
