@@ -108,36 +108,4 @@ public class RecipeBookTest {
 	public void testRemoveNullRecipe() {
 		assertFalse(book.removeRecipe(null));
 	}
-	
-	// ------ ADD POINTS TO A NEW RECIPE IN RANKINGS ------
-	
-	@Test
-	public void testAddRecipeWhenSubscriptionIsActiveMustAddPoints() {
-		//ranking.showRanking();
-		//Subscription is active, so if I add a recipe to the recipebook, points must be 10 or more.
-		Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
-		book.addRecipe(recipe);
-		
-		//ranking.showRanking();
-		//System.out.println(recipe.getPointsForRanking());
-	}
-	
-	/* @Test
-	public void testAddRecipeWhenSubscriptionIsDeactiveNotAddPoints() {
-		//ranking.showRanking();
-		//Subscription is deactive, so if I add a recipe to the recipebook, not add to ranking.
-		RankingSubscription rankingSubscription = book.getRankingSubscriptions().stream()
-												.filter(subscription -> subscription.getRanking().equals(ranking))
-												.toList().get(0);
-		ranking.deactivateSubscription(rankingSubscription);
-		
-		Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
-		book.addRecipe(recipe);
-		
-		ranking.showRanking();
-		//System.out.println(recipe.getPointsForRanking());
-		ranking.activateSubscription(rankingSubscription);
-		ranking.showRanking();
-	}
-	*/
 }

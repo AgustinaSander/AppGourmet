@@ -46,7 +46,7 @@ public class NotificationImpl implements INotification{
 		String subject = "New recipe available!";
 		
 		Email email = new Email(recipient, content, subject);
-		System.out.println(email);
+		//System.out.println(email);
 		return email;
 	}
 	

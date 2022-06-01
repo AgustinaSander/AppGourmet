@@ -39,10 +39,10 @@ public class RecipeBook{
 			
 			NotificationImpl.getNotificationImpl().sendNotifications(newRecipe, this);
 			
-			/*getRankingSubscriptions().stream()
+			getRankingSubscriptions().stream()
 									.filter(subscription -> subscription.isActive())
 									.forEach(subscription -> subscription.getRanking().addPointsToRecipe(newRecipe));
-			*/
+			
 			return true;
 		}
 		return false;

@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -22,7 +23,7 @@ public class Ranking {
 		this.rankingSubscriptions = new ArrayList<>();
 	}
 
-	public void addRecipeBook(RecipeBook recipeBook) {
+	public boolean addRecipeBook(RecipeBook recipeBook) {
 		boolean subscriptionExists = !getRankingSubscriptions().stream()
 															.noneMatch(subscription -> subscription.getRecipeBook().equals(recipeBook));
 															
@@ -31,20 +32,22 @@ public class Ranking {
 			RankingSubscription subscription = new RankingSubscription(this, recipeBook);
 			recipeBook.addRankingSubscription(subscription);
 			rankingSubscriptions.add(subscription);
-			//System.out.println("SUSCRIPCIONES AL RANKING: "+ getRankingSubscriptions());
+			return true;
 		}
-		else {
-			//System.out.println("Recipe book is already subscribed to the ranking.");
-		}
+		
+		return false;
 	}
 	
-	public void removeRecipeBook(RankingSubscription subscription) {
+	public boolean removeRecipeBook(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
 			RecipeBook recipeBook = subscription.getRecipeBook();
 			subtractPointsToAllRecipes(recipeBook);
 			recipeBook.removeRankingSubscription(subscription);
 			getRankingSubscriptions().remove(subscription);
+			return true;
 		}
+		
+		return false;
 	}
 	
 	public void addPointsToAllRecipes(RecipeBook recipeBook) {
@@ -63,7 +66,7 @@ public class Ranking {
 		recipe.getPointsForRanking().put(this.id, rankingPoints);
 	}
 
-	/*public void subtractPointsToAllRecipes(RecipeBook recipeBook) {
+	public void subtractPointsToAllRecipes(RecipeBook recipeBook) {
 		recipeBook.getListRecipes().stream().forEach(recipe -> {
 			int initialPoints = recipe.getPointsForRanking().get(this.id);
 			int actualPoints = initialPoints - points;
@@ -74,7 +77,7 @@ public class Ranking {
 				recipe.getPointsForRanking().put(this.id, actualPoints);
 			}
 		});
-	}*/
+	}
 	
 	public void showRanking() {
 		Map <Recipe, Integer> ranking = getRankingPositions();
@@ -89,10 +92,33 @@ public class Ranking {
 	
 	public Map<Recipe, Integer> getRankingPositions(){
 		Map <Recipe, Integer> ranking = new HashMap<>();
+		
 		Set<Recipe> recipesSubscribed = getRankedRecipes();
 	
 		recipesSubscribed.stream().forEach(recipe -> {
-			ranking.put(recipe, recipe.getPointsForRanking().get(this.id));
+			if(recipe.getPointsForRanking().get(this.id) != null) { 
+				int pointsInRanking = recipe.getPointsForRanking().get(this.id);
+				ranking.put(recipe, pointsInRanking);
+			}
+		});
+		
+		getInactiveRankingSubscriptions().stream().forEach(subscription -> {
+			
+			List<Recipe> recipesInSubscriptionInactive = subscription.getRecipeBook().getListRecipes();
+			recipesInSubscriptionInactive.stream().forEach(recipe -> {
+				
+				if(recipesSubscribed.contains(recipe)) {
+					int pointsForRecipeInMap = ranking.get(recipe);
+					pointsForRecipeInMap -= points;
+					
+					if(pointsForRecipeInMap==0) {
+						ranking.remove(recipe); 
+					}
+					else {
+						ranking.put(recipe, pointsForRecipeInMap);
+					}
+				}
+			});
 		});
 		
 		return sortRankingByPoints(ranking);
@@ -101,8 +127,7 @@ public class Ranking {
 	public Set<Recipe> getRankedRecipes(){
 		Set<Recipe> recipesSubscribed = new HashSet<>();
 		
-		getRankingSubscriptions().stream()
-			.filter(subscription -> subscription.isActive())
+		getActiveRankingSubscriptions().stream()
 			.forEach(subscription -> {
 				recipesSubscribed.addAll(subscription.getRecipeBook().getListRecipes());
 			});	
@@ -111,8 +136,11 @@ public class Ranking {
 	}
 	
 	public Map<Recipe, Integer> sortRankingByPoints(Map<Recipe,Integer> ranking){
+		
+		System.out.println("RANKING:"+ ranking);
+		
 		Map<Recipe, Integer> sortedRanking = ranking.entrySet().stream()
-								        .sorted(Entry.comparingByValue())
+								        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 								        .collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	
 		return sortedRanking;
@@ -121,14 +149,12 @@ public class Ranking {
 	public void activateSubscription(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
 			subscription.setActive(true);
-			addPointsToAllRecipes(subscription.getRecipeBook());
 		}
 	}
 	
 	public void deactivateSubscription(RankingSubscription subscription) {
 		if(getRankingSubscriptions().contains(subscription)) {
 			subscription.setActive(false);
-			subtractPointsToAllRecipes(subscription.getRecipeBook()); //no deberia restarlo
 		}
 	}
 	
@@ -138,6 +164,10 @@ public class Ranking {
 	
 	public List<RankingSubscription> getActiveRankingSubscriptions(){
 		return getRankingSubscriptions().stream().filter(subscription -> subscription.isActive()).toList();
+	}
+	
+	public List<RankingSubscription> getInactiveRankingSubscriptions(){
+		return getRankingSubscriptions().stream().filter(subscription -> !subscription.isActive()).toList();
 	}
 	
 	public int getId() {
@@ -150,6 +180,10 @@ public class Ranking {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getPoints() {
+		return points;
 	}
 	
 }
