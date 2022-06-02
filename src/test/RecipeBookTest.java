@@ -15,7 +15,6 @@ import domain.ProfileCarnivorous;
 import domain.ProfileCeliac;
 import domain.ProfileVegetarian;
 import domain.Ranking;
-import domain.RankingSubscription;
 import domain.Recipe;
 import domain.RecipeBook;
 import domain.User;
@@ -48,9 +47,6 @@ public class RecipeBookTest {
 		user.subscribeRecipeBook(book, ProfileCeliac.getProfile());
 		user = new User(4, "usuario4@email.com");
 		user.subscribeRecipeBook(book, ProfileVegetarian.getProfile());
-		
-		ranking = new Ranking(1, "Best meals 2022");
-		ranking.addRecipeBook(book);
 		
 	}
 	

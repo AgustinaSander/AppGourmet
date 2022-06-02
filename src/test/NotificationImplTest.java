@@ -57,17 +57,18 @@ public class NotificationImplTest {
 		user4.subscribeRecipeBook(recipeBook, ProfileVegetarian.getProfile());
 	}
 	
-	// ------ SEND NOTIFICATIONS ------
-	//All notifications are active
+	// ------ SEND NOTIFICATIONS TO USERS WITH SOME PROFILES ------
+	
 	@Test
 	public void testSendNotificationsToUsersWithProfile() {
+		//All subscription notifications are active
 		List<User> usersThatMustReceiveEmail = List.of(user1,user4,user3);
 		assertTrue(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
 	}
 	
-	//Some notifications are inactive
 	@Test
 	public void testSendNotificationsToUsersWithActiveSubscriptions() {
+		//Some notifications are inactive
 		Subscription subscriptionCeliac = user1.getSubscriptions().get(1);
 		user1.turnOffNotifications(subscriptionCeliac);
 		
@@ -75,14 +76,17 @@ public class NotificationImplTest {
 		assertTrue(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
 	}
 	
+	// ------ NOT SEND NOTIFICATIONS TO USERS WITH NON-MATCHING PROFILES ------
 	@Test
 	public void testNotSendNotificationsToUsersBecauseProfileDontMatch() {
+		//All subscription notifications are active
 		List<User> usersThatNotReceiveEmail = List.of(user2);
 		assertFalse(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatNotReceiveEmail));
 	}
 	
 	@Test
 	public void testNotSendNotificationsToUsersBecauseProfileDontMatchAndNotificationsTurnOff() {
+		//Some notifications are inactive
 		Subscription subscriptionCeliac = user1.getSubscriptions().get(1);
 		user1.turnOffNotifications(subscriptionCeliac);
 		

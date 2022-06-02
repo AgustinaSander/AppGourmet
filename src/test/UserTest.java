@@ -35,7 +35,6 @@ public class UserTest {
 	@Test
 	public void testSubscribeRecipeBook() {
 		assertTrue(user.subscribeRecipeBook(recipeBookNotSubscribedYet, ProfileCarnivorous.getProfile()));
-		//System.out.println(user.getSubscriptions());
 	}
 	
 	@Test
@@ -46,7 +45,6 @@ public class UserTest {
 	@Test
 	public void testSuscribeRecipeBookWithAnotherProfile() {
 		assertTrue(user.subscribeRecipeBook(recipeBookAlreadySubscribedTo, ProfileVegetarian.getProfile()));
-		//System.out.println(user.getSubscriptions());
 	}
 	
 	@Test

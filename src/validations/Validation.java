@@ -7,7 +7,7 @@ import domain.Email;
 
 public class Validation {
 	
-	public static boolean validateEmail(String email){
+	public static boolean isValidEmail(String email){
         if(email == null || email.length() == 0){
                 return false;
         }
@@ -20,8 +20,8 @@ public class Validation {
         return false;
     }
 
-	public static boolean validateEmailInformation(Email email) {
-		boolean recipientIsValid = validateEmail(email.getRecipient());
+	public static boolean isValidEmailInformation(Email email) {
+		boolean recipientIsValid = isValidEmail(email.getRecipient());
 		boolean subjectIsValid = !(email.getSubject()==null);
 		boolean contentIsValid = !(email.getContent()==null);
 		return recipientIsValid && subjectIsValid && contentIsValid;

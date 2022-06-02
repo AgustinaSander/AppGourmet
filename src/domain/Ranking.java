@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Ranking {
 	private int id;
 	private String name;
-	private final int points = 10;
+	private final int pointsForBeingInRanking = 10;
 	private List<RankingSubscription> rankingSubscriptions;
 	
 	public Ranking(int id, String name) {
@@ -52,25 +52,23 @@ public class Ranking {
 	
 	public void addPointsToAllRecipes(RecipeBook recipeBook) {
 		recipeBook.getListRecipes().stream().forEach(recipe -> {
-			Map<Integer, Integer> pointsForRanking = recipe.getPointsForRanking();
-			
-			int rankingPoints = pointsForRanking.get(this.id) == null ? this.points : pointsForRanking.get(this.id) + this.points;
-			recipe.getPointsForRanking().put(this.id, rankingPoints);
+			addPointsToRecipe(recipe);
 		});
 	}
 	
 	public void addPointsToRecipe(Recipe recipe) {
 		Map<Integer, Integer> pointsForRanking = recipe.getPointsForRanking();
 		
-		int rankingPoints = pointsForRanking.get(this.id) == null ? this.points : pointsForRanking.get(this.id) + this.points;
+		int rankingPoints = pointsForRanking.containsKey(this.id) ? pointsForRanking.get(this.id) + this.pointsForBeingInRanking : this.pointsForBeingInRanking;
 		recipe.getPointsForRanking().put(this.id, rankingPoints);
 	}
 
 	public void subtractPointsToAllRecipes(RecipeBook recipeBook) {
 		recipeBook.getListRecipes().stream().forEach(recipe -> {
-			int initialPoints = recipe.getPointsForRanking().get(this.id);
-			int actualPoints = initialPoints - points;
-			if(actualPoints == 0) {
+			int initialPoints = recipe.getPointsForRanking().containsKey(this.id) ? recipe.getPointsForRanking().get(this.id) : 0;
+			int actualPoints = initialPoints - pointsForBeingInRanking;
+			
+			if(actualPoints <= 0) {
 				recipe.getPointsForRanking().remove(this.id);
 			}
 			else {
@@ -84,10 +82,14 @@ public class Ranking {
 		System.out.println("Ranking "+this.name);
 		
 		int index = 1;
-		for(Recipe recipe : ranking.keySet()){
-			System.out.println(index + " - " + recipe.getTitle() + " : " + ranking.get(recipe) + "points");
-			index++;
-		};
+		if(ranking.size() != 0) {
+			for(Recipe recipe : ranking.keySet()){
+				System.out.println(index + " - " + recipe.getTitle() + " : " + ranking.get(recipe) + "points");
+				index++;
+			};
+		} else {
+			System.out.println("No recipes availables.");
+		}
 	}
 	
 	public Map<Recipe, Integer> getRankingPositions(){
@@ -103,13 +105,12 @@ public class Ranking {
 		});
 		
 		getInactiveRankingSubscriptions().stream().forEach(subscription -> {
-			
 			List<Recipe> recipesInSubscriptionInactive = subscription.getRecipeBook().getListRecipes();
 			recipesInSubscriptionInactive.stream().forEach(recipe -> {
 				
 				if(recipesSubscribed.contains(recipe)) {
 					int pointsForRecipeInMap = ranking.get(recipe);
-					pointsForRecipeInMap -= points;
+					pointsForRecipeInMap -= pointsForBeingInRanking;
 					
 					if(pointsForRecipeInMap==0) {
 						ranking.remove(recipe); 
@@ -136,8 +137,6 @@ public class Ranking {
 	}
 	
 	public Map<Recipe, Integer> sortRankingByPoints(Map<Recipe,Integer> ranking){
-		
-		System.out.println("RANKING:"+ ranking);
 		
 		Map<Recipe, Integer> sortedRanking = ranking.entrySet().stream()
 								        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -182,8 +181,8 @@ public class Ranking {
 		this.name = name;
 	}
 
-	public int getPoints() {
-		return points;
+	public int getPointsForBeingInRanking() {
+		return pointsForBeingInRanking;
 	}
 	
 }

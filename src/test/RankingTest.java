@@ -1,8 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class RankingTest {
 	List<Recipe> listRecipes = new ArrayList<>();
 	int sizeListRecipes = 4;
 	Ranking ranking;
+	RankingSubscription rankingSubscriptionOfBook3;
 	
 	@Before
 	public void setUp() {
@@ -39,95 +39,38 @@ public class RankingTest {
 		
 		ranking = new Ranking(1, "Best meals 2022");
 		ranking.addRecipeBook(book3);
-	}
-
-	@Test
-	public void testAddRecipeBook() {
-		assertTrue(ranking.addRecipeBook(book1));
-		ranking.addRecipeBook(book2);
-	}
-	
-	@Test
-	public void testAddSameRecipeBook() {
-		ranking.addRecipeBook(book1);
-		assertFalse(ranking.addRecipeBook(book1));
-	}
-	
-	@Test
-	public void testShowRanking() {
-		ranking.addRecipeBook(book1);
-		ranking.addRecipeBook(book2);
 		
-		
-		//ranking.showRanking();
-		/*System.out.println(ranking.getActiveRankingSubscriptions());
-		System.out.println("---");
-		//ranking.activateSubscription(sub);
-		ranking.showRanking();
-		System.out.println(ranking.getActiveRankingSubscriptions());
-		
-		ranking.removeRecipeBook(sub);
-		ranking.showRanking();
-		System.out.println(ranking.getRankingSubscriptions());*/
+		rankingSubscriptionOfBook3 = book3.getRankingSubscriptions().stream()
+				.filter(subscription -> subscription.getRanking().equals(ranking))
+				.toList().get(0);
 	}
-	
-	@Test
-	public void testDeactivateSubscription() {
-		ranking.addRecipeBook(book1);
-		ranking.addRecipeBook(book2);
-		RankingSubscription sub = ranking.getRankingSubscriptions().get(1);
-		ranking.deactivateSubscription(sub);
-		//ranking.showRanking();
-		
-		ranking.activateSubscription(sub);
-		//ranking.showRanking();
-	}
-	
-	@Test
-	public void testRemoveRecipeBook() {
-		ranking.addRecipeBook(book1);
-		ranking.addRecipeBook(book2);
-		RankingSubscription sub = ranking.getRankingSubscriptions().get(0);
-		assertTrue(ranking.removeRecipeBook(sub));
-		/*ranking.showRanking();
-		ranking.deactivateSubscription(ranking.getRankingSubscriptions().get(0));
-		ranking.showRanking();
-		ranking.activateSubscription(ranking.getRankingSubscriptions().get(0));
-		ranking.showRanking();
-		*/
-	}
-	
 	
 	// ------ ADD POINTS TO A NEW RECIPE IN RANKINGS ------
-	
 		@Test
 		public void testAddRecipeWhenSubscriptionIsActiveMustAddPoints() {
 			//Subscription of book3 is active, so if I add a recipe to the recipe book, points for recipe must be 10.
 			Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
 			book3.addRecipe(recipe);
-			int pointsForBeingInRanking = ranking.getPoints();
+			int pointsForBeingInRanking = ranking.getPointsForBeingInRanking();
 			int pointsThatRecipeHasInRanking = recipe.getPointsForRanking().get(ranking.getId());
+			
+			ranking.showRanking();
 			assertEquals(pointsForBeingInRanking, pointsThatRecipeHasInRanking);
-			//ranking.showRanking();
 		}
 		
-		/*@Test
+		@Test
 		public void testAddRecipeWhenSubscriptionIsDeactiveNotAddPoints() {
-			//ranking.showRanking();
-			//Subscription is deactive, so if I add a recipe to the recipebook, not add to ranking.
-			RankingSubscription rankingSubscription = book3.getRankingSubscriptions().stream()
-													.filter(subscription -> subscription.getRanking().equals(ranking))
-													.toList().get(0);
-			ranking.deactivateSubscription(rankingSubscription);
+			ranking.deactivateSubscription(rankingSubscriptionOfBook3);
 			
-			Recipe recipe = new Recipe(sizeListRecipes+1, "New Recipe");
+			//Subscription is deactive, so if I add a recipe to the recipe book, it won`t be added to the ranking.
+			Recipe recipe = new Recipe(sizeListRecipes+2, "Recipe added when subscription is deactive");
 			book3.addRecipe(recipe);
-			//ranking.showRanking();
-			//System.out.println(recipe.getPointsForRanking());
-			ranking.activateSubscription(rankingSubscription);
+			
+			int pointsForBeingInRanking = ranking.getPointsForBeingInRanking();
+			int pointsThatRecipeHasInRanking = recipe.getPointsForRanking().containsKey(ranking.getId()) ? 
+													recipe.getPointsForRanking().get(ranking.getId()) : 0;
+			
 			ranking.showRanking();
-			Recipe recipe2 = new Recipe(sizeListRecipes+2, "New Recipe 2");
-			book3.addRecipe(recipe2);
-			ranking.showRanking();
-		}*/
+			assertNotEquals(pointsForBeingInRanking, pointsThatRecipeHasInRanking);
+		}
 }

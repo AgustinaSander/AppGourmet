@@ -24,18 +24,18 @@ public class NotificationImpl implements INotification{
 	@Override
 	public List<User> sendNotifications(Recipe recipe, RecipeBook recipeBook) {
 		List<IProfile> profilesAllowedToEat = recipe.getProfilesAllowedToEat();
-		List<Subscription> subscriptionsWithProfile = recipeBook.getSubscriptionsWithProfile(profilesAllowedToEat);
+		List<Subscription> allSubscriptionsWithProfile = recipeBook.getSubscriptionsWithProfile(profilesAllowedToEat);
 		
-		List<Subscription> activeSubscriptionsWithProfile = getRecipients(subscriptionsWithProfile);
+		List<Subscription> activeSubscriptionsWithProfile = getRecipients(allSubscriptionsWithProfile);
 		
-		List<User> usersWhoReceivedEmail = new ArrayList<>();
+		List<User> usersThatReceivedEmail = new ArrayList<>();
 		
 		activeSubscriptionsWithProfile.stream().forEach(subscription -> {
 			Email email = createEmail(subscription.getUser(), recipe, recipeBook);
-			if(sendEmail(email)) usersWhoReceivedEmail.add(subscription.getUser());
+			if(sendEmail(email)) usersThatReceivedEmail.add(subscription.getUser());
 		});
 		
-		return usersWhoReceivedEmail;
+		return usersThatReceivedEmail;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class NotificationImpl implements INotification{
 	
 	@Override
 	public boolean sendEmail(Email email) {
-		boolean dataIsValid = Validation.validateEmailInformation(email);
+		boolean dataIsValid = Validation.isValidEmailInformation(email);
 		return dataIsValid;
 	}
 
