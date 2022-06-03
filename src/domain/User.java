@@ -2,7 +2,6 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class User {
@@ -68,14 +67,12 @@ public class User {
 		Optional<Subscription> unsubscribe = getSubscriptions().stream()
 									.filter(subscription -> subscription.getRecipeBook() == recipeBook && subscription.getProfile() == profile)
 									.findAny();
-		try {
+		if(unsubscribe.isPresent()) {
 			getSubscriptions().remove(unsubscribe.get());
 			recipeBook.getSubscriptions().remove(unsubscribe.get());
 			return true;
 		}
-		catch(NoSuchElementException exception) {
-			return false;
-		}
+		return false;
 	}
 	
 	public void turnOnNotifications(Subscription subscription) {
@@ -92,12 +89,7 @@ public class User {
 
 	private boolean hasSubscription(Subscription hasSubscription) {
 		Optional<Subscription> exists = getSubscriptions().stream().filter(subscription -> subscription.equals(hasSubscription)).findAny();
-		try {
-			exists.get();
-			return true;
-		}
-		catch(NoSuchElementException exception) {
-			return false;
-		}
+		
+		return exists.isPresent();
 	}
 }

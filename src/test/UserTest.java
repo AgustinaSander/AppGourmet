@@ -100,10 +100,4 @@ public class UserTest {
 		assertFalse(user.subscribeRecipeBook(null, null));
 	}
 	
-
-	
-	
-	
-	
-	
 }

@@ -54,7 +54,7 @@ public class RankingTest {
 			int pointsForBeingInRanking = ranking.getPointsForBeingInRanking();
 			int pointsThatRecipeHasInRanking = recipe.getPointsForRanking().get(ranking.getId());
 			
-			ranking.showRanking();
+			//ranking.showRanking();
 			assertEquals(pointsForBeingInRanking, pointsThatRecipeHasInRanking);
 		}
 		
@@ -70,7 +70,7 @@ public class RankingTest {
 			int pointsThatRecipeHasInRanking = recipe.getPointsForRanking().containsKey(ranking.getId()) ? 
 													recipe.getPointsForRanking().get(ranking.getId()) : 0;
 			
-			ranking.showRanking();
+			//ranking.showRanking();
 			assertNotEquals(pointsForBeingInRanking, pointsThatRecipeHasInRanking);
 		}
 }

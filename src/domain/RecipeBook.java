@@ -2,7 +2,6 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class RecipeBook{
@@ -36,8 +35,8 @@ public class RecipeBook{
 	
 		if(newRecipe != null && !getListRecipes().contains(newRecipe)) {
 			listRecipes.add(newRecipe);	
-			
-			NotificationImpl.getNotificationImpl().sendNotifications(newRecipe, this);
+			List<Subscription> allSubscriptionsWithProfile = getSubscriptionsAcordingToProfile(newRecipe);
+			EmailNotification.getEmailNotification().notificateUsersAboutRecipe(allSubscriptionsWithProfile, newRecipe, this);
 			
 			getRankingSubscriptions().stream()
 									.filter(subscription -> subscription.isActive())
@@ -47,6 +46,11 @@ public class RecipeBook{
 		}
 		return false;
 	}
+	
+	public List<Subscription> getSubscriptionsAcordingToProfile(Recipe recipe) {
+		List<IProfile> profilesAllowedToEat = recipe.getProfilesAllowedToEat();
+		return getSubscriptionsWithProfile(profilesAllowedToEat);
+	};
 	
 	public List<Subscription> getSubscriptionsWithProfile(List<IProfile> profiles) {
 		List<Subscription> subscriptions = new ArrayList<>();
@@ -64,13 +68,7 @@ public class RecipeBook{
 		if(deleteRecipe == null) return false;
 		
 		Optional<Recipe> delete = getListRecipes().stream().filter(recipe -> recipe.equals(deleteRecipe)).findAny();
-		 
-		try {
-			return getListRecipes().remove(delete.get());
-		}
-		catch(NoSuchElementException exception) {
-			return false;
-		}
+		return delete.isPresent() ?  getListRecipes().remove(delete.get()) : false;
 	}
 	
 	public void addRankingSubscription(RankingSubscription subscription) {

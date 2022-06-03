@@ -1,14 +1,21 @@
 package test;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import domain.Food;
-import domain.NotificationImpl;
+import domain.Email;
+import domain.EmailNotification;
 import domain.ProfileCarnivorous;
 import domain.ProfileCeliac;
 import domain.ProfileVegetarian;
@@ -19,19 +26,24 @@ import domain.User;
 import domain.enumerations.FoodGroup;
 import domain.enumerations.Unit;
 
-public class NotificationImplTest {
+@RunWith(MockitoJUnitRunner.class)
+public class EmailNotificationTest {
 	
-	NotificationImpl notification = NotificationImpl.getNotificationImpl();
+	@Spy
+	EmailNotification spyEmailNotification = Mockito.spy(EmailNotification.getEmailNotification());
+	
 	Recipe recipe = new Recipe(1, "New Recipe");
 	User user1 = new User(1, "usuario1@email.com");
 	User user2 = new User(2, "usuario2@email.com");
 	User user3 = new User(3, "usuario3@email.com");
 	User user4 = new User(4, "usuario4@email.com");
+	List<Subscription> allSubscriptionsWithProfile = new ArrayList<>();
 	
 	RecipeBook recipeBook;
 	
 	@Before
 	public void setUp() {
+		//Create recipe that will be added to recipe book
 		Food[] foodRecipe = {
 				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
 				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
@@ -49,12 +61,17 @@ public class NotificationImplTest {
 		
 		recipeBook = new RecipeBook(1, "One week meals");
 		
-		
+		//Subscriptions to recipe book
 		user1.subscribeRecipeBook(recipeBook, ProfileCarnivorous.getProfile());
 		user1.subscribeRecipeBook(recipeBook, ProfileCeliac.getProfile());
 		user2.subscribeRecipeBook(recipeBook, ProfileCarnivorous.getProfile());
 		user3.subscribeRecipeBook(recipeBook, ProfileCeliac.getProfile());
 		user4.subscribeRecipeBook(recipeBook, ProfileVegetarian.getProfile());
+		
+		//Get all subscriptions that could be interested on the recipe according to the profile
+		allSubscriptionsWithProfile = recipeBook.getSubscriptionsAcordingToProfile(recipe);
+		
+		Mockito.doReturn(true).when(spyEmailNotification).sendEmailNotification(any(Email.class));
 	}
 	
 	// ------ SEND NOTIFICATIONS TO USERS WITH SOME PROFILES ------
@@ -63,7 +80,8 @@ public class NotificationImplTest {
 	public void testSendNotificationsToUsersWithProfile() {
 		//All subscription notifications are active
 		List<User> usersThatMustReceiveEmail = List.of(user1,user4,user3);
-		assertTrue(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
+		
+		assertTrue(spyEmailNotification.notificateUsersAboutRecipe(allSubscriptionsWithProfile, recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
 	}
 	
 	@Test
@@ -73,7 +91,7 @@ public class NotificationImplTest {
 		user1.turnOffNotifications(subscriptionCeliac);
 		
 		List<User> usersThatMustReceiveEmail = List.of(user4,user3);
-		assertTrue(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
+		assertTrue(spyEmailNotification.notificateUsersAboutRecipe(allSubscriptionsWithProfile, recipe, recipeBook).containsAll(usersThatMustReceiveEmail));
 	}
 	
 	// ------ NOT SEND NOTIFICATIONS TO USERS WITH NON-MATCHING PROFILES ------
@@ -81,7 +99,7 @@ public class NotificationImplTest {
 	public void testNotSendNotificationsToUsersBecauseProfileDontMatch() {
 		//All subscription notifications are active
 		List<User> usersThatNotReceiveEmail = List.of(user2);
-		assertFalse(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatNotReceiveEmail));
+		assertFalse(spyEmailNotification.notificateUsersAboutRecipe(allSubscriptionsWithProfile, recipe, recipeBook).containsAll(usersThatNotReceiveEmail));
 	}
 	
 	@Test
@@ -91,7 +109,7 @@ public class NotificationImplTest {
 		user1.turnOffNotifications(subscriptionCeliac);
 		
 		List<User> usersThatNotReceiveEmail = List.of(user2,user1);
-		assertFalse(notification.sendNotifications(recipe, recipeBook).containsAll(usersThatNotReceiveEmail));
+		assertFalse(spyEmailNotification.notificateUsersAboutRecipe(allSubscriptionsWithProfile, recipe, recipeBook).containsAll(usersThatNotReceiveEmail));
 	}
 
 }

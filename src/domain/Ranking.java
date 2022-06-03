@@ -24,8 +24,7 @@ public class Ranking {
 	}
 
 	public boolean addRecipeBook(RecipeBook recipeBook) {
-		boolean subscriptionExists = !getRankingSubscriptions().stream()
-															.noneMatch(subscription -> subscription.getRecipeBook().equals(recipeBook));
+		boolean subscriptionExists = !getRankingSubscriptions().stream().noneMatch(subscription -> subscription.getRecipeBook().equals(recipeBook));
 															
 		if(!subscriptionExists) {	
 			addPointsToAllRecipes (recipeBook);
@@ -94,7 +93,6 @@ public class Ranking {
 	
 	public Map<Recipe, Integer> getRankingPositions(){
 		Map <Recipe, Integer> ranking = new HashMap<>();
-		
 		Set<Recipe> recipesSubscribed = getRankedRecipes();
 	
 		recipesSubscribed.stream().forEach(recipe -> {
@@ -106,8 +104,8 @@ public class Ranking {
 		
 		getInactiveRankingSubscriptions().stream().forEach(subscription -> {
 			List<Recipe> recipesInSubscriptionInactive = subscription.getRecipeBook().getListRecipes();
+			
 			recipesInSubscriptionInactive.stream().forEach(recipe -> {
-				
 				if(recipesSubscribed.contains(recipe)) {
 					int pointsForRecipeInMap = ranking.get(recipe);
 					pointsForRecipeInMap -= pointsForBeingInRanking;
@@ -128,20 +126,16 @@ public class Ranking {
 	public Set<Recipe> getRankedRecipes(){
 		Set<Recipe> recipesSubscribed = new HashSet<>();
 		
-		getActiveRankingSubscriptions().stream()
-			.forEach(subscription -> {
-				recipesSubscribed.addAll(subscription.getRecipeBook().getListRecipes());
-			});	
+		getActiveRankingSubscriptions().stream().forEach(subscription -> {
+			recipesSubscribed.addAll(subscription.getRecipeBook().getListRecipes());
+		});	
 		
 		return recipesSubscribed;
 	}
 	
 	public Map<Recipe, Integer> sortRankingByPoints(Map<Recipe,Integer> ranking){
-		
-		Map<Recipe, Integer> sortedRanking = ranking.entrySet().stream()
-								        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-								        .collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-	
+		Map<Recipe, Integer> sortedRanking = ranking.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+								        	.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		return sortedRanking;
 	}
 	
