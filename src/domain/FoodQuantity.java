@@ -7,7 +7,7 @@ public class FoodQuantity {
 	private Food food;
 	
 	public FoodQuantity() {}
-	
+
 	public FoodQuantity(double quantity, Food food) {
 		this.quantity = food.getUnit() == Unit.CN ? 0 : quantity;
 		this.food = food;

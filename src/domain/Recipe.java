@@ -2,17 +2,14 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import domain.enumerations.FoodGroup;
-import domain.enumerations.Unit;
+
 
 public class Recipe {
 	private int id;
 	private String title;
 	private List<FoodQuantity> foodQuantity = new ArrayList<>();
-	
-	public Recipe() {}
 	
 	public Recipe(int id, String title) {
 		this.id = id;
@@ -57,6 +54,12 @@ public class Recipe {
 	
 	public boolean removeIngredient (FoodQuantity food) {
 		return this.foodQuantity.remove(food);
+	}
+	
+	public int getMeatCalories() {
+		List<FoodQuantity> meatIngredients = foodQuantity.stream().filter(food -> food.getFood().getFoodGroup() == FoodGroup.MEATS).toList();
+		
+		return meatIngredients.stream().mapToInt(meat -> (int)( meat.getQuantity()*meat.getFood().getCalories())).sum();
 	}
 	
 	public int getId() {
