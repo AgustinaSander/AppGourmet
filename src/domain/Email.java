@@ -2,21 +2,26 @@ package domain;
 
 public class Email {
 
-	private static final String sender = "appgourmet@hotmail.com";
+	private String sender;
 	private String recipient;
 	private String content;
 	private String subject;
 	
-	public Email(String recipient, String content, String subject) {
+	public Email(String sender, String recipient, String content, String subject) {
+		this.sender = sender;
 		this.recipient = recipient;
 		this.content = content;
 		this.subject = subject;
 	}
 
-	public static String getSender() {
+	public String getSender() {
 		return sender;
 	}
 
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+	
 	public String getRecipient() {
 		return recipient;
 	}
@@ -43,6 +48,6 @@ public class Email {
 	
 	@Override
 	public String toString() {
-		return "Email [recipient=" + recipient + ", content=" + content + ", subject=" + subject + "]";
+		return "Email [sender=" + sender +"recipient=" + recipient + ", content=" + content + ", subject=" + subject + "]";
 	}
 }

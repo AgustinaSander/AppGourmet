@@ -27,7 +27,7 @@ public class EmailNotification implements INotification{
 		List<User> usersThatReceivedEmail = new ArrayList<>();
 		
 		activeSubscriptionsWithProfile.stream().forEach(subscription -> {
-			Email email = createEmailNotification(subscription.getUser(), recipeAdded, recipeBook);
+			Email email = createEmailNotification("appgourmet@email.com", subscription.getUser(), recipeAdded, recipeBook);
 			if(sendEmailNotification(email)) usersThatReceivedEmail.add(subscription.getUser());
 		});
 		
@@ -35,13 +35,13 @@ public class EmailNotification implements INotification{
 	}
 
 	@Override
-	public Email createEmailNotification(User user, Recipe recipe, RecipeBook recipeBook) {
+	public Email createEmailNotification(String sender, User user, Recipe recipe, RecipeBook recipeBook) {
 		String recipient = user.getEmail();
 		String template = "Hello %s! A new recipe called %s was added to %s. We hope you enjoy it!";
 		String content = String.format(template, recipient, recipe.getTitle(), recipeBook.getTitle());
 		String subject = "New recipe available!";
 		
-		Email email = new Email(recipient, content, subject);
+		Email email = new Email(sender, recipient, content, subject);
 		//System.out.println(email);
 		return email;
 	}
