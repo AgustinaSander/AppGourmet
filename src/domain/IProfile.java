@@ -1,6 +1,6 @@
 package domain;
 
-public interface Profile {
+public interface IProfile {
 	public abstract boolean isAllowedToEat(Recipe recipe);
 	
 }
