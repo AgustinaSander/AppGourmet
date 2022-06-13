@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,10 +18,10 @@ import com.example.demo.domain.enumerations.FoodGroup;
 @Entity
 public class Recipe {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<FoodQuantity> foodQuantity;
 	@Transient
 	private Map<Integer, Integer> pointsForRanking;

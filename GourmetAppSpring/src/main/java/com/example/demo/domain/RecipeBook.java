@@ -5,19 +5,23 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 @Entity
 public class RecipeBook{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), inverseJoinColumns=@JoinColumn(name="author_id"))
 	private List<Recipe> listRecipes;
 	@Transient
 	private List<Subscription> subscriptions;
@@ -25,6 +29,13 @@ public class RecipeBook{
 	private List<RankingSubscription> rankingSubscriptions;
 	
 	public RecipeBook() {}
+	
+	public RecipeBook(String title) {
+		this.title = title;
+		this.listRecipes = new ArrayList<>();
+		this.subscriptions = new ArrayList<>();
+		this.rankingSubscriptions = new ArrayList<>();
+	}
 	
 	public RecipeBook(int id, String title) {
 		this.id = id;

@@ -11,7 +11,7 @@ import com.example.demo.domain.enumerations.Unit;
 @Entity
 public class FoodQuantity {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private double quantity;
 	@ManyToOne
@@ -39,11 +39,14 @@ public class FoodQuantity {
 		this.food = food;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
-		return "FoodQuantity [quantity=" + quantity + ", food=" + food + "]";
+		return "FoodQuantity [id=" + id + ", quantity=" + quantity + ", food=" + food + "]";
 	}
-	
 	
 	
 }
