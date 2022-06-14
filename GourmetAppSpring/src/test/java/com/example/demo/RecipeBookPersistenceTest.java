@@ -1,8 +1,12 @@
 package com.example.demo;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,37 +37,48 @@ class RecipeBookPersistenceTest {
 	@Autowired
 	FoodQuantityRepository foodQuantityRepository;
 	
-	@Before
-	public void setup() {
-		
-	}
-	
 	@Test
 	public void createRecipeBook() {
 		RecipeBook recipeBook = getRecipeBook();
-		//System.out.println(recipeBook);
 		List<Recipe> recipes = recipeBook.getListRecipes();
 		for(Recipe recipe : recipes) {
 			saveRecipe(recipe);
 		}
 		
 		recipeBookRepository.save(recipeBook);
-		System.out.println(recipeBookRepository.findAll());
+		//WORKS System.out.println(recipeBookRepository.findAll());
+		int sizeListRecipeBook = ((Collection<RecipeBook>) recipeBookRepository.findAll()).size();
+		assertNotEquals(sizeListRecipeBook, 0);
 	}
       
 	@Test
 	public void readRecipeBook() {
-    
+		createRecipeBook();
+		int idSavedRecipeBook = ((List <RecipeBook>)recipeBookRepository.findAll()).get(0).getId();
+		assertTrue(recipeBookRepository.findById(idSavedRecipeBook).isPresent());
 	}
 	
 	@Test
 	public void updateRecipeBook() {
-		
+		createRecipeBook();
+		int idSavedRecipeBook = ((List <RecipeBook>)recipeBookRepository.findAll()).get(0).getId();
+		System.out.println("UPDATE:");
+		String newTitle = "New recipe book title";
+		RecipeBook recipeBook = recipeBookRepository.findById(idSavedRecipeBook).get();
+		recipeBook.setTitle(newTitle);
+		recipeBookRepository.save(recipeBook);
+		assertEquals(recipeBookRepository.findById(idSavedRecipeBook).get().getTitle(), newTitle);
 	}
 	
 	@Test
 	public void deleteRecipeBook() {
+		createRecipeBook();
+		List<RecipeBook> listRecipeBook = (List<RecipeBook>) recipeBookRepository.findAll();
+		int idSavedRecipeBook = listRecipeBook.get(0).getId();
 		
+		recipeBookRepository.deleteById(idSavedRecipeBook);
+		
+		assertTrue(listRecipeBook.size() > ((List<RecipeBook>) recipeBookRepository.findAll()).size());
 	}
 	
 	private void saveRecipe(Recipe recipe) {
@@ -83,12 +98,11 @@ class RecipeBookPersistenceTest {
 		Recipe recipe = getRecipe();
 		
 		recipeBook.addRecipe(recipe);
-		//System.out.println(recipeBook);
 		return recipeBook;
 	}
 	
 	private Recipe getRecipe() {
-		Recipe recipeChickenSalad = new Recipe(1, "Chicken Salad");
+		Recipe recipeChickenSalad = new Recipe("Chicken Salad");
 		Food[] ingredients = {
 				new Food(1, "Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
 				new Food(2, "Chicken", 100, FoodGroup.MEATS, Unit.UNIT),

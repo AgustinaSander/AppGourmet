@@ -28,6 +28,12 @@ public class Recipe {
 	
 	public Recipe() {}
 	
+	public Recipe(String title) {
+		this.title = title;
+		this.foodQuantity = new ArrayList<>();
+		this.pointsForRanking = new HashMap<>();
+	}
+	
 	public Recipe(int id, String title) {
 		this.id = id;
 		this.title = title;
