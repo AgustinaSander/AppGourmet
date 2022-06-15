@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
