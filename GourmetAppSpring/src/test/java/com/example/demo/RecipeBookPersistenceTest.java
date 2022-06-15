@@ -44,35 +44,36 @@ class RecipeBookPersistenceTest {
 		for(Recipe recipe : recipes) {
 			saveRecipe(recipe);
 		}
-		
 		recipeBookRepository.save(recipeBook);
-		//WORKS System.out.println(recipeBookRepository.findAll());
 		int sizeListRecipeBook = ((Collection<RecipeBook>) recipeBookRepository.findAll()).size();
+		
 		assertNotEquals(sizeListRecipeBook, 0);
 	}
       
 	@Test
 	public void readRecipeBook() {
-		createRecipeBook();
-		int idSavedRecipeBook = ((List <RecipeBook>)recipeBookRepository.findAll()).get(0).getId();
+		addRecipeBook();
+		int idSavedRecipeBook = ((List<RecipeBook>) recipeBookRepository.findAll()).get(0).getId();
+		
 		assertTrue(recipeBookRepository.findById(idSavedRecipeBook).isPresent());
 	}
 	
 	@Test
 	public void updateRecipeBook() {
-		createRecipeBook();
-		int idSavedRecipeBook = ((List <RecipeBook>)recipeBookRepository.findAll()).get(0).getId();
-		System.out.println("UPDATE:");
+		addRecipeBook();
+		int idSavedRecipeBook = ((List <RecipeBook>) recipeBookRepository.findAll()).get(0).getId();
 		String newTitle = "New recipe book title";
 		RecipeBook recipeBook = recipeBookRepository.findById(idSavedRecipeBook).get();
+		
 		recipeBook.setTitle(newTitle);
 		recipeBookRepository.save(recipeBook);
+		
 		assertEquals(recipeBookRepository.findById(idSavedRecipeBook).get().getTitle(), newTitle);
 	}
 	
 	@Test
 	public void deleteRecipeBook() {
-		createRecipeBook();
+		addRecipeBook();
 		List<RecipeBook> listRecipeBook = (List<RecipeBook>) recipeBookRepository.findAll();
 		int idSavedRecipeBook = listRecipeBook.get(0).getId();
 		
@@ -81,16 +82,21 @@ class RecipeBookPersistenceTest {
 		assertTrue(listRecipeBook.size() > ((List<RecipeBook>) recipeBookRepository.findAll()).size());
 	}
 	
+	public void addRecipeBook() {
+		RecipeBook recipeBook = new RecipeBook("RecipeBook already added");
+		Recipe recipe = getRecipe2();
+		saveRecipe(recipe);
+		recipeBook.addRecipe(recipe);
+		recipeBookRepository.save(recipeBook);
+	}
+	
 	private void saveRecipe(Recipe recipe) {
 		List<FoodQuantity> foodQuantities = recipe.getFoodQuantity();
 		for(FoodQuantity foodQuantity : foodQuantities) {
 			foodRepository.save(foodQuantity.getFood());
 		}
-		// WORKS System.out.println(foodRepository.findAll());
 		foodQuantityRepository.saveAll(foodQuantities);
-		// WORKS System.out.println(foodQuantityRepository.findAll());
 		recipeRepository.save(recipe);
-		// WORKS System.out.println(recipeRepository.findAll());
 	}
 
 	private RecipeBook getRecipeBook() {
@@ -119,6 +125,26 @@ class RecipeBookPersistenceTest {
 		recipeChickenSalad.addIngredient(0.5, ingredients[4]);
 		recipeChickenSalad.addIngredient(6, ingredients[5]);
 		return recipeChickenSalad;
+	}
+	
+	private Recipe getRecipe2() {
+		Recipe recipeAppleCakeCeliacs = new Recipe("Apple cake for celiacs");
+		Food[] foodRecipe2 = {
+				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
+				new Food(3,"Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
+				new Food(4,"Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food(5,"Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
+				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
+		};
+		
+		recipeAppleCakeCeliacs.addIngredient(125,foodRecipe2[0]);
+		recipeAppleCakeCeliacs.addIngredient(115,foodRecipe2[1]);
+		recipeAppleCakeCeliacs.addIngredient(225,foodRecipe2[2]);
+		recipeAppleCakeCeliacs.addIngredient(3,foodRecipe2[3]);
+		recipeAppleCakeCeliacs.addIngredient(3,foodRecipe2[4]);
+		recipeAppleCakeCeliacs.addIngredient(1,foodRecipe2[5]);
+		return recipeAppleCakeCeliacs;
 	}
 	
 }
