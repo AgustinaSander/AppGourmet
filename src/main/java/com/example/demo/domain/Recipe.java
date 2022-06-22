@@ -48,7 +48,7 @@ public class Recipe {
 		this.pointsForRanking = new HashMap<>();
 	}
 	
-	public List<Food> getIngredients(){
+	private List<Food> getIngredients(){
 		List<Food> foodList = new ArrayList<>();
 		foodQuantity.stream().forEach(food -> foodList.add(food.getFood()));
 		return foodList;
