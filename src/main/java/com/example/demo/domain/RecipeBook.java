@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,14 +15,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import com.example.demo.domain.DTO.RecipeBookDTO;
+import com.example.demo.domain.DTO.RecipeDTO;
+
 @Entity
 public class RecipeBook{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="recipebook_id")
 	private int id;
 	private String title;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), inverseJoinColumns=@JoinColumn(name="author_id"))
+	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), 
+	inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	private List<Recipe> listRecipes;
 	@Transient
 	private List<Subscription> subscriptions;
@@ -105,6 +111,15 @@ public class RecipeBook{
 		if(getRankingSubscriptions().contains(subscription)) {
 			getRankingSubscriptions().remove(subscription);
 		}
+	}
+	
+	public RecipeBookDTO convertToRecipeBookDTO() {
+		RecipeBookDTO recipeBookDTO = new RecipeBookDTO(id, title);
+		List<RecipeDTO> recipesDTO = new ArrayList<>();
+		listRecipes.stream().forEach(recipe -> recipesDTO.add(recipe.convertToRecipeDTO()));
+		recipeBookDTO.setListRecipes(recipesDTO);
+		
+		return recipeBookDTO;
 	}
 	
 	public int getId() {

@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.example.demo.domain.DTO.FoodDTO;
+import com.example.demo.domain.DTO.FoodQuantityDTO;
 import com.example.demo.domain.enumerations.Unit;
 
 @Entity
@@ -46,6 +48,14 @@ public class FoodQuantity {
 	@Override
 	public String toString() {
 		return "FoodQuantity [id=" + id + ", quantity=" + quantity + ", food=" + food + "]";
+	}
+
+	public FoodQuantityDTO convertToFoodQuantityDTO() {
+		FoodQuantityDTO foodQuantityDTO = new FoodQuantityDTO(id, quantity);
+		FoodDTO foodDTO = food.convertToFoodDTO();
+		foodQuantityDTO.setFood(foodDTO);
+	
+		return foodQuantityDTO;
 	}
 	
 	

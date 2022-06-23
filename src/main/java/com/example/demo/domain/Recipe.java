@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,12 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.example.demo.domain.DTO.FoodQuantityDTO;
+import com.example.demo.domain.DTO.RecipeDTO;
 import com.example.demo.domain.enumerations.FoodGroup;
 
 @Entity
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="recipe_id")
 	private int id;
 	private String title;
 	@OneToMany(fetch = FetchType.EAGER)
@@ -131,6 +135,15 @@ public class Recipe {
 	public String toString() {
 		return "Recipe [id=" + id + ", title=" + title + ", foodQuantity=" + foodQuantity + ", pointsForRanking="
 				+ pointsForRanking + "]";
+	}
+
+	public RecipeDTO convertToRecipeDTO() {
+		RecipeDTO recipeDTO = new RecipeDTO(id, title);
+		List<FoodQuantityDTO> foodQuantitiesDTO = new ArrayList<>();
+		foodQuantity.stream().forEach(food -> foodQuantitiesDTO.add(food.convertToFoodQuantityDTO()));
+		recipeDTO.setFoodQuantity(foodQuantitiesDTO);
+	
+		return recipeDTO;
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.example.demo.domain.DTO.FoodDTO;
 import com.example.demo.domain.enumerations.FoodGroup;
 import com.example.demo.domain.enumerations.Unit;
 
@@ -68,6 +69,10 @@ public class Food {
 	public String toString() {
 		return "Food [id=" + id + ", name=" + name + ", calories=" + calories + ", foodGroup=" + foodGroup + ", unit="
 				+ unit + "]";
+	}
+
+	public FoodDTO convertToFoodDTO() {
+		return new FoodDTO(id, name, calories, foodGroup, unit);
 	}
 
 	
