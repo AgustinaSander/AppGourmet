@@ -25,7 +25,7 @@ public class RecipeBook{
 	@Column(name="recipebook_id")
 	private int id;
 	private String title;
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), 
 	inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	private List<Recipe> listRecipes;
