@@ -25,6 +25,13 @@ public class Food {
 	
 	public Food() {}
 	
+	public Food(String name, int calories, FoodGroup foodGroup, Unit unit) {
+		this.name = name;
+		this.calories = unit == Unit.CN ? 0 : calories;
+		this.foodGroup = foodGroup;
+		this.unit = unit;
+	}
+	
 	public Food(int id, String name, int calories, FoodGroup foodGroup, Unit unit) {
 		this.id = id;
 		this.name = name;

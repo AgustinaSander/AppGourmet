@@ -89,12 +89,12 @@ public class GourmetAppSpringApplication {
 		
 		Recipe recipeChickenSalad = new Recipe("Chicken Salad");
 		Food[] ingredientsChickenSalad = {
-				new Food(1, "Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
-				new Food(2, "Chicken", 100, FoodGroup.MEATS, Unit.UNIT),
-				new Food(3, "Rice", 6, FoodGroup.CEREALS, Unit.GRAM),
-				new Food(4, "Basil", 0, FoodGroup.VEGETABLES, Unit.CN),
-				new Food(5, "Fish", 340, FoodGroup.MEATS,  Unit.UNIT),
-				new Food(6, "Salt", 2000, FoodGroup.OTHER, Unit.CN)
+				new Food("Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Chicken", 100, FoodGroup.MEATS, Unit.UNIT),
+				new Food("Rice", 6, FoodGroup.CEREALS, Unit.GRAM),
+				new Food("Basil", 0, FoodGroup.VEGETABLES, Unit.CN),
+				new Food("Fish", 340, FoodGroup.MEATS,  Unit.UNIT),
+				new Food("Salt", 2000, FoodGroup.OTHER, Unit.CN)
 		};
 		
 		recipeChickenSalad.addIngredient(3, ingredientsChickenSalad[0]);
@@ -107,12 +107,12 @@ public class GourmetAppSpringApplication {
 		
 		Recipe recipeAppleCakeCeliacs = new Recipe("Apple cake for celiacs");
 		Food[] ingredientsAppleCakeCeliacs = {
-				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
-				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
-				new Food(3,"Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
-				new Food(4,"Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
-				new Food(5,"Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
-				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
+				new Food("Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food("Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
+				new Food("Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
+				new Food("Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food("Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
 		};
 		
 		recipeAppleCakeCeliacs.addIngredient(125,ingredientsAppleCakeCeliacs[0]);
@@ -125,11 +125,11 @@ public class GourmetAppSpringApplication {
 		
 		Recipe recipePasta = new Recipe("Pasta with tomatoe sauce");
 		Food[] ingredientsPasta = {
-				new Food(1, "Noodles", 2, FoodGroup.CEREALS, Unit.GRAM),
-				new Food(2,"Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
-				new Food(3,"Pepper", 43, FoodGroup.VEGETABLES, Unit.UNIT),
-				new Food(4,"Condiment", 24, FoodGroup.VEGETABLES, Unit.CN),
-				new Food(5,"Salt",14,FoodGroup.OTHER, Unit.CN)
+				new Food("Noodles", 2, FoodGroup.CEREALS, Unit.GRAM),
+				new Food("Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Pepper", 43, FoodGroup.VEGETABLES, Unit.UNIT),
+				new Food("Condiment", 24, FoodGroup.VEGETABLES, Unit.CN),
+				new Food("Salt",14,FoodGroup.OTHER, Unit.CN)
 		};
 		
 		recipePasta.addIngredient(350,ingredientsPasta[0]);
