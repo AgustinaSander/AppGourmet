@@ -41,7 +41,7 @@ public class FoodDTO {
 	}
 	
 	public void setCalories(int calories) {
-		this.calories = this.unit == Unit.CN ? 0 : calories;
+		this.calories = calories;
 	}
 	
 	public FoodGroup getFoodGroup() {
