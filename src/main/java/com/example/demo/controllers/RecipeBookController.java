@@ -2,8 +2,11 @@ package com.example.demo.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.DTO.RecipeBookDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
+import com.example.demo.exceptions.RecipeBookNotFoundException;
 import com.example.demo.repositories.RecipeBookRepository;
 
 @RestController
@@ -22,34 +26,50 @@ public class RecipeBookController {
 	}
 	
 	@GetMapping("/recipebooks")
-   	List<RecipeBookDTO> all() {
-		List<RecipeBookDTO> recipeBookDTO = new ArrayList<>();
-        ((List<RecipeBook>) recipeBookRepository.findAll()).stream()
-         										.forEach(recipeBook -> recipeBookDTO.add(recipeBook.convertToRecipeBookDTO()));
-        return recipeBookDTO;
+	CollectionModel<EntityModel<RecipeBookDTO>> all() throws Exception {
+		List<EntityModel<RecipeBookDTO>> recipeBookDTO = new ArrayList<>();
+		List<RecipeBook> recipeBooks = (List<RecipeBook>) recipeBookRepository.findAll();
+		if(recipeBooks.size()==0) {
+	       throw new RecipeBookNotFoundException();
+		}
+		recipeBooks.stream().forEach(recipeBook -> recipeBookDTO.add(toModel(recipeBook.convertToRecipeBookDTO())));
+		
+		return CollectionModel.of(recipeBookDTO, linkTo(methodOn(RecipeBookController.class).all()).withSelfRel());
    	}
 	
 	
 	@GetMapping("/recipebooks/{id}")
-	RecipeBookDTO one(@PathVariable int id) {
+	EntityModel<RecipeBookDTO> one(@PathVariable int id) throws Exception {
 		RecipeBookDTO recipeBookDTO = new RecipeBookDTO();
-		Optional<RecipeBook> recipeBook = recipeBookRepository.findById(id);
-		if(recipeBook.isPresent()) {
-			recipeBookDTO = recipeBook.get().convertToRecipeBookDTO();
-		}
-		return recipeBookDTO;
+		RecipeBook recipeBook = recipeBookRepository.findById(id)
+				.orElseThrow(() -> new RecipeBookNotFoundException(id));
+		
+		recipeBookDTO = recipeBook.convertToRecipeBookDTO();
+		
+		return toModel(recipeBookDTO);
 	}
 	
 	@GetMapping("/recipebooks/{id}/recipes")
-	List<RecipeDTO> recipesInRecipeBook(@PathVariable int id){
+	CollectionModel<RecipeDTO> recipesInRecipeBook(@PathVariable int id) throws Exception{
 		List<RecipeDTO> recipesDTO = new ArrayList<>();
-		Optional<RecipeBook> recipeBook = recipeBookRepository.findById(id);
-		if(recipeBook.isPresent()) {
-			recipeBook.get().getListRecipes().stream()
-							.forEach(recipe -> recipesDTO.add(recipe.convertToRecipeDTO()));
-		}
+		RecipeBook recipeBook = recipeBookRepository.findById(id)
+				.orElseThrow(() -> new RecipeBookNotFoundException(id));
 		
-		return recipesDTO;
+		recipeBook.getListRecipes().stream().forEach(recipe -> recipesDTO.add(recipe.convertToRecipeDTO()));
+		return CollectionModel.of(recipesDTO, 
+				linkTo(methodOn(RecipeBookController.class).recipesInRecipeBook(id)).withSelfRel(),
+				linkTo(methodOn(RecipeBookController.class).one(id)).withRel("recipebook"),
+				linkTo(methodOn(RecipeBookController.class).all()).withRel("recipebooks"));
 	}
-
+	
+	 public EntityModel<RecipeBookDTO> toModel(RecipeBookDTO recipeBook) {
+	    try {
+			return EntityModel.of(recipeBook, 
+			    linkTo(methodOn(RecipeBookController.class).one(recipeBook.getId())).withSelfRel(),
+			    linkTo(methodOn(RecipeBookController.class).all()).withRel("recipebooks"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    return null;
+	 }
 }

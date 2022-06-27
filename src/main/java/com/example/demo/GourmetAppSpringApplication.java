@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,14 @@ public class GourmetAppSpringApplication {
 	class DataSetup implements ApplicationRunner{
 		@Override
 		public void run(ApplicationArguments args) throws Exception{
-			RecipeBook recipeBook = getRecipeBook();
-			List<Recipe> recipes = recipeBook.getListRecipes();
-			
-			for(Recipe recipe : recipes) {
-				saveRecipe(recipe);
-			}
-			recipeBookRepository.save(recipeBook);
+			List<RecipeBook> recipeBooks = getRecipeBooks();
+			recipeBooks.stream().forEach(recipeBook -> {
+				List<Recipe> recipes = recipeBook.getListRecipes();
+				for(Recipe recipe : recipes) {
+					saveRecipe(recipe);
+				}
+				recipeBookRepository.save(recipeBook);
+			});
 		}
 	}
 	
@@ -64,17 +66,29 @@ public class GourmetAppSpringApplication {
 		recipeRepository.save(recipe);
 	}
 	
-	private RecipeBook getRecipeBook() {
-		RecipeBook recipeBook = new RecipeBook("RecipeBook API");
-		Recipe recipe = getRecipe();
+	private List<RecipeBook> getRecipeBooks() {
+		List<RecipeBook> recipeBooks = new ArrayList<>();
+		RecipeBook recipeBook1 = new RecipeBook("Recipes 2022");
+		RecipeBook recipeBook2 = new RecipeBook("Best dessert recipes");
+		List<Recipe> recipes = getRecipes();
 		
-		recipeBook.addRecipe(recipe);
-		return recipeBook;
+		recipes.stream().forEach(recipe -> {
+			recipeBook1.addRecipe(recipe);
+		});
+		recipes.remove(0);
+		recipes.stream().forEach(recipe -> {
+			recipeBook2.addRecipe(recipe);
+		});
+		recipeBooks.add(recipeBook1);
+		recipeBooks.add(recipeBook2);
+		return recipeBooks;
 	}
 	
-	private Recipe getRecipe() {
-		Recipe recipeChickenSalad = new Recipe("Chicken Salad API");
-		Food[] ingredients = {
+	private List<Recipe> getRecipes() {
+		List<Recipe> recipes = new ArrayList<>();
+		
+		Recipe recipeChickenSalad = new Recipe("Chicken Salad");
+		Food[] ingredientsChickenSalad = {
 				new Food(1, "Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
 				new Food(2, "Chicken", 100, FoodGroup.MEATS, Unit.UNIT),
 				new Food(3, "Rice", 6, FoodGroup.CEREALS, Unit.GRAM),
@@ -83,12 +97,48 @@ public class GourmetAppSpringApplication {
 				new Food(6, "Salt", 2000, FoodGroup.OTHER, Unit.CN)
 		};
 		
-		recipeChickenSalad.addIngredient(3, ingredients[0]);
-		recipeChickenSalad.addIngredient(1, ingredients[1]);
-		recipeChickenSalad.addIngredient(200, ingredients[2]);
-		recipeChickenSalad.addIngredient(1, ingredients[3]);
-		recipeChickenSalad.addIngredient(0.5, ingredients[4]);
-		recipeChickenSalad.addIngredient(6, ingredients[5]);
-		return recipeChickenSalad;
+		recipeChickenSalad.addIngredient(3, ingredientsChickenSalad[0]);
+		recipeChickenSalad.addIngredient(1, ingredientsChickenSalad[1]);
+		recipeChickenSalad.addIngredient(200, ingredientsChickenSalad[2]);
+		recipeChickenSalad.addIngredient(1, ingredientsChickenSalad[3]);
+		recipeChickenSalad.addIngredient(0.5, ingredientsChickenSalad[4]);
+		recipeChickenSalad.addIngredient(6, ingredientsChickenSalad[5]);
+		recipes.add(recipeChickenSalad);
+		
+		Recipe recipeAppleCakeCeliacs = new Recipe("Apple cake for celiacs");
+		Food[] ingredientsAppleCakeCeliacs = {
+				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
+				new Food(3,"Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
+				new Food(4,"Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food(5,"Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
+				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
+		};
+		
+		recipeAppleCakeCeliacs.addIngredient(125,ingredientsAppleCakeCeliacs[0]);
+		recipeAppleCakeCeliacs.addIngredient(115,ingredientsAppleCakeCeliacs[1]);
+		recipeAppleCakeCeliacs.addIngredient(225,ingredientsAppleCakeCeliacs[2]);
+		recipeAppleCakeCeliacs.addIngredient(3,ingredientsAppleCakeCeliacs[3]);
+		recipeAppleCakeCeliacs.addIngredient(3,ingredientsAppleCakeCeliacs[4]);
+		recipeAppleCakeCeliacs.addIngredient(1,ingredientsAppleCakeCeliacs[5]);
+		recipes.add(recipeAppleCakeCeliacs);
+		
+		Recipe recipePasta = new Recipe("Pasta with tomatoe sauce");
+		Food[] ingredientsPasta = {
+				new Food(1, "Noodles", 2, FoodGroup.CEREALS, Unit.GRAM),
+				new Food(2,"Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
+				new Food(3,"Pepper", 43, FoodGroup.VEGETABLES, Unit.UNIT),
+				new Food(4,"Condiment", 24, FoodGroup.VEGETABLES, Unit.CN),
+				new Food(5,"Salt",14,FoodGroup.OTHER, Unit.CN)
+		};
+		
+		recipePasta.addIngredient(350,ingredientsPasta[0]);
+		recipePasta.addIngredient(2,ingredientsPasta[1]);
+		recipePasta.addIngredient(0.5,ingredientsPasta[2]);
+		recipePasta.addIngredient(1,ingredientsPasta[3]);
+		recipePasta.addIngredient(1, ingredientsPasta[4]);
+		recipes.add(recipePasta);
+		
+		return recipes;
 	}
 }
