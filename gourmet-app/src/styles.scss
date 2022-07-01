@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+$main-color: #cf3e1a;
+$dark-red: rgb(166, 46, 17);
+
+*{
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+nav{
+    background-color: $main-color;
+}
+
+.navbar-brand{
+    padding: 0;
+    color: #fff;
+    margin-left: 20px;
+    align-items: center;
+    display: flex;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 30px;
+    img{
+        margin-right: 20px;
+    }
+    &:hover{
+        color: #fff;
+    }
+}
+
+.search-container{
+    background-color: $main-color;
+    margin: 0px 50px;
+    border-radius: 10px;
+    padding: 50px;
+    color: #fff;
+}
+
+.btn-danger{
+    background-color: $main-color;
+    outline: 3px solid #fff;
+    &:hover{
+        background-color: $dark-red;
+    }
+}
+
+footer{
+    color: #fff;
+    text-align: center;
+    line-height: 25px;
+    padding: 5px 0px;
+    background-color: $main-color;
+    margin-top: 50px;
+    height: 60px;
+}
+

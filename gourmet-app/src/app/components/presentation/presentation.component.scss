@@ -1,0 +1,55 @@
+@import "../../../styles.scss";
+
+.btn-outline-danger{
+    color: $main-color;
+}
+
+.carousel-inner{
+    margin-top: 80px;
+    height: 70vh;
+    .carousel-item img{
+        width: 100%;
+        object-fit: cover;
+        object-position: center top;
+        filter: brightness(0.5);
+    }
+}
+
+.search-container form{
+    
+    input{
+        margin: 0px 20px;
+    }
+}
+
+#carousel-text-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    margin: 0px 200px;
+}
+
+#carousel-text{
+    color: #fff;
+    text-shadow:  #170101 3px 3px 3px;
+    letter-spacing: 2px;
+    h4{
+        font-size: 40px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        width:100%;
+       
+    }
+    p{
+        font-size: 22px;
+        font-weight: 400;
+    }
+}

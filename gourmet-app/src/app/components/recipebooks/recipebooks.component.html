@@ -1,0 +1,19 @@
+<div class="recipebook-result">
+    <p class="title h4">Recetarios disponibles</p>
+    <div class="recipebook-container">
+        <div class="recipebook" *ngFor="let recipebook of recipebooks; let i = index">
+            <div class="recipebook-img">
+                <div class="see-recipe">
+                    <i class="fas fa-regular fa-eye"></i>
+                </div>
+                <img src="../../../assets/img/recipebook1.jpg" alt="">
+            </div>
+            <div class="recipebook-info">
+                <p>Titulo: <i>{{recipebook.title}}</i>
+                <br>
+                   Recetas: <span class="badge badge-pill badge-danger">{{recipebook.getNumberOfRecipes()}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
