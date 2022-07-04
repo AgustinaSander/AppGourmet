@@ -1,6 +1,10 @@
+<app-presentation></app-presentation>
+
 <h3 class="text-center my-4">Explora las recetas!</h3>
   
 <div class="search-container">
     <p class="h4 d-inline-block">Buscar recetas</p>
-    <a class="btn btn-danger" routerLink="/recipebooks" (click)="clicked()">Mostrar recetarios</a>
+    <a class="btn btn-danger" routerLink="/recipebooks" (click)="changeRecipeBooks()">Mostrar recetarios</a>
 </div>
+
+<app-recipebooks *ngIf="showRecipeBooks"></app-recipebooks>

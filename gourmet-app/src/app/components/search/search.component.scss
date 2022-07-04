@@ -1,3 +1,13 @@
+@import '../../../styles.scss';
+
 a{
     margin-left: 50px;
+}
+
+.search-container{
+    background-color: $main-color;
+    margin: 0px 50px;
+    border-radius: 10px;
+    padding: 50px;
+    color: #fff;
 }

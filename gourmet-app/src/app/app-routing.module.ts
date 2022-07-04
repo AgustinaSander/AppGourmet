@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecipebooksComponent } from './components/recipebooks/recipebooks.component';
+import { PageNotFoundComponent } from './components/pageNotFound/pagenotfound.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
-  {path: 'recipebooks', component: RecipebooksComponent}
+  {path: '', component: SearchComponent, data:{show:false}},
+  {path: 'recipebooks', component: SearchComponent, data:{show:true}},
+  {path: 'recipebooks/:id', component: RecipesComponent},
+  { path: '**', component: PageNotFoundComponent }
+
 ];
 
 @NgModule({

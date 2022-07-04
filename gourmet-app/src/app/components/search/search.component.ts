@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { first } from 'rxjs';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-search',
@@ -7,17 +8,32 @@ import { first } from 'rxjs';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @Output() showRecipeBooksEmitter = new EventEmitter<boolean>();;
-  private showRecipeBooks = false;
+  public showRecipeBooks:boolean = false;
 
-  constructor() { }
+  changeRecipeBooks(){
+    this.showRecipeBooks ? this.hide() : this.show();
+  }
+
+  show(){
+    this.showRecipeBooks = true;
+    $(".search-container a").html("Ocultar recetarios");
+    this.router.navigate(['/recipebooks']);
+  }
+
+  hide(){
+    this.showRecipeBooks = false;
+    $(".search-container a").html("Mostrar recetarios");
+    this.router.navigate(['/']);
+  }
+
+  constructor(private router: Router, private activatedroute:ActivatedRoute) {
+
+  }
 
   ngOnInit(): void {
-  }
-
-  public clicked(){
-    this.showRecipeBooks = !this.showRecipeBooks;
-    this.showRecipeBooksEmitter.emit(this.showRecipeBooks);
-    this.showRecipeBooks ? $(".search-container a").html("Ocultar recetarios") : $(".search-container a").html("Mostrar recetarios");
+    this.activatedroute.data.subscribe(data => {
+      data['show'] ? this.show() : this.hide();
+    })
   }
 }
+

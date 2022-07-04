@@ -1,0 +1,32 @@
+@import '../styles.scss';
+
+nav{
+    background-color: $main-color;
+}
+
+.navbar-brand{
+    padding: 0;
+    color: #fff;
+    margin-left: 20px;
+    align-items: center;
+    display: flex;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 30px;
+    img{
+        margin-right: 20px;
+    }
+    &:hover{
+        color: #fff;
+    }
+}
+
+footer{
+    color: #fff;
+    text-align: center;
+    line-height: 25px;
+    padding: 5px 0px;
+    background-color: $main-color;
+    margin-top: 50px;
+    height: 60px;
+}
