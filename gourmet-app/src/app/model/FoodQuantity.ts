@@ -1,8 +1,11 @@
 import { Food } from "./Food";
 
 export class FoodQuantity{
-    id!:number;
+    quantity!: number;
     food!:Food;
 
-    constructor(){}
+    constructor(quantity:number, food:Food){
+        this.quantity=quantity;
+        this.food=food;
+    }
 }

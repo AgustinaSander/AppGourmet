@@ -5,5 +5,9 @@ export class Recipe{
     title!:string;
     foodQuantities!:FoodQuantity[];
 
-    constructor(){}
+    constructor(id:number, title:string, foodQuantities:FoodQuantity[]){
+        this.id = id;
+        this.title = title;
+        this.foodQuantities = foodQuantities;
+    }
 }

@@ -1,1 +1,44 @@
-<br><br><br><br><br><p>recipes works! {{id}}</p>
+<div class="recipe-result">
+    <div *ngIf="recipes.length > 0">
+      <p class="title h4 mb-5">Recetarios disponibles</p>
+      <div class="recipes-container">
+        <div class="card" *ngFor="let recipe of recipes; let i = index;">
+          <div class="card-header">
+            <img src="../../../assets/img/food1.jpeg" alt="">
+            <h2>
+              <button class="btn btn-link">
+                {{recipe.title}}
+              </button>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="recipes.length == 0">
+        <p class="title h4">No hay recetas disponibles</p>
+        <div class="add-recipe-container">
+            <p>Agregar una receta</p>
+            <div>
+                <i class="fas fa-solid fa-plus"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="recipe-detail" *ngIf="showRecipeDetail">
+  <hr>
+  <p class="title h4">Nombre de la receta</p>
+  <div class="info-container">
+    <div class="ingredients-container">
+      <p><b>Ingredientes</b></p>
+      <p *ngFor="let foodQuantity of recipes[0].foodQuantities; let i = index;">{{i+1}} - <i>{{foodQuantity.quantity}} {{foodQuantity.food.unit}} </i> {{foodQuantity.food.name}}</p>
+    </div>
+    <div class="steps-container">
+      <p><b>Pasos a seguir</b></p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur officia adipisci dolores quisquam est tempore nostrum, autem harum reprehenderit, placeat aspernatur unde accusantium illum alias eveniet explicabo voluptate esse suscipit. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi, ut. Eum, iusto commodi quo natus sint quibusdam, magni voluptatibus molestias eligendi nemo illo corporis rerum. At error odit natus omnis
+    </div>
+  </div>
+  
+
+</div>
+
