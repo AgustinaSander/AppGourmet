@@ -12,4 +12,9 @@ export class Food{
         this.foodgroup=foodgroup;
         this.unit=unit;
     }
+
+    toString():string{
+        return "Food [id=" + this.id + ", name=" + this.name + ", calories=" + this.calories + ", foodGroup=" + this.foodgroup + ", unit="
+				+ this.unit + "]";
+    }
 }

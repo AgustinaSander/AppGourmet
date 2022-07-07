@@ -2,7 +2,7 @@
     <ng-container *ngIf="recipebooks.length > 0">
         <p class="title h4">Recetarios disponibles</p>
         <div class="recipebook-container">
-            <div class="recipebook" *ngFor="let recipebook of recipebooks; let i = index" (click)="showRecipeBook(i+1)">
+            <div class="recipebook" *ngFor="let recipebook of recipebooks" (click)="showRecipeBook(recipebook.id)">
                 <div class="recipebook-img">
                     <div class="see-recipe">
                         <i class="fas fa-regular fa-eye"></i>

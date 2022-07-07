@@ -2,11 +2,11 @@
     <ng-container *ngIf="recipes.length > 0">
       <p class="title h4 mb-5">Recetarios disponibles</p>
       <div class="recipes-container">
-        <div class="card" *ngFor="let recipe of recipes; let i = index;">
+        <div class="card" *ngFor="let recipe of recipes;">
           <div class="card-header">
             <img src="../../../assets/img/food1.jpeg" alt="">
             <h2>
-              <button class="btn btn-link" (click)="showRecipeDetail(i)">
+              <button class="btn btn-link" (click)="showRecipeDetail(recipe.id)">
                 {{recipe.title}}
               </button>
             </h2>
@@ -25,7 +25,7 @@
     </ng-container>
 </div>
 
-<app-recipe-detail *ngIf="showDetail" [recipe]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
+<app-recipe-detail *ngIf="showDetail" [recipeItem]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
 
 
 

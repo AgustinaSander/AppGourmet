@@ -8,7 +8,7 @@ import { Recipe } from 'src/app/model/Recipe';
 })
 export class RecipeDetailComponent implements OnInit {
 
-  @Input() recipe!: Recipe;
+  @Input() recipeItem!: Recipe;
   @Output() closeRecipeDetail = new EventEmitter();
 
   constructor() { }
