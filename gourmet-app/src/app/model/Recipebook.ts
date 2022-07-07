@@ -5,13 +5,17 @@ export class RecipeBook{
     title:string;
     recipes:Recipe[];
 
-    constructor(id:number, title:string, recipes:Recipe[]){
+    constructor(id:number, title:string, recipes?:Recipe[]){
         this.id = id;
         this.title = title;
-        this.recipes = recipes;
+        this.recipes = recipes ? recipes : [];
     }
     
-    public getNumberOfRecipes():number{
+    setRecipes(recipes:Recipe[]){
+        this.recipes = recipes;
+    }
+
+    getNumberOfRecipes():number{
         return this.recipes == undefined ? 0 : this.recipes.length;
     }
 }

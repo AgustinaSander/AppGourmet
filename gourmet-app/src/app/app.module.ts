@@ -9,6 +9,7 @@ import { SearchComponent } from './components/search/search.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { PageNotFoundComponent } from './components/pageNotFound/pagenotfound.component';
 import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

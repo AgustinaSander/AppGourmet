@@ -7,6 +7,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.example.demo.exceptions.RecipeBookNotFoundException;
 import com.example.demo.repositories.RecipeBookRepository;
 
 @RestController
+@CrossOrigin
 public class RecipeBookController {
 	private final RecipeBookRepository recipeBookRepository;
 	
