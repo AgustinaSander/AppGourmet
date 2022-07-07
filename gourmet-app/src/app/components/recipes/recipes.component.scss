@@ -110,23 +110,3 @@ $dark-red: rgb(166, 46, 17);
         }
     }
 }
-
-hr{
-    margin: 50px;
-    color:$dark-red;
-}
-
-.recipe-detail{
-    width: 60%;
-    margin: auto;
-}
-
-.info-container{
-    display: flex;
-    margin-top: 30px;
-}
-
-.ingredients-container{
-    flex-shrink: 0;
-    margin-right: 100px;
-}

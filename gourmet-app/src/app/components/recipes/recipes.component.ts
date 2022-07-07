@@ -12,7 +12,8 @@ import { Recipe } from 'src/app/model/Recipe';
 export class RecipesComponent implements OnInit {
   idRecipeBook:number = 0;
   recipes: Recipe[] = [];
-  showRecipeDetail: boolean = true;
+  showDetail: boolean = false;
+  recipeSelected !: Recipe;
 
   constructor(private router:Router, private activatedroute: ActivatedRoute) {
     this.idRecipeBook = Number(this.activatedroute.snapshot.paramMap.get('id'));
@@ -32,4 +33,14 @@ export class RecipesComponent implements OnInit {
     if(Number.isNaN(this.idRecipeBook)) this.router.navigate(['/error']);
   }
 
+  public showRecipeDetail(id:number){
+    this.showDetail=true;
+    let recipeAux = this.recipes.find(recipe => recipe.id == id);
+    if(recipeAux != undefined)
+      this.recipeSelected = recipeAux;
+  }
+
+  public closeRecipeDetail(){
+    this.showDetail = false;
+  }
 }

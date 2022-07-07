@@ -1,5 +1,5 @@
 <div class="recipebook-result">
-    <div *ngIf="recipebooks.length > 0">
+    <ng-container *ngIf="recipebooks.length > 0">
         <p class="title h4">Recetarios disponibles</p>
         <div class="recipebook-container">
             <div class="recipebook" *ngFor="let recipebook of recipebooks; let i = index" (click)="showRecipeBook(i+1)">
@@ -17,8 +17,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="recipebooks.length == 0">
+    </ng-container>
+    <ng-container *ngIf="recipebooks.length == 0">
         <p class="title h4">No hay recetarios disponibles</p>
         <div class="add-recipebook-container">
             <p>Agregar un recetario</p>
@@ -26,5 +26,5 @@
                 <i class="fas fa-solid fa-plus"></i>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>

@@ -1,0 +1,47 @@
+$main-color: #cf3e1a;
+$dark-red: rgb(166, 46, 17);
+
+hr{
+    margin: 50px 0px;
+}
+
+.title{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.recipe-detail{
+    width: 60%;
+    margin: auto;
+}
+
+.info-container{
+    background: url("../../../assets/img/recipebg.png");
+    background-size: cover;
+    padding: 50px 50px 50px 100px; 
+}
+
+.info-header{
+    display: flex;
+    justify-content: space-between;
+    i{
+        font-size: 20px;
+        color: $main-color;
+        &:hover{
+            color: $dark-red;
+            cursor: pointer;
+        }
+    }
+}
+
+.info{
+    display: flex;
+}
+
+.ingredients-container{
+    flex-shrink: 0;
+    margin-right: 100px;
+    ul{
+        padding: 0;
+    }
+}

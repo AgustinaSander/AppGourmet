@@ -1,0 +1,21 @@
+<div class="recipe-detail">
+    <hr>
+    <div class="info-container">
+        <div class="info-header">
+            <p class="title h4">{{recipe.id}} Nombre de la receta</p>
+            <i class="fas fa-times-circle" (click)="closeDetail()"></i>
+        </div>
+        <div class="info">
+            <div class="ingredients-container">
+                <p><b>Ingredientes</b></p>
+                <ul>
+                    <li *ngFor="let foodQuantity of recipe.foodQuantities"><i>{{foodQuantity.quantity}} {{foodQuantity.food.unit}}</i> - {{foodQuantity.food.name}}</li>
+                </ul>
+            </div>
+            <div class="steps-container">
+                <p><b>Pasos a seguir</b></p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur officia adipisci dolores quisquam est tempore nostrum, autem harum reprehenderit, placeat aspernatur unde accusantium illum alias eveniet explicabo voluptate esse suscipit. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi, ut. Eum, iusto commodi quo natus sint quibusdam, magni voluptatibus molestias eligendi nemo illo corporis rerum. At error odit natus omnis
+            </div>
+        </div>
+    </div>
+</div>
