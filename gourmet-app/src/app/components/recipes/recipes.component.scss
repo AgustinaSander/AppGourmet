@@ -3,7 +3,8 @@ $main-color: #cf3e1a;
 $dark-red: rgb(166, 46, 17);
 
 .recipe-result{
-    margin: 150px 50px 0px 50px;
+    margin: 0px 50px 0px 50px;
+    padding-top: 150px;
 }
 
 .title{
@@ -14,49 +15,6 @@ $dark-red: rgb(166, 46, 17);
     display: flex;
     flex-wrap: wrap;
     justify-content:space-evenly;
-}
-
-.recipe{
-    background-color: rgb(235, 235, 235);
-    margin: 20px;
-    .see-recipe{
-        z-index: 2;
-        display: none;
-        position: absolute;
-        width: $width-recipe;
-        height: 145px;
-        line-height: 145px;
-        text-align: center;
-
-        i{
-            font-size: 20px;
-            color: #fff;
-        }
-    }
-    &:hover{
-        transform: scale(1.05);
-        cursor: pointer;
-        img{
-            filter: brightness(0.7) blur(0.5px);
-        }
-        .see-recipe{
-            display: block;
-        }
-        
-    }
-}
-
-.recipe-img{
-    img{
-        width: $width-recipe;
-        height: 145px;
-        border-bottom: 3px solid rgb(49, 26, 26);
-    }
-}
-
-.recipe-info{
-    padding: 0px 10px;
-    padding-top: 10px;
 }
 
 .add-recipe-container{
@@ -110,3 +68,4 @@ $dark-red: rgb(166, 46, 17);
         }
     }
 }
+

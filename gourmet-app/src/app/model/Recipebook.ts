@@ -5,9 +5,9 @@ export class RecipeBook{
     title:string;
     recipes:Recipe[];
 
-    constructor(id:number, title:string, recipes?:Recipe[]){
-        this.id = id;
-        this.title = title;
+    constructor(id?:number, title?:string, recipes?:Recipe[]){
+        this.id = id ? id : 0;
+        this.title = title ? title: '';
         this.recipes = recipes ? recipes : [];
     }
     

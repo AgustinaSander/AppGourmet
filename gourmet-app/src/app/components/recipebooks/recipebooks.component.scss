@@ -3,7 +3,7 @@ $dark-red: rgb(166, 46, 17);
 $width-recipe: 250px;
 
 .recipebook-result{
-    margin: 50px 50px 0px 50px;
+    margin: 50px;
 }
 
 .title{
@@ -20,6 +20,7 @@ $width-recipe: 250px;
 .recipebook{
     background-color: rgb(235, 235, 235);
     margin: 20px;
+    width: $width-recipe;
     .see-recipe{
         z-index: 2;
         display: none;
@@ -48,12 +49,14 @@ $width-recipe: 250px;
 }
 
 .recipebook-img{
+   
     img{
         width: $width-recipe;
         height: 145px;
         border-bottom: 3px solid rgb(49, 26, 26);
     }
 }
+
 
 .recipebook-info{
     padding: 0px 10px;

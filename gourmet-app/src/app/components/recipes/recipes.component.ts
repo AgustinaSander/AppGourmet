@@ -24,14 +24,9 @@ export class RecipesComponent implements OnInit {
     this.idRecipeBook = Number(this.activatedroute.snapshot.paramMap.get('id'));
     if(Number.isNaN(this.idRecipeBook)) this.router.navigate(['/error']);
 
-    /* Veo si existe el recipebook */
-    this.recipeBooksService.existsRecipeBook(this.idRecipeBook);
-   /*  if(this.recipeBooksService.existsRecipeBook(this.idRecipeBook)){
-      this.recipes = this.recipeBooksService.getRecipesFromBook(this.idRecipeBook);
-    }
-    else{
-      console.log("NO EXISTE")
-    } */
+    this.recipeBooksService.getRecipeBook(this.idRecipeBook);
+
+    this.recipes = this.recipeBooksService.getRecipesFromBook(this.idRecipeBook);
     
   }
 

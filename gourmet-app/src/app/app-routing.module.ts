@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: '', component: SearchComponent, data:{show:false}},
   {path: 'recipebooks', component: SearchComponent, data:{show:true}},
   {path: 'recipebooks/:id', component: RecipesComponent},
+  {path: 'recipebooks/:id/recipes', redirectTo:'recipebooks/:id'},
   {path: 'error', component:PageNotFoundComponent},
   {path: '**', redirectTo:'/error'}
 

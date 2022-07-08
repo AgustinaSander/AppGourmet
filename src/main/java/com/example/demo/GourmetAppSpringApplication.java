@@ -70,6 +70,10 @@ public class GourmetAppSpringApplication {
 		List<RecipeBook> recipeBooks = new ArrayList<>();
 		RecipeBook recipeBook1 = new RecipeBook("Recipes 2022");
 		RecipeBook recipeBook2 = new RecipeBook("Best dessert recipes");
+		RecipeBook recipeBook3 = new RecipeBook("Mejores recetas de Julio");
+		RecipeBook recipeBook4 = new RecipeBook("Recetas Agosto 2022");
+		RecipeBook recipeBook5 = new RecipeBook("Nuevas tendencias de cocina");
+		
 		List<Recipe> recipes = getRecipes();
 		
 		recipes.stream().forEach(recipe -> {
@@ -79,9 +83,17 @@ public class GourmetAppSpringApplication {
 		recipes.stream().forEach(recipe -> {
 			recipeBook2.addRecipe(recipe);
 		});
+		
+		recipeBook3.addRecipe(recipes.get(2));
+		
 		recipeBooks.add(recipeBook1);
 		recipeBooks.add(recipeBook2);
+		recipeBooks.add(recipeBook3);
+		recipeBooks.add(recipeBook4);
+		recipeBooks.add(recipeBook5);
 		return recipeBooks;
+		
+		
 	}
 	
 	private List<Recipe> getRecipes() {
@@ -138,6 +150,30 @@ public class GourmetAppSpringApplication {
 		recipePasta.addIngredient(1,ingredientsPasta[3]);
 		recipePasta.addIngredient(1, ingredientsPasta[4]);
 		recipes.add(recipePasta);
+		
+		Recipe recipeCheesecake = new Recipe("Cheesecake");
+		Food[] ingredientsCheesecake = {
+				new Food("Galletas molidas", 22, FoodGroup.CEREALS, Unit.GRAM),
+				new Food("Azucar rubia", 102, FoodGroup.OTHER, Unit.CUP),
+				new Food("Mantequilla", 43, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food("Queso crema", 24, FoodGroup.VEGETABLES, Unit.UNIT),
+				new Food("Leche",14,FoodGroup.OTHER, Unit.CUP),
+				new Food("Huevo", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food("Ralladura de limon", 4, FoodGroup.FRUITS, Unit.CN),
+				new Food("Harina", 24, FoodGroup.CEREALS, Unit.CUP),
+				new Food("Frutos rojos", 24, FoodGroup.FRUITS, Unit.CN),
+		};
+		
+		recipeCheesecake.addIngredient(200,ingredientsCheesecake[0]);
+		recipeCheesecake.addIngredient(0.25,ingredientsCheesecake[1]);
+		recipeCheesecake.addIngredient(120,ingredientsCheesecake[2]);
+		recipeCheesecake.addIngredient(4,ingredientsCheesecake[3]);
+		recipeCheesecake.addIngredient(0.75, ingredientsCheesecake[4]);
+		recipeCheesecake.addIngredient(4, ingredientsCheesecake[5]);
+		recipeCheesecake.addIngredient(0, ingredientsCheesecake[6]);
+		recipeCheesecake.addIngredient(0.25, ingredientsCheesecake[7]);
+		recipeCheesecake.addIngredient(0, ingredientsCheesecake[8]);
+		recipes.add(recipeCheesecake);
 		
 		return recipes;
 	}
