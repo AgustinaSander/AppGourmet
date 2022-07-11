@@ -50,7 +50,7 @@ public class RecipeBookDTO{
 	public void setListRecipes(List<RecipeDTO> listRecipes) {
 		this.listRecipes = listRecipes;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "RecipeBook [id=" + id + ", title=" + title + ", listRecipes=" + listRecipes + "]";

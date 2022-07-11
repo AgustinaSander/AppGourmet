@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ public class RecipeBook{
 	@Column(name="recipebook_id")
 	private int id;
 	private String title;
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), 
 	inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	private List<Recipe> listRecipes;
@@ -49,6 +50,11 @@ public class RecipeBook{
 		this.listRecipes = new ArrayList<>();
 		this.subscriptions = new ArrayList<>();
 		this.rankingSubscriptions = new ArrayList<>();
+	}
+
+	public RecipeBook(String title, List<Recipe> listRecipes) {
+		this.title = title;
+		this.listRecipes = listRecipes;
 	}
 
 	public RecipeBook(int id, String title, List<Recipe> listRecipes) {

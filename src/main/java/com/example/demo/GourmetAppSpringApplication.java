@@ -41,14 +41,14 @@ public class GourmetAppSpringApplication {
 	class DataSetup implements ApplicationRunner{
 		@Override
 		public void run(ApplicationArguments args) throws Exception{
-			List<RecipeBook> recipeBooks = getRecipeBooks();
+			/*List<RecipeBook> recipeBooks = getRecipeBooks();
 			recipeBooks.stream().forEach(recipeBook -> {
 				List<Recipe> recipes = recipeBook.getListRecipes();
 				for(Recipe recipe : recipes) {
 					saveRecipe(recipe);
 				}
 				recipeBookRepository.save(recipeBook);
-			});
+			});*/
 		}
 	}
 	
@@ -57,6 +57,7 @@ public class GourmetAppSpringApplication {
 		
 	}
 
+	
 	private void saveRecipe(Recipe recipe) {
 		List<FoodQuantity> foodQuantities = recipe.getFoodQuantity();
 		for(FoodQuantity foodQuantity : foodQuantities) {
@@ -177,4 +178,5 @@ public class GourmetAppSpringApplication {
 		
 		return recipes;
 	}
+	
 }
