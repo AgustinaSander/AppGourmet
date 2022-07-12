@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,16 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.domain.Food;
 import com.example.demo.domain.FoodQuantity;
 import com.example.demo.domain.Recipe;
+import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.DTO.FoodDTO;
 import com.example.demo.domain.DTO.FoodQuantityDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
 import com.example.demo.exceptions.NotFoundException;
+import com.example.demo.repositories.RecipeBookRepository;
 import com.example.demo.repositories.RecipeRepository;
 
 @RestController
 @CrossOrigin
 public class RecipeController {
 	private final RecipeRepository recipeRepository;
+	@Autowired
+	private RecipeBookRepository recipeBookRepository;
 	
 	RecipeController (RecipeRepository recipeRepository){
 		this.recipeRepository = recipeRepository;
@@ -50,6 +55,14 @@ public class RecipeController {
 	Recipe addRecipe(@RequestBody RecipeDTO recipeDTO){
 		Recipe recipe = convertRecipeObject(recipeDTO);
 		return recipeRepository.save(recipe);
+	}
+	
+	@PostMapping("/recipebooks/{id}/recipes")
+	RecipeBook addRecipeInRecipeBook(@PathVariable int id, @RequestBody RecipeDTO recipeDTO){
+		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe book"));
+		Recipe recipe = convertRecipeObject(recipeDTO);
+		recipeBook.getListRecipes().add(recipe);
+		return recipeBookRepository.save(recipeBook);
 	}
 	
 	private Recipe convertRecipeObject(RecipeDTO recipeDTO) {

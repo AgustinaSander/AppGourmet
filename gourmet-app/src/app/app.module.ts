@@ -10,6 +10,8 @@ import { RecipesComponent } from './components/recipes/recipes.component';
 import { PageNotFoundComponent } from './components/pageNotFound/pagenotfound.component';
 import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
 import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { RecipebookformComponent } from './components/recipebookform/recipebookform.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import {HttpClientModule} from '@angular/common/http';
     SearchComponent,
     RecipesComponent,
     PageNotFoundComponent,
-    RecipeDetailComponent
+    RecipeDetailComponent,
+    RecipebookformComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

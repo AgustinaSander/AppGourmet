@@ -3,19 +3,23 @@ import { Recipe } from './Recipe';
 export class RecipeBook{
     id:number;
     title:string;
-    recipes:Recipe[];
+    listRecipes:Recipe[];
 
     constructor(id?:number, title?:string, recipes?:Recipe[]){
         this.id = id ? id : 0;
         this.title = title ? title: '';
-        this.recipes = recipes ? recipes : [];
+        this.listRecipes = recipes ? recipes : [];
     }
     
+    setTitle(title:string){
+        this.title = title;
+    }
+
     setRecipes(recipes:Recipe[]){
-        this.recipes = recipes;
+        this.listRecipes = recipes;
     }
 
     getNumberOfRecipes():number{
-        return this.recipes == undefined ? 0 : this.recipes.length;
+        return this.listRecipes == undefined ? 0 : this.listRecipes.length;
     }
 }

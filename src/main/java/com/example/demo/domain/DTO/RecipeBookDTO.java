@@ -6,19 +6,17 @@ import java.util.List;
 public class RecipeBookDTO{
 	private int id;
 	private String title;
-	private List<RecipeDTO> listRecipes;
+	private List<RecipeDTO> listRecipes = new ArrayList<>();
 	
 	public RecipeBookDTO() {}
 	
 	public RecipeBookDTO(String title) {
 		this.title = title;
-		this.listRecipes = new ArrayList<>();
 	}
 	
 	public RecipeBookDTO(int id, String title) {
 		this.id = id;
 		this.title = title;
-		this.listRecipes = new ArrayList<>();
 	}
 
 	public RecipeBookDTO(int id, String title, List<RecipeDTO> listRecipes) {

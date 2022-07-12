@@ -23,13 +23,17 @@
             </div>
         </div>
     </ng-container>
-    <ng-container *ngIf="recipebooks.length == 0">
-        <p class="title h4">No hay recetarios disponibles</p>
-        <div class="add-recipebook-container">
+    <div>
+        <p *ngIf="recipebooks.length == 0" class="title h4">No hay recetarios disponibles</p>
+        <div class="add-recipebook-container" data-toggle="modal" data-target="#recipeBookForm">
             <p>Agregar un recetario</p>
             <div>
                 <i class="fas fa-solid fa-plus"></i>
             </div>
         </div>
-    </ng-container>
+    </div>
+</div>
+ 
+<div class="modal fade" id="recipeBookForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeBookFormLabel" aria-hidden="true">
+    <app-recipebookform (updateView)="updateView()"></app-recipebookform>
 </div>

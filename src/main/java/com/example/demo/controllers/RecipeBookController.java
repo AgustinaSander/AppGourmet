@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,6 +78,16 @@ public class RecipeBookController {
 		return recipeBookRepository.save(recipeBook);
 	}
 	
+	@PutMapping("/recipebooks/{id}")
+	RecipeBook updateRecipeBook(@PathVariable int id, @RequestBody RecipeBookDTO recipeBookDTO) throws Exception{
+		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe book"));
+		RecipeBook modifiedRecipeBook = convertRecipeBookObject(recipeBookDTO);
+		
+		recipeBook.setTitle(modifiedRecipeBook.getTitle());
+		recipeBook.setListRecipes(modifiedRecipeBook.getListRecipes());
+		
+		return recipeBookRepository.save(recipeBook);
+	}
 	
 	 private RecipeBook convertRecipeBookObject(RecipeBookDTO recipeBookDTO) {
 		List<RecipeDTO> listRecipesDTO = recipeBookDTO.getListRecipes();
