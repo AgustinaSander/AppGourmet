@@ -13,15 +13,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.Food;
-import com.example.demo.domain.FoodQuantity;
 import com.example.demo.domain.Recipe;
 import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.enumerations.FoodGroup;
 import com.example.demo.domain.enumerations.Unit;
-import com.example.demo.repositories.FoodQuantityRepository;
-import com.example.demo.repositories.FoodRepository;
 import com.example.demo.repositories.RecipeBookRepository;
-import com.example.demo.repositories.RecipeRepository;
 
 
 @SpringBootApplication
@@ -30,12 +26,6 @@ public class GourmetAppSpringApplication {
 	
 	@Autowired
 	private RecipeBookRepository recipeBookRepository;
-	@Autowired
-	private FoodRepository foodRepository;
-	@Autowired
-	private FoodQuantityRepository foodQuantityRepository;
-	@Autowired
-	private RecipeRepository recipeRepository;
 	
 	@Component
 	class DataSetup implements ApplicationRunner{
@@ -43,10 +33,6 @@ public class GourmetAppSpringApplication {
 		public void run(ApplicationArguments args) throws Exception{
 			List<RecipeBook> recipeBooks = getRecipeBooks();
 			recipeBooks.stream().forEach(recipeBook -> {
-				List<Recipe> recipes = recipeBook.getListRecipes();
-				for(Recipe recipe : recipes) {
-					saveRecipe(recipe);
-				}
 				recipeBookRepository.save(recipeBook);
 			});
 		}
@@ -56,35 +42,42 @@ public class GourmetAppSpringApplication {
 		SpringApplication.run(GourmetAppSpringApplication.class, args);
 		
 	}
-
-	private void saveRecipe(Recipe recipe) {
-		List<FoodQuantity> foodQuantities = recipe.getFoodQuantity();
-		for(FoodQuantity foodQuantity : foodQuantities) {
-			foodRepository.save(foodQuantity.getFood());
-		}
-		foodQuantityRepository.saveAll(foodQuantities);
-		recipeRepository.save(recipe);
-	}
 	
 	private List<RecipeBook> getRecipeBooks() {
 		List<RecipeBook> recipeBooks = new ArrayList<>();
 		RecipeBook recipeBook1 = new RecipeBook("Recipes 2022");
 		RecipeBook recipeBook2 = new RecipeBook("Best dessert recipes");
-		List<Recipe> recipes = getRecipes();
+		RecipeBook recipeBook3 = new RecipeBook("Mejores recetas de Julio");
+		RecipeBook recipeBook4 = new RecipeBook("Recetas Agosto 2022");
+		RecipeBook recipeBook5 = new RecipeBook("Nuevas tendencias de cocina");
 		
-		recipes.stream().forEach(recipe -> {
+		List<Recipe> firstRecipes = getFirstSetRecipes();
+		
+		firstRecipes.stream().forEach(recipe -> {
 			recipeBook1.addRecipe(recipe);
 		});
-		recipes.remove(0);
-		recipes.stream().forEach(recipe -> {
+		
+		List<Recipe> secondRecipes = getSecondSetRecipes();
+		secondRecipes.stream().forEach(recipe -> {
 			recipeBook2.addRecipe(recipe);
 		});
+		
+		List<Recipe> thirdRecipes = getThirdSetRecipes();
+		thirdRecipes.stream().forEach(recipe -> {
+			recipeBook3.addRecipe(recipe);
+		});
+		
 		recipeBooks.add(recipeBook1);
 		recipeBooks.add(recipeBook2);
+		recipeBooks.add(recipeBook3);
+		recipeBooks.add(recipeBook4);
+		recipeBooks.add(recipeBook5);
 		return recipeBooks;
+		
+		
 	}
 	
-	private List<Recipe> getRecipes() {
+	private List<Recipe> getFirstSetRecipes() {
 		List<Recipe> recipes = new ArrayList<>();
 		
 		Recipe recipeChickenSalad = new Recipe("Chicken Salad");
@@ -138,7 +131,50 @@ public class GourmetAppSpringApplication {
 		recipePasta.addIngredient(1,ingredientsPasta[3]);
 		recipePasta.addIngredient(1, ingredientsPasta[4]);
 		recipes.add(recipePasta);
-		
+
 		return recipes;
 	}
+	
+	private List<Recipe> getSecondSetRecipes() {
+		List<Recipe> recipes = new ArrayList<>();
+		Recipe recipeCheesecake = new Recipe("Cheesecake");
+		Food[] ingredientsCheesecake = {
+				new Food("Galletas molidas", 22, FoodGroup.CEREALS, Unit.GRAM),
+				new Food("Azucar rubia", 102, FoodGroup.OTHER, Unit.CUP),
+				new Food("Mantequilla", 43, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food("Queso crema", 24, FoodGroup.VEGETABLES, Unit.UNIT),
+				new Food("Leche",14,FoodGroup.OTHER, Unit.CUP),
+				new Food("Huevo", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food("Ralladura de limon", 4, FoodGroup.FRUITS, Unit.CN),
+				new Food("Harina", 24, FoodGroup.CEREALS, Unit.CUP),
+				new Food("Frutos rojos", 24, FoodGroup.FRUITS, Unit.CN),
+		};
+		recipeCheesecake.addIngredient(200,ingredientsCheesecake[0]);
+		recipeCheesecake.addIngredient(0.25,ingredientsCheesecake[1]);
+		recipeCheesecake.addIngredient(120,ingredientsCheesecake[2]);
+		recipeCheesecake.addIngredient(4,ingredientsCheesecake[3]);
+		recipeCheesecake.addIngredient(0.75, ingredientsCheesecake[4]);
+		recipeCheesecake.addIngredient(4, ingredientsCheesecake[5]);
+		recipeCheesecake.addIngredient(0, ingredientsCheesecake[6]);
+		recipeCheesecake.addIngredient(0.25, ingredientsCheesecake[7]);
+		recipeCheesecake.addIngredient(0, ingredientsCheesecake[8]);
+		recipes.add(recipeCheesecake);
+		return recipes;
+	}
+	
+	private List<Recipe> getThirdSetRecipes(){
+		List<Recipe> recipes = new ArrayList<>();
+		Recipe recipeLemonade = new Recipe("Lemonade");
+		Food[] ingredientsLemonade = {
+				new Food("Limon", 22, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Azucar rubia", 12, FoodGroup.OTHER, Unit.SPOON),
+				new Food("Agua", 0, FoodGroup.OTHER, Unit.LITRE),
+		};
+		recipeLemonade.addIngredient(3,ingredientsLemonade[0]);
+		recipeLemonade.addIngredient(4,ingredientsLemonade[1]);
+		recipeLemonade.addIngredient(1,ingredientsLemonade[2]);
+		recipes.add(recipeLemonade);
+		return recipes;
+	}
+	
 }

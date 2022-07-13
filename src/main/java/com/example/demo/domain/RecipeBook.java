@@ -50,7 +50,14 @@ public class RecipeBook{
 		this.subscriptions = new ArrayList<>();
 		this.rankingSubscriptions = new ArrayList<>();
 	}
-
+	
+	public RecipeBook(String title, List<Recipe> listRecipes) {
+		this.title = title;
+		this.listRecipes = listRecipes;
+		this.subscriptions = new ArrayList<>();
+		this.rankingSubscriptions = new ArrayList<>();
+	}
+	
 	public RecipeBook(int id, String title, List<Recipe> listRecipes) {
 		this.id = id;
 		this.title = title;

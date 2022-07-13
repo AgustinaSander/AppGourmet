@@ -45,6 +45,11 @@ public class Recipe {
 		this.pointsForRanking = new HashMap<>();
 	}
 
+	public Recipe(String title, List<FoodQuantity> foodQuantity) {
+		this.title = title;
+		this.foodQuantity = foodQuantity;
+	}
+
 	public Recipe(int id, String title, List<FoodQuantity> foodQuantity) {
 		this.id = id;
 		this.title = title;
