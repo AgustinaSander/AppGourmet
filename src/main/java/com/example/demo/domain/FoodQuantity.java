@@ -21,6 +21,12 @@ public class FoodQuantity {
 	private Food food;
 	
 	public FoodQuantity() {}
+	
+	public FoodQuantity(int id, double quantity, Food food) {
+		this.id = id;
+		this.quantity = food.getUnit() == Unit.CN ? 0 : quantity;
+		this.food = food;
+	}
 
 	public FoodQuantity(double quantity, Food food) {
 		this.quantity = food.getUnit() == Unit.CN ? 0 : quantity;

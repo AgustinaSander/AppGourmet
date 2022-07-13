@@ -13,4 +13,15 @@ $dark-red: rgb(166, 46, 17);
     }
 }
 
+.form-control:focus{
+    border-color:#ccc;
+    box-shadow: none;
+}
 
+input.ng-invalid.ng-touched{
+    border: 2px $dark-red solid;
+}
+
+small{
+    color: $dark-red;
+}

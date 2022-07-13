@@ -1,5 +1,6 @@
 package com.example.demo.domain.DTO;
 
+import com.example.demo.domain.Food;
 import com.example.demo.domain.enumerations.FoodGroup;
 import com.example.demo.domain.enumerations.Unit;
 
@@ -58,6 +59,10 @@ public class FoodDTO {
 	
 	public Unit getUnit() {
 		return unit;
+	}
+	
+	public Food getFoodObject() {
+		return new Food(id,name,calories,foodGroup,unit);
 	}
 
 }

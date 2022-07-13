@@ -11,7 +11,7 @@ public class NotFoundAdvice {
 	  @ResponseBody
 	  @ExceptionHandler(NotFoundException.class)
 	  @ResponseStatus(HttpStatus.NOT_FOUND)
-	  String recipeBookNotFoundHandler(NotFoundException exception) {
+	  String notFoundHandler(NotFoundException exception) {
 	    return exception.getMessage();
 	  }
 }

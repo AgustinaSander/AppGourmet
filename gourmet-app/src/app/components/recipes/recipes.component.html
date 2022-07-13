@@ -1,39 +1,43 @@
 <div class="recipe-result">
-    <ng-container *ngIf="recipes.length > 0">
-      <p class="title h4 mb-5">Recetarios disponibles</p>
-      <div class="recipes-container">
-        <div class="card" *ngFor="let recipe of recipes; let i=index;">
-          <div class="card-header">
-            <div [ngSwitch]="i%6">
-              <img *ngSwitchCase="0" src="../../../assets/img/food1.jpeg">
-              <img *ngSwitchCase="1" src="../../../assets/img/food2.jpg">
-              <img *ngSwitchCase="2" src="../../../assets/img/food3.jpeg">
-              <img *ngSwitchCase="3" src="../../../assets/img/food4.jpg">
-              <img *ngSwitchCase="4" src="../../../assets/img/food5.jpg">
-              <img *ngSwitchCase="5" src="../../../assets/img/food6.jpg">
-              <img *ngSwitchCase="6" src="../../../assets/img/food7.jpg">
-            </div>
-            <h2>
-              <button class="btn btn-link" (click)="showRecipeDetail(recipe.id)">
-                {{recipe.title}}
-              </button>
-            </h2>
+  <ng-container *ngIf="recipeBook.getListRecipes().length > 0">
+    <p class="title h4 mb-5">Recetarios disponibles</p>
+    <div class="recipes-container">
+      <div class="card" *ngFor="let recipe of recipeBook.getListRecipes(); let i=index;">
+        <div class="card-header">
+          <div [ngSwitch]="i%6">
+            <img *ngSwitchCase="0" src="../../../assets/img/food1.jpeg">
+            <img *ngSwitchCase="1" src="../../../assets/img/food2.jpg">
+            <img *ngSwitchCase="2" src="../../../assets/img/food3.jpeg">
+            <img *ngSwitchCase="3" src="../../../assets/img/food4.jpg">
+            <img *ngSwitchCase="4" src="../../../assets/img/food5.jpg">
+            <img *ngSwitchCase="5" src="../../../assets/img/food6.jpg">
+            <img *ngSwitchCase="6" src="../../../assets/img/food7.jpg">
           </div>
+          <h2>
+            <button class="btn btn-link" (click)="showRecipeDetail(recipe.getId())">
+              {{recipe.title}}
+            </button>
+          </h2>
         </div>
       </div>
-    </ng-container>
-    <ng-container *ngIf="recipes.length == 0">
-        <p class="title h4">No hay recetas disponibles</p>
-        <div class="add-recipe-container">
-            <p>Agregar una receta</p>
-            <div>
-                <i class="fas fa-solid fa-plus"></i>
-            </div>
-        </div>
-    </ng-container>
+    </div>
+  </ng-container>
+  <div>
+    <p *ngIf="recipeBook.getListRecipes().length == 0" class="title h4">No hay recetas disponibles</p>
+    <div class="add-recipe-container" data-toggle="modal" data-target="#recipeForm">
+      <p>Agregar una receta </p>
+      <div>
+          <i class="fas fa-solid fa-plus"></i>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-recipe-detail *ngIf="showDetail" [recipeItem]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
+
+<div class="modal fade" id="recipeForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeFormLabel" aria-hidden="true">
+  <app-recipeform (updateView)="updateView()" [recipeBook]="recipeBook"></app-recipeform>
+</div>
 
 
 

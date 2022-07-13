@@ -3,15 +3,23 @@ import { FoodQuantity } from './FoodQuantity';
 export class Recipe{
     id!:number;
     title!:string;
-    foodQuantities:FoodQuantity[];
+    foodQuantity:FoodQuantity[];
     
-    constructor(id:number, title:string, foodQuantities?:FoodQuantity[]){
-        this.id = id;
-        this.title = title;
-        this.foodQuantities = foodQuantities ? foodQuantities : [];
+    constructor(id?:number, title?:string, foodQuantity?:FoodQuantity[]){
+        this.id = id ? id : 0;
+        this.title = title ? title : '';
+        this.foodQuantity = foodQuantity ? foodQuantity : [];
     }
 
-    setFoodQuantities(foodQuantities:FoodQuantity[]){
-        this.foodQuantities = foodQuantities;
+    setFoodQuantity(foodQuantity:FoodQuantity[]){
+        this.foodQuantity = foodQuantity;
+    }
+
+    setTitle(title: string){
+        this.title=title;
+    }
+
+    getId():number{
+        return this.id;
     }
 }

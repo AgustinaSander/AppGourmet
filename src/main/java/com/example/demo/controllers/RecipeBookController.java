@@ -10,10 +10,18 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.domain.Food;
+import com.example.demo.domain.FoodQuantity;
+import com.example.demo.domain.Recipe;
 
 import com.example.demo.domain.RecipeBook;
+import com.example.demo.domain.DTO.FoodDTO;
+import com.example.demo.domain.DTO.FoodQuantityDTO;
 import com.example.demo.domain.DTO.RecipeBookDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
 import com.example.demo.exceptions.NotFoundException;
@@ -63,6 +71,40 @@ public class RecipeBookController {
 				linkTo(methodOn(RecipeBookController.class).recipesInRecipeBook(id)).withSelfRel(),
 				linkTo(methodOn(RecipeBookController.class).one(id)).withRel("recipebook"),
 				linkTo(methodOn(RecipeBookController.class).all()).withRel("recipebooks"));
+	}
+	
+	@PostMapping("/recipebooks")
+	RecipeBook addRecipeBook(@RequestBody RecipeBookDTO recipeBookDTO){
+		RecipeBook recipeBook = convertRecipeBookObject(recipeBookDTO);
+		return recipeBookRepository.save(recipeBook);
+	}
+	
+	@PutMapping("/recipebooks/{id}")
+	RecipeBook updateRecipeBook(@PathVariable int id, @RequestBody RecipeBookDTO recipeBookDTO) throws Exception{
+		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe book"));
+		RecipeBook modifiedRecipeBook = convertRecipeBookObject(recipeBookDTO);
+		
+		recipeBook.setTitle(modifiedRecipeBook.getTitle());
+		recipeBook.setListRecipes(modifiedRecipeBook.getListRecipes());
+		
+		return recipeBookRepository.save(recipeBook);
+	}
+	
+	 private RecipeBook convertRecipeBookObject(RecipeBookDTO recipeBookDTO) {
+		List<RecipeDTO> listRecipesDTO = recipeBookDTO.getListRecipes();
+		List<Recipe> listRecipes = new ArrayList<>();
+		listRecipesDTO.stream().forEach(recipeDTO -> {
+			List<FoodQuantityDTO> listFoodQuantityDTO = recipeDTO.getFoodQuantity();
+			List<FoodQuantity> listFoodQuantity = new ArrayList<>();
+			listFoodQuantityDTO.stream().forEach(foodQuantityDTO -> {
+				FoodDTO foodDTO = foodQuantityDTO.getFood();
+				Food food = new Food(foodDTO.getName(), foodDTO.getCalories(), foodDTO.getFoodGroup(), foodDTO.getUnit());
+				listFoodQuantity.add(new FoodQuantity(foodQuantityDTO.getQuantity(), food));
+			});
+			listRecipes.add(new Recipe(recipeDTO.getTitle(), listFoodQuantity));
+		});
+		
+		return new RecipeBook(recipeBookDTO.getTitle(), listRecipes);
 	}
 
 	public EntityModel<RecipeBookDTO> toModel(RecipeBookDTO recipeBook) {

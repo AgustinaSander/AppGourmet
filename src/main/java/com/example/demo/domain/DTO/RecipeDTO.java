@@ -3,6 +3,7 @@ package com.example.demo.domain.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RecipeDTO {
 	private int id;
 	private String title;
@@ -46,5 +47,4 @@ public class RecipeDTO {
 	public void setFoodQuantity(List<FoodQuantityDTO> foodQuantity) {
 		this.foodQuantity = foodQuantity;
 	}
-
 }
