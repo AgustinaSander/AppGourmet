@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ public class Recipe {
 	@Column(name="recipe_id")
 	private int id;
 	private String title;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<FoodQuantity> foodQuantity;
 	@Transient
 	private Map<Integer, Integer> pointsForRanking;

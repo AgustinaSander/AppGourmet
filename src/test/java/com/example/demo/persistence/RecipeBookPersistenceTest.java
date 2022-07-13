@@ -15,13 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.domain.Recipe;
 import com.example.demo.domain.RecipeBook;
-import com.example.demo.repositories.FoodQuantityRepository;
-import com.example.demo.repositories.FoodRepository;
 import com.example.demo.repositories.RecipeBookRepository;
-import com.example.demo.repositories.RecipeRepository;
 
 import com.example.demo.domain.Food;
-import com.example.demo.domain.FoodQuantity;
 import com.example.demo.domain.enumerations.FoodGroup;
 import com.example.demo.domain.enumerations.Unit;
 
@@ -29,21 +25,11 @@ import com.example.demo.domain.enumerations.Unit;
 @RunWith(SpringRunner.class)
 class RecipeBookPersistenceTest {
 	@Autowired
-	RecipeRepository recipeRepository;
-	@Autowired
 	RecipeBookRepository recipeBookRepository;
-	@Autowired
-	FoodRepository foodRepository;
-	@Autowired
-	FoodQuantityRepository foodQuantityRepository;
 	
 	@Test
 	public void createRecipeBook() {
 		RecipeBook recipeBook = getRecipeBook();
-		List<Recipe> recipes = recipeBook.getListRecipes();
-		for(Recipe recipe : recipes) {
-			saveRecipe(recipe);
-		}
 		recipeBookRepository.save(recipeBook);
 		int sizeListRecipeBook = ((Collection<RecipeBook>) recipeBookRepository.findAll()).size();
 		
@@ -85,18 +71,8 @@ class RecipeBookPersistenceTest {
 	public void addRecipeBook() {
 		RecipeBook recipeBook = new RecipeBook("RecipeBook already added");
 		Recipe recipe = getRecipe2();
-		saveRecipe(recipe);
 		recipeBook.addRecipe(recipe);
 		recipeBookRepository.save(recipeBook);
-	}
-	
-	private void saveRecipe(Recipe recipe) {
-		List<FoodQuantity> foodQuantities = recipe.getFoodQuantity();
-		for(FoodQuantity foodQuantity : foodQuantities) {
-			foodRepository.save(foodQuantity.getFood());
-		}
-		foodQuantityRepository.saveAll(foodQuantities);
-		recipeRepository.save(recipe);
 	}
 
 	private RecipeBook getRecipeBook() {
@@ -110,12 +86,12 @@ class RecipeBookPersistenceTest {
 	private Recipe getRecipe() {
 		Recipe recipeChickenSalad = new Recipe("Chicken Salad");
 		Food[] ingredients = {
-				new Food(1, "Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
-				new Food(2, "Chicken", 100, FoodGroup.MEATS, Unit.UNIT),
-				new Food(3, "Rice", 6, FoodGroup.CEREALS, Unit.GRAM),
-				new Food(4, "Basil", 0, FoodGroup.VEGETABLES, Unit.CN),
-				new Food(5, "Fish", 340, FoodGroup.MEATS,  Unit.UNIT),
-				new Food(6, "Salt", 2000, FoodGroup.OTHER, Unit.CN)
+				new Food("Tomatoe", 102, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Chicken", 100, FoodGroup.MEATS, Unit.UNIT),
+				new Food("Rice", 6, FoodGroup.CEREALS, Unit.GRAM),
+				new Food("Basil", 0, FoodGroup.VEGETABLES, Unit.CN),
+				new Food("Fish", 340, FoodGroup.MEATS,  Unit.UNIT),
+				new Food("Salt", 2000, FoodGroup.OTHER, Unit.CN)
 		};
 		
 		recipeChickenSalad.addIngredient(3, ingredients[0]);
@@ -130,12 +106,12 @@ class RecipeBookPersistenceTest {
 	private Recipe getRecipe2() {
 		Recipe recipeAppleCakeCeliacs = new Recipe("Apple cake for celiacs");
 		Food[] foodRecipe2 = {
-				new Food(1, "Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
-				new Food(2,"Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
-				new Food(3,"Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
-				new Food(4,"Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
-				new Food(5,"Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
-				new Food(6,"Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
+				new Food("Butter", 5, FoodGroup.MILK_PRODUCTS, Unit.GRAM),
+				new Food("Premixture", 7, FoodGroup.OTHER, Unit.GRAM),
+				new Food("Sugar", 4, FoodGroup.OTHER, Unit.GRAM),
+				new Food("Egg", 24, FoodGroup.MILK_PRODUCTS, Unit.UNIT),
+				new Food("Apple", 15, FoodGroup.FRUITS, Unit.UNIT),
+				new Food("Bake Powder", 10, FoodGroup.OTHER, Unit.SPOON)
 		};
 		
 		recipeAppleCakeCeliacs.addIngredient(125,foodRecipe2[0]);
