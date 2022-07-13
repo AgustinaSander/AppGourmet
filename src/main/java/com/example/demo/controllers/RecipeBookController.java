@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.DTO.RecipeBookDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
-import com.example.demo.exceptions.RecipeBookNotFoundException;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.RecipeBookRepository;
 
 @RestController
@@ -32,7 +33,7 @@ public class RecipeBookController {
 		List<EntityModel<RecipeBookDTO>> recipeBookDTO = new ArrayList<>();
 		List<RecipeBook> recipeBooks = (List<RecipeBook>) recipeBookRepository.findAll();
 		if(recipeBooks.size()==0) {
-	       throw new RecipeBookNotFoundException();
+	       throw new NotFoundException("recipe books");
 		}
 		recipeBooks.stream().forEach(recipeBook -> recipeBookDTO.add(toModel(recipeBook.convertToRecipeBookDTO())));
 		
@@ -44,7 +45,7 @@ public class RecipeBookController {
 	EntityModel<RecipeBookDTO> one(@PathVariable int id) throws Exception {
 		RecipeBookDTO recipeBookDTO = new RecipeBookDTO();
 		RecipeBook recipeBook = recipeBookRepository.findById(id)
-				.orElseThrow(() -> new RecipeBookNotFoundException(id));
+				.orElseThrow(() -> new NotFoundException(id, "recipe books"));
 		
 		recipeBookDTO = recipeBook.convertToRecipeBookDTO();
 		
@@ -55,7 +56,7 @@ public class RecipeBookController {
 	CollectionModel<RecipeDTO> recipesInRecipeBook(@PathVariable int id) throws Exception{
 		List<RecipeDTO> recipesDTO = new ArrayList<>();
 		RecipeBook recipeBook = recipeBookRepository.findById(id)
-				.orElseThrow(() -> new RecipeBookNotFoundException(id));
+				.orElseThrow(() -> new NotFoundException(id, "recipe books"));
 		
 		recipeBook.getListRecipes().stream().forEach(recipe -> recipesDTO.add(recipe.convertToRecipeDTO()));
 		return CollectionModel.of(recipesDTO, 
@@ -63,8 +64,8 @@ public class RecipeBookController {
 				linkTo(methodOn(RecipeBookController.class).one(id)).withRel("recipebook"),
 				linkTo(methodOn(RecipeBookController.class).all()).withRel("recipebooks"));
 	}
-	
-	 public EntityModel<RecipeBookDTO> toModel(RecipeBookDTO recipeBook) {
+
+	public EntityModel<RecipeBookDTO> toModel(RecipeBookDTO recipeBook) {
 	    try {
 			return EntityModel.of(recipeBook, 
 			    linkTo(methodOn(RecipeBookController.class).one(recipeBook.getId())).withSelfRel(),
