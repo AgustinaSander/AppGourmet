@@ -8,4 +8,8 @@ export class FoodQuantity{
         this.quantity=quantity;
         this.food=food;
     }
+
+    getFood():Food{
+        return this.food;
+    }
 }

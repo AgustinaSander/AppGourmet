@@ -12,6 +12,7 @@ import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RecipebookformComponent } from './components/recipebookform/recipebookform.component';
+import { RecipeformComponent } from './components/recipeform/recipeform.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RecipebookformComponent } from './components/recipebookform/recipebookf
     RecipesComponent,
     PageNotFoundComponent,
     RecipeDetailComponent,
-    RecipebookformComponent
+    RecipebookformComponent,
+    RecipeformComponent
   ],
   imports: [
     BrowserModule,

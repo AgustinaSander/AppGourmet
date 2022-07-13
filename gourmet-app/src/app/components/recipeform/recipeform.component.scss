@@ -1,0 +1,75 @@
+$main-color: #cf3e1a;
+$dark-red: rgb(166, 46, 17);
+
+.modal-dialog{
+    min-width: 70%;
+}
+
+.modal-content{
+    padding: 0px 20px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#addIngredient{
+    background-color: $main-color;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
+    &:hover{
+        background-color: $dark-red;
+        cursor: pointer;
+    }
+}
+
+#addIngredient[disabled]{
+    background-color: rgb(108, 117, 125);
+    &:hover{
+        cursor:default;
+    }
+}
+
+#table-container{
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.table, th, td{
+    border-collapse: collapse;
+}
+
+.deleteIcon:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.successMessage{
+    text-align: center;
+    padding-bottom: 20px;
+    i{
+        background-color: green;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 50px;
+        color: #fff;
+    }
+}

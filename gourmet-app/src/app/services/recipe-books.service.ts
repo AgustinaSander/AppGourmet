@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { RecipeBook } from '../model/Recipebook';
-import { Recipe } from '../model/Recipe';
-import { FoodQuantity } from '../model/FoodQuantity';
-import { Food } from '../model/Food';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

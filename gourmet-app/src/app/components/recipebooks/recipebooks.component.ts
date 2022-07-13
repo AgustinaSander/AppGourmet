@@ -44,7 +44,7 @@ export class RecipebooksComponent implements OnInit {
             let foodquantity = new FoodQuantity(foodquantityItem.quantity, food);
             foodquantityList.push(foodquantity);
           }
-          recipe.setFoodQuantities(foodquantityList);
+          recipe.setFoodQuantity(foodquantityList);
           recipesList.push(recipe);
         }
         recipebook.setRecipes(recipesList);

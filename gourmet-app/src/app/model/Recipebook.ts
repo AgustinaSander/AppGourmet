@@ -15,11 +15,27 @@ export class RecipeBook{
         this.title = title;
     }
 
+    getTitle():string{
+        return this.title;
+    }
+
     setRecipes(recipes:Recipe[]){
         this.listRecipes = recipes;
     }
 
     getNumberOfRecipes():number{
         return this.listRecipes == undefined ? 0 : this.listRecipes.length;
+    }
+
+    getListRecipes():Recipe[]{
+        return this.listRecipes;
+    }
+
+    setId(id:number){
+        this.id=id;
+    }
+
+    getId():number{
+        return this.id;
     }
 }

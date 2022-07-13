@@ -47,7 +47,6 @@ public class Recipe {
 	}
 	
 	public Recipe(String title, List<FoodQuantity> foodQuantity) {
-		super();
 		this.title = title;
 		this.foodQuantity = foodQuantity;
 	}

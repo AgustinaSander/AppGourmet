@@ -1,0 +1,96 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="recipeFormLabel">Agrega un receta al recetario '{{recipeBook.getTitle()}}'</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="closeForm()">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form (ngSubmit)="onSubmit()" #recipeForm="ngForm" *ngIf="!addedSuccessfully">
+                <div class="form-group">
+                    <label for="title">Titulo *</label>
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Titulo de la receta" required autocomplete="off" ngModel #title="ngModel">
+                    <div>
+                        <small *ngIf="title.invalid && title.touched">El campo Titulo es obligatorio.</small>
+                    </div>
+                </div>
+                <p>Listado de ingredientes</p>
+                <div id="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ingrediente</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Calorias</th>
+                            <th scope="col">Grupo de alimento</th>
+                            <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let foodQuantity of listFoodQuantities; let i=index;">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{foodQuantity.getFood().name}}</td>
+                            <td>{{foodQuantity.quantity}}</td>
+                            <td>{{foodQuantity.getFood().unit}}</td>
+                            <td>{{foodQuantity.getFood().calories}}</td>
+                            <td>{{foodQuantity.getFood().foodGroup}}</td>
+                            <td><i class="deleteIcon fas fa-trash-alt" (click)="deleteIngredient(i)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <br><br>
+                <p><b>Agregar ingredientes</b></p>
+                <form (ngSubmit)="addIngredient()" #ingredientForm="ngForm">
+                    <div class="form-row">
+                        <div class="form-group col-1">
+                            <label for="quantity">Cantidad</label>
+                            <input type="number" name="quantity" id="quantity" class="form-control" ngModel autocomplete="off">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="quantity">Unidad</label>
+                            <select class="form-control" name="unitSelect" ngModel required>
+                                <option value="">-</option>
+                                <option *ngFor="let unit of unitOptions | keyvalue" value="{{unit.key}}">{{unit.value}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="food">Ingrediente</label>
+                            <input type="text" name="food" class="form-control" id="food" placeholder="Ingrediente" required autocomplete="off" ngModel>
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="food">Calorias</label>
+                            <input type="number" name="calories" class="form-control" id="calories" placeholder="Calorias" required autocomplete="off" ngModel>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="food">Grupo alimenticio</label>
+                            <select class="form-control" name="foodGroupSelect" ngModel required>
+                                <option value="">-</option>
+                                <option *ngFor="let foodGroup of foodGroupOptions | keyvalue" value="{{foodGroup.key}}">{{foodGroup.value}}</option>
+                            </select>
+                        </div>
+                        <button id="addIngredient" type="submit" [disabled]="!ingredientForm.valid">
+                            <i class="fas fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <small *ngIf="ingredientForm.invalid && ingredientForm.touched">Los campos son obligatorios.</small>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeForm()">Cerrar</button>
+                    <button type="submit" class="btn btn-danger" [disabled]="!recipeForm.valid || listFoodQuantities.length==0">Agregar</button>
+                </div>
+            </form>
+            <div *ngIf="addedSuccessfully" class="successMessage">
+                <p>La receta ha sido agregada con exito!</p>
+                <i class="fas fa-solid fa-check"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -70,7 +70,6 @@ public class RecipeBook{
 	}
 	
 	public boolean addRecipe(Recipe newRecipe) {
-	
 		if(newRecipe != null && !getListRecipes().contains(newRecipe)) {
 			listRecipes.add(newRecipe);	
 			List<Subscription> allSubscriptionsWithProfile = getSubscriptionsAcordingToProfile(newRecipe);
