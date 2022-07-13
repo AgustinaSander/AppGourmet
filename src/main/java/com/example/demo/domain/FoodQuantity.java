@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ public class FoodQuantity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private double quantity;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Food food;
 	
 	public FoodQuantity() {}

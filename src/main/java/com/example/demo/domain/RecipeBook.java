@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,15 +20,18 @@ import javax.persistence.Transient;
 public class RecipeBook{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="recipebook_id")
 	private int id;
 	private String title;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), inverseJoinColumns=@JoinColumn(name="author_id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinTable(name="recipe_recipebook", joinColumns=@JoinColumn(name="recipebook_id"), 
+	inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	private List<Recipe> listRecipes;
 	@Transient
 	private List<Subscription> subscriptions;
 	@Transient
 	private List<RankingSubscription> rankingSubscriptions;
+
 	
 	public RecipeBook() {}
 	
