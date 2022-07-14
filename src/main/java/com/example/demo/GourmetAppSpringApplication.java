@@ -12,28 +12,28 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.DAO.RecipeBookDAOImpl;
 import com.example.demo.domain.Food;
 import com.example.demo.domain.Recipe;
 import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.enumerations.FoodGroup;
 import com.example.demo.domain.enumerations.Unit;
-import com.example.demo.repositories.RecipeBookRepository;
-
 
 @SpringBootApplication
 @Import({ClassConfig.class})
 public class GourmetAppSpringApplication {
 	
 	@Autowired
-	private RecipeBookRepository recipeBookRepository;
+	private RecipeBookDAOImpl recipeBookDAO;
 	
 	@Component
 	class DataSetup implements ApplicationRunner{
 		@Override
 		public void run(ApplicationArguments args) throws Exception{
 			List<RecipeBook> recipeBooks = getRecipeBooks();
+			
 			recipeBooks.stream().forEach(recipeBook -> {
-				recipeBookRepository.save(recipeBook);
+				recipeBookDAO.createRecipeBook(recipeBook);
 			});
 		}
 	}
