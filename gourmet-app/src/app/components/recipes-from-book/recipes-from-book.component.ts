@@ -7,11 +7,11 @@ import { RecipeBook } from 'src/app/model/Recipebook';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
 
 @Component({
-  selector: 'app-recipes',
-  templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.scss']
+  selector: 'app-recipes-from-book',
+  templateUrl: './recipes-from-book.component.html',
+  styleUrls: ['./recipes-from-book.component.scss']
 })
-export class RecipesComponent implements OnInit {
+export class RecipesFromBookComponent implements OnInit {
   recipeBook: RecipeBook = new RecipeBook();
   showDetail: boolean = false;
   recipeSelected !: Recipe;

@@ -1,6 +1,8 @@
 <div class="recipe-result">
+
   <ng-container *ngIf="recipeBook.getListRecipes().length > 0">
-    <p class="title h4 mb-5">Recetarios disponibles</p>
+    <p class="title h4 mb-5">Recetas del libro "{{recipeBook.getTitle()}}"</p>
+
     <div class="recipes-container">
       <div class="card" *ngFor="let recipe of recipeBook.getListRecipes(); let i=index;">
         <div class="card-header">
@@ -20,24 +22,27 @@
           </h2>
         </div>
       </div>
+
+      <app-recipe-detail *ngIf="showDetail" [recipeItem]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
     </div>
   </ng-container>
-  <div>
-    <p *ngIf="recipeBook.getListRecipes().length == 0" class="title h4">No hay recetas disponibles</p>
-    <div class="add-recipe-container" data-toggle="modal" data-target="#recipeForm">
-      <p>Agregar una receta </p>
+
+  <div class="add-recipe-container">
+    <p *ngIf="recipeBook.getListRecipes().length == 0" class="title h4">No hay recetas disponibles en el libro "{{recipeBook.getTitle()}}"</p>
+    <div class="add-recipe" data-toggle="modal" data-target="#addRecipeToBookForm">
+      <p>Agregar una receta</p>
       <div>
           <i class="fas fa-solid fa-plus"></i>
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="addRecipeToBookForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeBookFormLabel" aria-hidden="true">
+    <app-add-recipe-to-book-form (updateView)="updateView()"></app-add-recipe-to-book-form>
+  </div>
 </div>
 
-<app-recipe-detail *ngIf="showDetail" [recipeItem]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
 
-<div class="modal fade" id="recipeForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeFormLabel" aria-hidden="true">
-  <app-recipeform (updateView)="updateView()" [recipeBook]="recipeBook"></app-recipeform>
-</div>
 
 
 

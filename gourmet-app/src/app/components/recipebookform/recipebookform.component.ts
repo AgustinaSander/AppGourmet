@@ -11,6 +11,7 @@ import { RecipeBooksService } from 'src/app/services/recipe-books.service';
 export class RecipebookformComponent implements OnInit {
   @ViewChild('recipeBookForm') form!: NgForm;
   @Output() updateView = new EventEmitter();
+
   addedSuccessfully:boolean = false;
 
   constructor(private recipeBooksService:RecipeBooksService) { }
@@ -25,7 +26,7 @@ export class RecipebookformComponent implements OnInit {
         next: () => {
           console.log("Saving recipe book..");
           this.form.reset();
-          this.addedSuccessfully=true;
+          this.addedSuccessfully = true;
           this.updateView.emit();
         },
         error: error => {

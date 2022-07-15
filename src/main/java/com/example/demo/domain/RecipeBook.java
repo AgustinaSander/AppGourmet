@@ -31,9 +31,9 @@ public class RecipeBook{
 	inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	private List<Recipe> listRecipes;
 	@Transient
-	private List<Subscription> subscriptions;
+	private List<Subscription> subscriptions = new ArrayList<>();
 	@Transient
-	private List<RankingSubscription> rankingSubscriptions;
+	private List<RankingSubscription> rankingSubscriptions = new ArrayList<>();
 
 	
 	public RecipeBook() {}

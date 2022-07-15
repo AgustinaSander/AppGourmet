@@ -6,13 +6,16 @@ import { AppComponent } from './app.component';
 import { RecipebooksComponent } from './components/recipebooks/recipebooks.component';
 import { PresentationComponent } from './components/presentation/presentation.component';
 import { SearchComponent } from './components/search/search.component';
-import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipesFromBookComponent } from './components/recipes-from-book/recipes-from-book.component';
 import { PageNotFoundComponent } from './components/pageNotFound/pagenotfound.component';
 import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RecipebookformComponent } from './components/recipebookform/recipebookform.component';
 import { RecipeformComponent } from './components/recipeform/recipeform.component';
+import * as bootstrap from "bootstrap";
+import { AllRecipesComponent } from './components/all-recipes/all-recipes.component';
+import { AddRecipeToBookFormComponent } from './components/add-recipe-to-book-form/add-recipe-to-book-form.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +23,13 @@ import { RecipeformComponent } from './components/recipeform/recipeform.componen
     RecipebooksComponent,
     PresentationComponent,
     SearchComponent,
-    RecipesComponent,
+    RecipesFromBookComponent,
+    AllRecipesComponent,
     PageNotFoundComponent,
     RecipeDetailComponent,
     RecipebookformComponent,
-    RecipeformComponent
+    RecipeformComponent,
+    AddRecipeToBookFormComponent
   ],
   imports: [
     BrowserModule,

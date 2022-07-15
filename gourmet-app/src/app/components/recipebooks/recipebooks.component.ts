@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
 import { RecipeBook } from 'src/app/model/Recipebook';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
+import { RecipebookformComponent } from '../recipebookform/recipebookform.component';
 
 @Component({
   selector: 'app-recipebooks',
@@ -12,6 +14,8 @@ import { RecipeBooksService } from 'src/app/services/recipe-books.service';
   styleUrls: ['./recipebooks.component.scss']
 })
 export class RecipebooksComponent implements OnInit {
+  @ViewChild(RecipebookformComponent)
+  private recipebookForm!: RecipebookformComponent;
 
   recipebooks: RecipeBook[] = [];
 
@@ -20,7 +24,6 @@ export class RecipebooksComponent implements OnInit {
 
   ngOnInit() { 
     this.updateView();
-    
   }
 
   showRecipeBook(id:number){
@@ -51,5 +54,10 @@ export class RecipebooksComponent implements OnInit {
         this.recipebooks.push(recipebook);
       }
     })
+
+    setTimeout(()=>{
+      $('#recipeBookForm').modal('hide');
+      this.recipebookForm.closeForm();
+    },1000);
   }
 }

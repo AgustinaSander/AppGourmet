@@ -1,6 +1,5 @@
 $main-color: #cf3e1a;
 $dark-red: rgb(166, 46, 17);
-$width-recipe: 250px;
 
 .recipebook-result{
     margin: 50px;
@@ -14,19 +13,18 @@ $width-recipe: 250px;
 .recipebook-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-evenly;
-    margin-bottom: 50px;
+    justify-content: space-evenly;
 }
 
 .recipebook{
     background-color: rgb(235, 235, 235);
-    margin: 20px;
-    width: $width-recipe;
+    width: 20%;
+    margin: 10px;
     .see-recipe{
         z-index: 2;
         display: none;
         position: absolute;
-        width: $width-recipe;
+        width: 100%;
         height: 145px;
         line-height: 145px;
         text-align: center;
@@ -50,10 +48,10 @@ $width-recipe: 250px;
 }
 
 .recipebook-img{
-   
     img{
-        width: $width-recipe;
+        width: 100%;
         height: 145px;
+        object-fit: cover;
         border-bottom: 3px solid rgb(49, 26, 26);
     }
 }
@@ -68,24 +66,29 @@ $width-recipe: 250px;
     background-color: $dark-red;
 }
 
-.add-recipebook-container{
-    text-align: center;
-    div{
-        background-color: $main-color;
-        width: 50px;
-        height: 50px;
-        border-radius: 50px;
-        text-align: center;
-        line-height: 60px;
-        margin: auto;
-        i{
-            color: #fff;
-            font-size: 30px;
-        }
-        &:hover{
-            background-color:$dark-red;
-            cursor: pointer;
-        }
-    }
-    
+.add-recipebook{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:20%;
+    margin: 5px;
 }
+
+.add-recipebook-container div{
+    background-color: $main-color;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    line-height: 60px;
+    margin: auto;
+    i{
+        color: #fff;
+        font-size: 30px;
+    }
+    &:hover{
+        background-color:$dark-red;
+        cursor: pointer;
+    }
+}
+

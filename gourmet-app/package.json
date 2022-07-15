@@ -26,6 +26,7 @@
     "@angular-devkit/build-angular": "^14.0.3",
     "@angular/cli": "~14.0.3",
     "@angular/compiler-cli": "^14.0.0",
+    "@types/bootstrap": "^5.1.12",
     "@types/jasmine": "~4.0.0",
     "@types/jquery": "^3.5.14",
     "jasmine-core": "~4.1.0",

@@ -2,6 +2,15 @@
     <ng-container *ngIf="recipebooks.length > 0">
         <p class="title h4">Recetarios disponibles</p>
         <div class="recipebook-container">
+            <div class="add-recipebook">
+                <p *ngIf="recipebooks.length == 0" class="title h4">No hay recetarios disponibles</p>
+                <div class="add-recipebook-container" data-toggle="modal" data-target="#recipeBookForm">
+                    <p>Agregar un recetario</p>
+                    <div>
+                        <i class="fas fa-solid fa-plus"></i>
+                    </div>
+                </div>
+            </div>
             <div class="recipebook" *ngFor="let recipebook of recipebooks; let i=index;" (click)="showRecipeBook(recipebook.id)">
                 <div class="recipebook-img">
                     <div class="see-recipe">
@@ -23,15 +32,6 @@
             </div>
         </div>
     </ng-container>
-    <div>
-        <p *ngIf="recipebooks.length == 0" class="title h4">No hay recetarios disponibles</p>
-        <div class="add-recipebook-container" data-toggle="modal" data-target="#recipeBookForm">
-            <p>Agregar un recetario</p>
-            <div>
-                <i class="fas fa-solid fa-plus"></i>
-            </div>
-        </div>
-    </div>
 </div>
  
 <div class="modal fade" id="recipeBookForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeBookFormLabel" aria-hidden="true">

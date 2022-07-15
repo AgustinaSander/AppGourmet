@@ -11,4 +11,5 @@ public interface IRecipeBookDAO {
 	public List<Recipe> getRecipesFromRecipeBook(int id);
 	public RecipeBook createRecipeBook(RecipeBook recipeBook);
 	public RecipeBook updateRecipeBook(RecipeBook recipeBook);
+	public RecipeBook addRecipeToRecipeBook(int idRecipeBook, int idRecipe);
 }

@@ -14,6 +14,8 @@ import com.example.demo.repositories.RecipeBookRepository;
 public class RecipeBookDAOImpl implements IRecipeBookDAO{
 	@Autowired
 	RecipeBookRepository recipeBookRepository;
+	@Autowired
+	RecipeDAOImpl recipeDAO;
 	
 	@Override
 	public List<RecipeBook> getAllRecipeBooks() {
@@ -23,16 +25,13 @@ public class RecipeBookDAOImpl implements IRecipeBookDAO{
 
 	@Override
 	public RecipeBook getRecipeBookById(int id) {
-		RecipeBook recipeBook = recipeBookRepository.findById(id)
-									.orElseThrow(() -> new NotFoundException(id, "recipe books"));
+		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe books"));
 		return recipeBook;
 	}
 
 	@Override
 	public List<Recipe> getRecipesFromRecipeBook(int id) {
-		RecipeBook recipeBook = recipeBookRepository.findById(id)
-									.orElseThrow(() -> new NotFoundException(id, "recipe books"));
-		
+		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe books"));
 		return recipeBook.getListRecipes();
 	}
 
@@ -47,6 +46,12 @@ public class RecipeBookDAOImpl implements IRecipeBookDAO{
 		return recipeBookRepository.save(recipeBook);
 	}
 	
-	
+	@Override
+	public RecipeBook addRecipeToRecipeBook(int idRecipeBook, int idRecipe) {
+		RecipeBook recipeBook = getRecipeBookById(idRecipeBook);
+		Recipe recipe = recipeDAO.getRecipeById(idRecipe);
+		recipeBook.addRecipe(recipe);
+		return updateRecipeBook(recipeBook);
+	}
 
 }

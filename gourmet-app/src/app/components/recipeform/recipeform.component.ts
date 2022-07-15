@@ -16,7 +16,6 @@ export class RecipeformComponent implements OnInit {
   @ViewChild('recipeForm') recipeForm!: NgForm;
   @ViewChild('ingredientForm') ingredientForm!: NgForm;
   @Output() updateView = new EventEmitter();
-  @Input() recipeBook: any;
   addedSuccessfully:boolean = false;
 
   unitOptions = Unit;
@@ -32,8 +31,7 @@ export class RecipeformComponent implements OnInit {
     let recipe = new Recipe();
     recipe.setTitle(this.recipeForm.controls['title'].value);
     recipe.setFoodQuantity(this.listFoodQuantities);
-    console.log(recipe)
-    this.recipesService.addRecipe(recipe, this.recipeBook.getId()).subscribe({
+    this.recipesService.addRecipe(recipe).subscribe({
         next: () => {
           console.log("Saving recipe..");
           this.recipeForm.reset();

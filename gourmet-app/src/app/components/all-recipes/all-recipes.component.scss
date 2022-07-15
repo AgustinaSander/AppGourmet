@@ -11,13 +11,14 @@ $dark-red: rgb(166, 46, 17);
     text-align: center;
 }
 
-.recipe-container{
+.add-recipe-container{
+    width: 25%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content:space-evenly;
+    align-items: center;
+    justify-content: center;
 }
 
-.add-recipe-container{
+.add-recipe{
     text-align: center;
     div{
         background-color: $main-color;
@@ -44,29 +45,25 @@ $dark-red: rgb(166, 46, 17);
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
+    
 }
 
 .card{
-    width: 50%;
+    width: 25%;
+    img{
+        height: 150px;
+        object-fit: cover;
+    }
 }
 
-.card-header{
-    display: flex;
-    padding: 0;
-    img{
-        width: 200px;
-        height: 120px;
+.card-body{
+    text-align: center;
+    span{
+        text-transform: lowercase;
     }
-    h2{
-        margin: 0;
-        width: 100%;
-        button{
-            height: 100%;
-            width: 100%;
-            color: $dark-red;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+    ul{
+        margin-top: 20px;
+        text-align: left;
     }
 }
 

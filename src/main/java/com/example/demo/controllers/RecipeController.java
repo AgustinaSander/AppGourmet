@@ -17,32 +17,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.Food;
-import com.example.demo.domain.FoodQuantity;
+import com.example.demo.DAO.RecipeDAOImpl;
 import com.example.demo.domain.Recipe;
-import com.example.demo.domain.RecipeBook;
-import com.example.demo.domain.DTO.FoodDTO;
-import com.example.demo.domain.DTO.FoodQuantityDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
 import com.example.demo.exceptions.NotFoundException;
-import com.example.demo.repositories.RecipeBookRepository;
-import com.example.demo.repositories.RecipeRepository;
 
 @RestController
 @CrossOrigin
 public class RecipeController {
-	private final RecipeRepository recipeRepository;
 	@Autowired
-	private RecipeBookRepository recipeBookRepository;
-	
-	RecipeController (RecipeRepository recipeRepository){
-		this.recipeRepository = recipeRepository;
-	}
+	private RecipeDAOImpl recipeDAO;
 	
 	@GetMapping("/recipes")
 	CollectionModel<EntityModel<RecipeDTO>> all() throws Exception {
 		List<EntityModel<RecipeDTO>> recipeDTO = new ArrayList<>();
-		List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
+		List<Recipe> recipes = recipeDAO.getAllRecipes();
 		if(recipes.size()==0) {
 	       throw new NotFoundException("recipe");
 		}
@@ -51,43 +40,28 @@ public class RecipeController {
 		return CollectionModel.of(recipeDTO, linkTo(methodOn(RecipeController.class).all()).withSelfRel());
    	}
 	
+	@GetMapping("/recipes/{id}")
+	EntityModel<RecipeDTO> getRecipeById(@PathVariable int id) throws Exception{
+		RecipeDTO recipeDTO = new RecipeDTO();
+		Recipe recipe = recipeDAO.getRecipeById(id);
+		recipeDTO = recipe.convertToRecipeDTO();
+		return toModel(recipeDTO);
+	}
+	
+	
 	@PostMapping("/recipes")
 	Recipe addRecipe(@RequestBody RecipeDTO recipeDTO){
-		Recipe recipe = convertRecipeObject(recipeDTO);
-		return recipeRepository.save(recipe);
-	}
-	
-	@PostMapping("/recipebooks/{id}/recipes")
-	RecipeBook addRecipeInRecipeBook(@PathVariable int id, @RequestBody RecipeDTO recipeDTO){
-		RecipeBook recipeBook = recipeBookRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe book"));
-		Recipe recipe = convertRecipeObject(recipeDTO);
-		recipeBook.getListRecipes().add(recipe);
-		return recipeBookRepository.save(recipeBook);
-	}
-	
-	private Recipe convertRecipeObject(RecipeDTO recipeDTO) {
-		List<FoodQuantityDTO> foodQuantitiesDTO = recipeDTO.getFoodQuantity();
-		List<FoodQuantity> foodQuantities = new ArrayList<>();
-		foodQuantitiesDTO.stream().forEach(foodQuantityDTO -> {
-			FoodDTO foodDTO = foodQuantityDTO.getFood();
-			Food food = new Food(foodDTO.getName(), foodDTO.getCalories(), foodDTO.getFoodGroup(), foodDTO.getUnit());
-			foodQuantities.add(new FoodQuantity(foodQuantityDTO.getQuantity(), food));
-		});
-		
-		return new Recipe(recipeDTO.getTitle(), foodQuantities);
+		Recipe recipe = recipeDTO.convertRecipeObject();
+		return recipeDAO.createRecipe(recipe);
 	}
 
 	@PutMapping("/recipes/{id}")
 	Recipe updateRecipe(@PathVariable int id, @RequestBody RecipeDTO recipeDTO) throws Exception{
-		Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "recipe"));
-		Recipe modifiedRecipe = convertRecipeObject(recipeDTO);
+		recipeDTO.setId(id);
+		Recipe modifiedRecipe = recipeDTO.convertRecipeObject();
 		
-		recipe.setTitle(modifiedRecipe.getTitle());
-		recipe.setFoodQuantity(modifiedRecipe.getFoodQuantity());
-		
-		return recipeRepository.save(recipe);
+		return recipeDAO.updateRecipe(modifiedRecipe);
 	}
-	
 	
 	public EntityModel<RecipeDTO> toModel(RecipeDTO recipe) {
 	    try {

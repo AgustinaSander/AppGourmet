@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RecipeBooksService } from './services/recipe-books.service';
 
 @Component({
@@ -9,6 +10,16 @@ import { RecipeBooksService } from './services/recipe-books.service';
 
 export class AppComponent{
   title = 'gourmet-app';
+
+  constructor(private router:Router){}
+  
+  showRecipeBooks(){
+    this.router.navigate(['/recipebooks']);
+  }
+
+  showRecipes(){
+    this.router.navigate(['/recipes']);
+  }
 }
 
 

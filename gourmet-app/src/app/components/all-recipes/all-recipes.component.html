@@ -1,0 +1,41 @@
+<div class="recipe-result">
+  <ng-container *ngIf="recipes.length > 0">
+    <p class="title h4 mb-5">Recetas disponibles</p>
+    <div class="recipes-container">
+      <div class="add-recipe-container" >
+        <p *ngIf="recipes.length == 0" class="title h4">No hay recetas disponibles</p>
+        <div class="add-recipe" data-toggle="modal" data-target="#addRecipeForm">
+          <p>Agregar una receta </p>
+          <div>
+              <i class="fas fa-solid fa-plus"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card" *ngFor="let recipe of recipes; let i=index;">
+        <div [ngSwitch]="i%6">
+          <img class="card-img-top" *ngSwitchCase="0" src="../../../assets/img/food1.jpeg">
+          <img class="card-img-top" *ngSwitchCase="1" src="../../../assets/img/food2.jpg">
+          <img class="card-img-top" *ngSwitchCase="2" src="../../../assets/img/food3.jpeg">
+          <img class="card-img-top" *ngSwitchCase="3" src="../../../assets/img/food4.jpg">
+          <img class="card-img-top" *ngSwitchCase="4" src="../../../assets/img/food5.jpg">
+          <img class="card-img-top" *ngSwitchCase="5" src="../../../assets/img/food6.jpg">
+          <img class="card-img-top" *ngSwitchCase="6" src="../../../assets/img/food7.jpg">
+        </div>
+        <div class="card-body">
+          <b id="title">{{recipe.title}}</b>
+          <ul>
+              <li *ngFor="let foodQuantity of recipe.foodQuantity"><i>{{foodQuantity.quantity}} <span>{{foodQuantity.food.unit}}</span></i> - {{foodQuantity.food.name}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  
+</div>
+
+<div class="modal fade" id="addRecipeForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeFormLabel" aria-hidden="true">
+  <app-recipeform (updateView)="updateView()"></app-recipeform>
+</div>
+
+
+

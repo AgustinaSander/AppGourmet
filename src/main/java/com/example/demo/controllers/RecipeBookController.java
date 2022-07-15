@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DAO.RecipeBookDAOImpl;
-import com.example.demo.domain.Food;
-import com.example.demo.domain.FoodQuantity;
 import com.example.demo.domain.Recipe;
 import com.example.demo.domain.RecipeBook;
-import com.example.demo.domain.DTO.FoodDTO;
-import com.example.demo.domain.DTO.FoodQuantityDTO;
 import com.example.demo.domain.DTO.RecipeBookDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
 import com.example.demo.exceptions.NotFoundException;
@@ -73,35 +69,20 @@ public class RecipeBookController {
 	
 	@PostMapping("/recipebooks")
 	RecipeBook addRecipeBook(@RequestBody RecipeBookDTO recipeBookDTO){
-		RecipeBook recipeBook = convertRecipeBookObject(recipeBookDTO);
+		RecipeBook recipeBook = recipeBookDTO.convertRecipeBookObject();
 		return recipeBookDAO.createRecipeBook(recipeBook);
 	}
 	
 	@PutMapping("/recipebooks/{id}")
 	RecipeBook updateRecipeBook(@PathVariable int id, @RequestBody RecipeBookDTO recipeBookDTO){
 		recipeBookDTO.setId(id);
-		RecipeBook modifiedRecipeBook = convertRecipeBookObject(recipeBookDTO);
+		RecipeBook modifiedRecipeBook = recipeBookDTO.convertRecipeBookObject();
 		return recipeBookDAO.updateRecipeBook(modifiedRecipeBook);
 	}
 	
-	 private RecipeBook convertRecipeBookObject(RecipeBookDTO recipeBookDTO) {
-		if(recipeBookDTO.getTitle() == null) {
-			throw new IllegalArgumentException("Recipe book must have a title.");
-		}
-		List<RecipeDTO> listRecipesDTO = recipeBookDTO.getListRecipes();
-		List<Recipe> listRecipes = new ArrayList<>();
-		
-		listRecipesDTO.stream().forEach(recipeDTO -> {
-			List<FoodQuantityDTO> listFoodQuantityDTO = recipeDTO.getFoodQuantity();
-			List<FoodQuantity> listFoodQuantity = new ArrayList<>();
-			listFoodQuantityDTO.stream().forEach(foodQuantityDTO -> {
-				FoodDTO foodDTO = foodQuantityDTO.getFood();
-				Food food = new Food(foodDTO.getName(), foodDTO.getCalories(), foodDTO.getFoodGroup(), foodDTO.getUnit());
-				listFoodQuantity.add(new FoodQuantity(foodQuantityDTO.getQuantity(), food));
-			});
-			listRecipes.add(new Recipe(recipeDTO.getTitle(), listFoodQuantity));
-		});
-		return new RecipeBook(recipeBookDTO.getId(), recipeBookDTO.getTitle(), listRecipes);
+	@PutMapping("/recipebooks/{idRecipeBook}/recipes/{idRecipe}")
+	RecipeBook addRecipeInRecipeBook(@PathVariable int idRecipeBook, @PathVariable int idRecipe){
+		return recipeBookDAO.addRecipeToRecipeBook(idRecipeBook, idRecipe);
 	}
 
 	public EntityModel<RecipeBookDTO> toModel(RecipeBookDTO recipeBook) {
