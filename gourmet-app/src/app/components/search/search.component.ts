@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { data } from 'jquery';
+import { NavigateRoutes } from 'src/app/navigateRoutes';
 
 @Component({
   selector: 'app-search',
@@ -8,7 +9,8 @@ import { data } from 'jquery';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  public showRecipeBooks:boolean = false;
+  showRecipeBooks:boolean = false;
+  buttonText = "Mostrar recetarios";
 
   changeRecipeBooks(){
     this.showRecipeBooks ? this.hide() : this.show();
@@ -16,19 +18,17 @@ export class SearchComponent implements OnInit {
 
   show(){
     this.showRecipeBooks = true;
-    $(".search-container a").html("Ocultar recetarios");
-    this.router.navigate(['/recipebooks']);
+    this.buttonText = "Ocultar recetarios";
+    this.router.navigate([NavigateRoutes.urlRecipeBooks]);
   }
 
   hide(){
     this.showRecipeBooks = false;
-    $(".search-container a").html("Mostrar recetarios");
+    this.buttonText = "Mostrar recetarios";
     this.router.navigate(['/']);
   }
 
-  constructor(private router: Router, private activatedroute:ActivatedRoute) {
-
-  }
+  constructor(private router: Router, private activatedroute:ActivatedRoute) {  }
 
   ngOnInit(): void {
     this.activatedroute.data.subscribe(data => {

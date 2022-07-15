@@ -4,6 +4,7 @@ import { RecipeBook } from '../model/Recipebook';
 import { Router } from '@angular/router';
 import { Recipe } from '../model/Recipe';
 import { forkJoin, ObservableInput } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +14,23 @@ export class RecipeBooksService {
   }
 
   getRecipeBook(id:number){ 
-    return this.http.get<any>('http://localhost:8080/recipebooks/'+id)
+    return this.http.get<any>(`${environment.baseURL}recipebooks/${id}`)
   } 
 
   getRecipeBooks(){
-    return this.http.get<any>('http://localhost:8080/recipebooks');
+    return this.http.get<any>(`${environment.baseURL}recipebooks`);
   }
 
   getRecipesFromBook(id:number){
-    return this.http.get<any>('http://localhost:8080/recipebooks/'+id+'/recipes');
+    return this.http.get<any>(`${environment.baseURL}recipebooks/${id}/recipes`);
   }
 
   addRecipeBook(recipeBook:RecipeBook) {
-    return this.http.post<RecipeBook>('http://localhost:8080/recipebooks', recipeBook);
+    return this.http.post<RecipeBook>(`${environment.baseURL}recipebooks`, recipeBook);
   }
 
-  addRecipeInRecipeBook(recipes:Recipe[], idRecipebook:number){
-    let response: ObservableInput<any>[] = [];
-    recipes.forEach(recipe => {
-      response.push(this.http.put<any>('http://localhost:8080/recipebooks/'+idRecipebook+'/recipes/'+recipe.getId(),null));
-    });
-    return forkJoin(response);
+  addRecipeInRecipeBook(idRecipe:number, idRecipebook:number){
+    return this.http.put<any>(`${environment.baseURL}recipebooks/${idRecipebook}/recipes/${idRecipe}`,null);
   }
 }
 

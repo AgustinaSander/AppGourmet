@@ -51,6 +51,7 @@ public class RecipeBookDAOImpl implements IRecipeBookDAO{
 		RecipeBook recipeBook = getRecipeBookById(idRecipeBook);
 		Recipe recipe = recipeDAO.getRecipeById(idRecipe);
 		recipeBook.addRecipe(recipe);
+		System.out.println(recipeBook);
 		return updateRecipeBook(recipeBook);
 	}
 

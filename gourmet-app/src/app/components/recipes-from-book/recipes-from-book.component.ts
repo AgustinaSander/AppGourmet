@@ -4,6 +4,7 @@ import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
 import { RecipeBook } from 'src/app/model/Recipebook';
+import { NavigateRoutes } from 'src/app/navigateRoutes';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
 import { AddRecipeToBookFormComponent } from '../add-recipe-to-book-form/add-recipe-to-book-form.component';
 
@@ -25,7 +26,7 @@ export class RecipesFromBookComponent implements OnInit {
 
   ngOnInit(): void {
     let id = Number(this.activatedroute.snapshot.paramMap.get('id'));
-    if(Number.isNaN(id)) this.router.navigate(['/error']);
+    if(Number.isNaN(id)) this.router.navigate([NavigateRoutes.urlError]);
     this.recipeBookSelected.setId(id);
     this.updateView();
   }
@@ -47,9 +48,9 @@ export class RecipesFromBookComponent implements OnInit {
 
     this.recipeBooksService.getRecipeBook(this.recipeBookSelected.getId()).subscribe({
       next: response => {
-        console.log(response)
         if(response.listRecipes != undefined){
           let recipes: Recipe[] = [];
+
           for(let recipeItem of response.listRecipes){
             let recipe = new Recipe(recipeItem.id, recipeItem.title);
             let foodquantityList = [];
@@ -58,6 +59,7 @@ export class RecipesFromBookComponent implements OnInit {
               let foodquantity = new FoodQuantity(foodquantityItem.quantity, food);
               foodquantityList.push(foodquantity);
             }
+
             recipe.setFoodQuantity(foodquantityList);
             recipes.push(recipe);
           }
@@ -65,7 +67,12 @@ export class RecipesFromBookComponent implements OnInit {
           this.recipeBookSelected.setTitle(response.title);
         };
     }, error:error => {
-      this.router.navigate(['/error']);
+      this.router.navigate([NavigateRoutes.urlError]);
     }});
+
+    setTimeout(()=>{
+      $('#addRecipeToBookForm').modal('hide');
+      this.addRecipeToBookForm.closeForm();
+    },500);
   }
 }

@@ -18,8 +18,8 @@ export class AddRecipeToBookFormComponent implements OnInit {
   @Input() recipeBookSelected!:RecipeBook;
 
   addedSuccessfully:boolean = false;
-  recipesSelected:Recipe[] = [];
-  recipes:Recipe[] = [];
+  recipeSelected:Recipe | undefined;
+  recipes: Recipe[] = [];
 
   constructor(private recipebooksService:RecipeBooksService, private recipesService:RecipesService) { }
 
@@ -46,45 +46,31 @@ export class AddRecipeToBookFormComponent implements OnInit {
     })
   }
 
-  onChangeCheckbox(target:any){
-    if(target.checked){
-      this.addRecipeWithId(target.value);
-    }
-    else{
-      this.removeRecipeWithId(target.value);
-    }
-  }
-
-  addRecipeWithId(id:number){
-    let recipeToAdd = this.recipes.find(recipe => recipe.id == id);
-    if(recipeToAdd != undefined)
-      this.recipesSelected.push(recipeToAdd);
-  }
-
-  removeRecipeWithId(id:number){
-    let recipeToRemove = this.recipes.find(recipe => recipe.id == id);
-    if(recipeToRemove != undefined){
-      let indexToRemove = this.recipesSelected.indexOf(recipeToRemove);
-      this.recipesSelected.splice(indexToRemove, 1);
+  onChangeRadio(id:number){
+    let recipeObject = this.recipes.find(recipe => recipe.id == id);
+    if(recipeObject != undefined){
+      this.recipeSelected = recipeObject;
     }
   }
 
   onSubmit() {
-    this.recipebooksService.addRecipeInRecipeBook(this.recipesSelected,this.recipeBookSelected.getId()).subscribe({
-      next: () => {
-        console.log("Adding recipes..");
-        this.addedSuccessfully=true;
-        this.updateView.emit();
-      },
-      error: error => {
-          console.error('There was an error!', error);
-      }
-    });
+    if(this.recipeSelected != undefined){
+      this.recipebooksService.addRecipeInRecipeBook(this.recipeSelected.getId(),this.recipeBookSelected.getId()).subscribe({
+        next: () => {
+          console.log("Adding recipes..");
+          this.addedSuccessfully=true;
+          this.updateView.emit();
+        },
+        error: error => {
+            console.error('There was an error!', error);
+        }
+      });
+    }
   }
 
   closeForm(){
     this.addedSuccessfully=false;
-    this.recipesSelected = [];
+    this.recipeSelected = undefined;
     this.getAllRecipes();
   }
 

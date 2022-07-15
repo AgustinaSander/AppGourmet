@@ -4,7 +4,7 @@
   
 <div class="search-container">
     <p class="h4 d-inline-block">Buscar recetas</p>
-    <a class="btn btn-danger" routerLink="/recipebooks" (click)="changeRecipeBooks()">Mostrar recetarios</a>
+    <a class="btn btn-danger" routerLink="/recipebooks" (click)="changeRecipeBooks()">{{buttonText}}</a>
 </div>
 
 <app-recipebooks *ngIf="showRecipeBooks"></app-recipebooks>

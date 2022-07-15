@@ -5,6 +5,7 @@ import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
 import { RecipeBook } from 'src/app/model/Recipebook';
+import { NavigateRoutes } from 'src/app/navigateRoutes';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
 import { RecipebookformComponent } from '../recipebookform/recipebookform.component';
 
@@ -27,7 +28,7 @@ export class RecipebooksComponent implements OnInit {
   }
 
   showRecipeBook(id:number){
-    this.router.navigate(['/recipebooks', id]);
+    this.router.navigate([`${NavigateRoutes.urlRecipeBooks}/${id}`]);
   }
 
   updateView(){
@@ -58,6 +59,6 @@ export class RecipebooksComponent implements OnInit {
     setTimeout(()=>{
       $('#recipeBookForm').modal('hide');
       this.recipebookForm.closeForm();
-    },1000);
+    },500);
   }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
+import { NavigateRoutes } from 'src/app/navigateRoutes';
 import { RecipesService } from 'src/app/services/recipes.service';
 import { RecipeformComponent } from '../recipeform/recipeform.component';
 
@@ -28,7 +29,7 @@ export class AllRecipesComponent implements OnInit {
   }
  
   public showRecipeDetail(id:number){
-    this.router.navigateByUrl('/recipes/'+ id);
+    this.router.navigate([`${NavigateRoutes.urlRecipes}/${id}`]);
   }
 
   updateView(){
@@ -52,6 +53,6 @@ export class AllRecipesComponent implements OnInit {
     setTimeout(()=>{
       $('#addRecipeForm').modal('hide');
       this.addRecipeForm.closeForm();
-    },1000);
+    },500);
   }
 }

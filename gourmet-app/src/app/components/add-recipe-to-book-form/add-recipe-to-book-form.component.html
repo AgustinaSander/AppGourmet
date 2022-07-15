@@ -9,30 +9,30 @@
         <div class="modal-body">
             <form (ngSubmit)="onSubmit()" #addRecipeToBookForm="ngForm" *ngIf="!addedSuccessfully">
                 <p>Recetas disponibles para agregar</p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre de la receta</th>
-                        <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let recipe of recipes; let i=index;">
-                        <th scope="row">{{i+1}}</th>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="{{recipe.id}}" value="{{recipe.id}}" (change)="onChangeCheckbox($event.target)">
-                            <label class="form-check-label" for="{{recipe.id}}">
-                                {{recipe.title}}
-                            </label>
-                        </div>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div id="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre de la receta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let recipe of recipes; let i=index;">
+                            <th scope="row">{{i+1}}</th>
+                            <td class="form-check">
+                                <input class="form-check-input" type="radio" name="recipeRadio" value="{{recipe.id}}" (change)="onChangeRadio(recipe.id)">
+                                <label class="form-check-label">
+                                    {{recipe.title}}
+                                </label>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeForm()">Cerrar</button>
-                    <button type="submit" class="btn btn-danger" [disabled]="recipesSelected.length==0">Agregar</button>
+                    <button type="submit" class="btn btn-danger" [disabled]="recipeSelected==undefined">Agregar</button>
                 </div>
             </form>
             <div *ngIf="addedSuccessfully" class="successMessage">

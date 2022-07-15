@@ -33,7 +33,6 @@ export class RecipeformComponent implements OnInit {
     recipe.setFoodQuantity(this.listFoodQuantities);
     this.recipesService.addRecipe(recipe).subscribe({
         next: () => {
-          console.log("Saving recipe..");
           this.recipeForm.reset();
           this.addedSuccessfully=true;
           this.updateView.emit();

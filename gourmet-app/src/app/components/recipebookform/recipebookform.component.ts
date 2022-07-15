@@ -24,7 +24,6 @@ export class RecipebookformComponent implements OnInit {
     recipeBook.setTitle(this.form.controls['title'].value);
     this.recipeBooksService.addRecipeBook(recipeBook).subscribe({
         next: () => {
-          console.log("Saving recipe book..");
           this.form.reset();
           this.addedSuccessfully = true;
           this.updateView.emit();
