@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
 import { RecipeBook } from 'src/app/model/Recipebook';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
+import { AddRecipeToBookFormComponent } from '../add-recipe-to-book-form/add-recipe-to-book-form.component';
 
 @Component({
   selector: 'app-recipes-from-book',
@@ -12,7 +13,10 @@ import { RecipeBooksService } from 'src/app/services/recipe-books.service';
   styleUrls: ['./recipes-from-book.component.scss']
 })
 export class RecipesFromBookComponent implements OnInit {
-  recipeBook: RecipeBook = new RecipeBook();
+  @ViewChild(AddRecipeToBookFormComponent)
+  private addRecipeToBookForm!: AddRecipeToBookFormComponent;
+  
+  recipeBookSelected: RecipeBook = new RecipeBook();
   showDetail: boolean = false;
   recipeSelected !: Recipe;
 
@@ -22,13 +26,13 @@ export class RecipesFromBookComponent implements OnInit {
   ngOnInit(): void {
     let id = Number(this.activatedroute.snapshot.paramMap.get('id'));
     if(Number.isNaN(id)) this.router.navigate(['/error']);
-    this.recipeBook.setId(id);
+    this.recipeBookSelected.setId(id);
     this.updateView();
   }
  
   public showRecipeDetail(id:number){
     this.showDetail=true;
-    let recipeAux = this.recipeBook.getListRecipes().find(recipe => recipe.id == id);
+    let recipeAux = this.recipeBookSelected.getListRecipes().find(recipe => recipe.id == id);
     if(recipeAux != undefined)
       this.recipeSelected = recipeAux;
   }
@@ -38,11 +42,12 @@ export class RecipesFromBookComponent implements OnInit {
   }
 
   updateView(){
-    this.recipeBook.setRecipes([]);
-    this.recipeBook.setTitle("");
+    this.recipeBookSelected.setRecipes([]);
+    this.recipeBookSelected.setTitle("");
 
-    this.recipeBooksService.getRecipeBook(this.recipeBook.getId()).subscribe({
+    this.recipeBooksService.getRecipeBook(this.recipeBookSelected.getId()).subscribe({
       next: response => {
+        console.log(response)
         if(response.listRecipes != undefined){
           let recipes: Recipe[] = [];
           for(let recipeItem of response.listRecipes){
@@ -56,8 +61,8 @@ export class RecipesFromBookComponent implements OnInit {
             recipe.setFoodQuantity(foodquantityList);
             recipes.push(recipe);
           }
-          this.recipeBook.setRecipes(recipes);
-          this.recipeBook.setTitle(response.title);
+          this.recipeBookSelected.setRecipes(recipes);
+          this.recipeBookSelected.setTitle(response.title);
         };
     }, error:error => {
       this.router.navigate(['/error']);

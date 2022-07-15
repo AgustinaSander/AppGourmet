@@ -20,8 +20,12 @@
                     <tbody>
                         <tr *ngFor="let recipe of recipes; let i=index;">
                         <th scope="row">{{i+1}}</th>
-                        <td>{{recipe.title}}</td>
-                        <td><input type="checkbox"></td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="{{recipe.id}}" value="{{recipe.id}}" (change)="onChangeCheckbox($event.target)">
+                            <label class="form-check-label" for="{{recipe.id}}">
+                                {{recipe.title}}
+                            </label>
+                        </div>
                         </tr>
                     </tbody>
                 </table>

@@ -1,10 +1,17 @@
 <div class="recipe-result">
+  <p class="title h4 mb-5">Recetas del libro "{{recipeBookSelected.getTitle()}}"</p>
 
-  <ng-container *ngIf="recipeBook.getListRecipes().length > 0">
-    <p class="title h4 mb-5">Recetas del libro "{{recipeBook.getTitle()}}"</p>
-
-    <div class="recipes-container">
-      <div class="card" *ngFor="let recipe of recipeBook.getListRecipes(); let i=index;">
+  <div class="recipes-container">
+      <div [ngClass]="recipeBookSelected.getListRecipes().length==0 ? 'add-recipe-container100' : 'add-recipe-container'">
+        <div class="add-recipe" data-toggle="modal" data-target="#addRecipeToBookForm">
+          <p>Agregar una receta</p>
+          <div>
+              <i class="fas fa-solid fa-plus"></i>
+          </div>
+        </div>
+      </div>
+    <ng-container *ngIf="recipeBookSelected.getListRecipes().length > 0">
+      <div class="card" *ngFor="let recipe of recipeBookSelected.getListRecipes(); let i=index;">
         <div class="card-header">
           <div [ngSwitch]="i%6">
             <img *ngSwitchCase="0" src="../../../assets/img/food1.jpeg">
@@ -24,21 +31,12 @@
       </div>
 
       <app-recipe-detail *ngIf="showDetail" [recipeItem]="recipeSelected" (closeRecipeDetail)="closeRecipeDetail()"></app-recipe-detail>
-    </div>
-  </ng-container>
-
-  <div class="add-recipe-container">
-    <p *ngIf="recipeBook.getListRecipes().length == 0" class="title h4">No hay recetas disponibles en el libro "{{recipeBook.getTitle()}}"</p>
-    <div class="add-recipe" data-toggle="modal" data-target="#addRecipeToBookForm">
-      <p>Agregar una receta</p>
-      <div>
-          <i class="fas fa-solid fa-plus"></i>
-      </div>
-    </div>
+    </ng-container>
   </div>
+ 
 
   <div class="modal fade" id="addRecipeToBookForm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="recipeBookFormLabel" aria-hidden="true">
-    <app-add-recipe-to-book-form (updateView)="updateView()"></app-add-recipe-to-book-form>
+    <app-add-recipe-to-book-form (updateView)="updateView()" [recipeBookSelected]="recipeBookSelected"></app-add-recipe-to-book-form>
   </div>
 </div>
 

@@ -18,7 +18,17 @@ $dark-red: rgb(166, 46, 17);
 }
 
 .add-recipe-container{
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+
+.add-recipe-container100{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .add-recipe{

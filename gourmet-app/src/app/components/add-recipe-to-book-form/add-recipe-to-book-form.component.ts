@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Food } from 'src/app/model/Food';
 import { FoodQuantity } from 'src/app/model/FoodQuantity';
 import { Recipe } from 'src/app/model/Recipe';
+import { RecipeBook } from 'src/app/model/Recipebook';
 import { RecipeBooksService } from 'src/app/services/recipe-books.service';
 import { RecipesService } from 'src/app/services/recipes.service';
 
@@ -14,6 +15,8 @@ import { RecipesService } from 'src/app/services/recipes.service';
 export class AddRecipeToBookFormComponent implements OnInit {
   @ViewChild('addRecipeToBookForm') addRecipeToBookForm!: NgForm;
   @Output() updateView = new EventEmitter();
+  @Input() recipeBookSelected!:RecipeBook;
+
   addedSuccessfully:boolean = false;
   recipesSelected:Recipe[] = [];
   recipes:Recipe[] = [];
@@ -21,6 +24,11 @@ export class AddRecipeToBookFormComponent implements OnInit {
   constructor(private recipebooksService:RecipeBooksService, private recipesService:RecipesService) { }
 
   ngOnInit(): void {
+    this.getAllRecipes();
+  }
+
+  getAllRecipes(){
+    this.recipes = [];
     this.recipesService.getAllRecipes().subscribe(response => {
       for(let recipeItem of response._embedded.recipeDTOes){
         let recipe = new Recipe(recipeItem.id, recipeItem.title);
@@ -38,28 +46,46 @@ export class AddRecipeToBookFormComponent implements OnInit {
     })
   }
 
+  onChangeCheckbox(target:any){
+    if(target.checked){
+      this.addRecipeWithId(target.value);
+    }
+    else{
+      this.removeRecipeWithId(target.value);
+    }
+  }
+
+  addRecipeWithId(id:number){
+    let recipeToAdd = this.recipes.find(recipe => recipe.id == id);
+    if(recipeToAdd != undefined)
+      this.recipesSelected.push(recipeToAdd);
+  }
+
+  removeRecipeWithId(id:number){
+    let recipeToRemove = this.recipes.find(recipe => recipe.id == id);
+    if(recipeToRemove != undefined){
+      let indexToRemove = this.recipesSelected.indexOf(recipeToRemove);
+      this.recipesSelected.splice(indexToRemove, 1);
+    }
+  }
+
   onSubmit() {
-    /* let recipe = new Recipe();
-    recipe.setTitle(this.recipeForm.controls['title'].value);
-    recipe.setFoodQuantity(this.listFoodQuantities);
-    this.recipesService.addRecipe(recipe).subscribe({
-        next: () => {
-          console.log("Adding recipe..");
-          this.recipeForm.reset();
-          this.addedSuccessfully=true;
-          this.updateView.emit();
-        },
-        error: error => {
-            console.error('There was an error!', error);
-        }
-      }); */
+    this.recipebooksService.addRecipeInRecipeBook(this.recipesSelected,this.recipeBookSelected.getId()).subscribe({
+      next: () => {
+        console.log("Adding recipes..");
+        this.addedSuccessfully=true;
+        this.updateView.emit();
+      },
+      error: error => {
+          console.error('There was an error!', error);
+      }
+    });
   }
 
   closeForm(){
     this.addedSuccessfully=false;
-    if(this.addRecipeToBookForm!=undefined) this.addRecipeToBookForm.reset();
     this.recipesSelected = [];
-    this.recipes = [];
+    this.getAllRecipes();
   }
 
 }
