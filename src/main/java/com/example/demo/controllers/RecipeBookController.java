@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DAO.RecipeBookDAOImpl;
 import com.example.demo.domain.Recipe;
+
 import com.example.demo.domain.RecipeBook;
 import com.example.demo.domain.DTO.RecipeBookDTO;
 import com.example.demo.domain.DTO.RecipeDTO;
@@ -65,7 +66,6 @@ public class RecipeBookController {
 				linkTo(methodOn(RecipeBookController.class).one(id)).withRel("recipebook"),
 				linkTo(methodOn(RecipeBookController.class).all()).withRel("recipebooks"));
 	}
-
 	
 	@PostMapping("/recipebooks")
 	RecipeBook addRecipeBook(@RequestBody RecipeBookDTO recipeBookDTO){
